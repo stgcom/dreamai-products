@@ -1,0 +1,56 @@
+<!-- SMS Opt-in Component for Quiz Results Page -->
+<!-- Paste into the results section of the AI Readiness Scorecard -->
+
+<style>
+.sms-optin{background:linear-gradient(135deg,#1B1464,#6C3CE9);border-radius:16px;padding:32px;text-align:center;max-width:500px;margin:32px auto}
+.sms-optin h3{color:#fff;font-size:1.4em;margin-bottom:8px}
+.sms-optin p{color:#C4C3FF;font-size:.95em;margin-bottom:20px}
+.sms-phone{display:flex;gap:0;margin:0 auto;max-width:360px}
+.sms-phone input{flex:1;padding:14px 16px;border:2px solid #6C3CE9;border-right:none;border-radius:8px 0 0 8px;font-size:1.1em;background:#0D0B3E;color:#fff;outline:none}
+.sms-phone input::placeholder{color:#A09CFF}
+.sms-phone button{padding:14px 24px;background:#6C3CE9;color:#fff;border:2px solid #6C3CE9;border-radius:0 8px 8px 0;font-size:1em;font-weight:700;cursor:pointer;white-space:nowrap;transition:.2s}
+.sms-phone button:hover{background:#5a2bd0}
+.sms-incentive{color:#ffd700;font-size:.85em;margin-top:12px;font-weight:600}
+.sms-privacy{color:#A09CFF;font-size:.75em;margin-top:8px}
+.sms-success{display:none;background:#004d26;border-radius:12px;padding:20px;max-width:400px;margin:20px auto;text-align:center;color:#81c784}
+.sms-success h4{margin-bottom:8px}
+@media(max-width:500px){.sms-optin{padding:24px 16px}.sms-phone{flex-direction:column}.sms-phone input,.sms-phone button{border-radius:8px}}
+</style>
+
+<div class="sms-optin" id="smsOptin">
+<h3>📱 Get Your Results + Free Bonus</h3>
+<p>Enter your phone number and we'll text your AI Readiness Score PLUS a free "5 AI Quick Wins You Can Set Up This Weekend" guide.</p>
+<div class="sms-phone">
+<input type="tel" id="smsPhone" placeholder="(555) 123-4567" maxlength="14">
+<button onclick="submitSMS()">Send My Results →</button>
+</div>
+<div class="sms-incentive">🎁 First 100 people get a bonus AI Quick-Win Cheat Sheet (free)</div>
+<div class="sms-privacy">🔒 No spam, ever. Unsubscribe anytime. Standard messaging rates apply.</div>
+</div>
+
+<div class="sms-success" id="smsSuccess">
+<h4>✅ You're in!</h4>
+<p>Check your phone — your AI Readiness Score and Quick-Win guide are on their way.</p>
+<p style="color:#fff;font-size:.9em;margin-top:12px">While you wait → <a href="#starterkit" style="color:#ffd700">See the full AI Employee Starter Kit</a></p>
+</div>
+
+<script>
+function formatPhone(input){
+  let x = input.value.replace(/\D/g,'').substring(0,10);
+  if(x.length > 6) x='('+x.substring(0,3)+') '+x.substring(3,6)+'-'+x.substring(6);
+  else if(x.length > 3) x='('+x.substring(0,3)+') '+x.substring(3);
+  input.value=x;
+}
+document.getElementById('smsPhone')?.addEventListener('input',function(){formatPhone(this)});
+
+function submitSMS(){
+  const phone=document.getElementById('smsPhone').value;
+  if(phone.replace(/\D/g,'').length < 10){alert('Please enter a valid 10-digit phone number');return;}
+  // Send to N8N webhook or backend
+  document.getElementById('smsOptin').style.display='none';
+  document.getElementById('smsSuccess').style.display='block';
+  // Track event
+  if(window.fbq) fbq('track','Lead',{value:'sms_optin'});
+  if(window.gtag) gtag('event','sms_optin',{phone:phone});
+}
+</script>

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5 AI Quick Wins Cheatsheet | Dream AI</title>
+  <style>
+    :root {
+      --primary: #6C3AED;
+      --primary-dark: #5B21B6;
+      --primary-light: #EDE9FE;
+      --accent: #F59E0B;
+      --text: #1F2937;
+      --text-light: #6B7280;
+      --bg: #FFFFFF;
+      --bg-alt: #F9FAFB;
+      --success: #10B981;
+      --radius: 12px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      background: var(--bg);
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+      padding: 16px 0;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+    .header-badge {
+      font-size: 0.75rem;
+      background: var(--success);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 48px 0 32px;
+      text-align: center;
+    }
+    .hero .countdown {
+      display: inline-block;
+      background: #FEF3C7;
+      color: #92400E;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: clamp(1.75rem, 5vw, 2.25rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--primary), #8B5CF6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.125rem;
+      color: var(--text-light);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .hero .no-skills {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 0.9rem;
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    /* Trust Badges */
+    .trust-badges {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      padding: 20px 0;
+      flex-wrap: wrap;
+    }
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.875rem;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+    .trust-badge .icon { font-size: 1.1rem; }
+
+    /* What's Inside */
+    .whats-inside {
+      background: var(--bg-alt);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      margin: 24px 0;
+      border: 1px solid #E5E7EB;
+    }
+    .whats-inside h2 {
+      font-size: 1.2rem;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .win-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 18px 20px;
+      background: white;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #E5E7EB;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .win-item:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .win-item:last-child { margin-bottom: 0; }
+    .win-num {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 800;
+    }
+    .win-content { flex: 1; }
+    .win-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 2px;
+    }
+    .win-time {
+      font-size: 0.8rem;
+      color: var(--success);
+      font-weight: 600;
+    }
+    .win-desc {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    /* Total Time Badge */
+    .total-time {
+      text-align: center;
+      padding: 16px;
+      margin: 24px 0 0;
+      background: white;
+      border-radius: 10px;
+      border: 2px dashed var(--primary);
+    }
+    .total-time .time {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .total-time .label {
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    /* Email Capture */
+    .email-capture {
+      background: white;
+      border: 2px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      margin: 24px 0;
+      text-align: center;
+    }
+    .email-capture h3 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+    .email-capture p {
+      color: var(--text-light);
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+    .email-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+    .email-form input {
+      padding: 12px 16px;
+      border: 2px solid #E5E7EB;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+    .email-form input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .privacy-note {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-top: 8px;
+    }
+
+    /* Success State */
+    .download-success {
+      display: none;
+      background: var(--primary-light);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      margin: 24px 0;
+      text-align: center;
+    }
+    .download-success.visible { display: block; }
+    .download-success .check {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+    .download-success h3 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+    .download-success p {
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+
+    /* After Download CTA */
+    .after-cta {
+      display: none;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: var(--radius);
+      padding: 36px 24px;
+      margin: 24px 0;
+      text-align: center;
+      color: white;
+    }
+    .after-cta.visible { display: block; }
+    .after-cta h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+    .after-cta p {
+      opacity: 0.9;
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+    .btn-white {
+      display: inline-block;
+      background: white;
+      color: var(--primary-dark);
+      padding: 16px 40px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.15s;
+    }
+    .btn-white:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Social Proof */
+    .social-proof {
+      text-align: center;
+      padding: 32px 0;
+    }
+    .social-proof .avatars {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .social-proof .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      border: 2px solid white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-left: -8px;
+    }
+    .social-proof .avatar:first-child { margin-left: 0; }
+    .social-proof .stars {
+      color: var(--accent);
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+    .social-proof .testimonial {
+      font-style: italic;
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+    .social-proof .attribution {
+      font-style: normal;
+      font-weight: 600;
+      margin-top: 8px;
+      font-size: 0.85rem;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      width: 100%;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(108, 58, 237, 0.3);
+    }
+
+    /* Footer */
+    footer {
+      padding: 24px 0;
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.8rem;
+      border-top: 1px solid #E5E7EB;
+      margin-top: 32px;
+    }
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    @media (max-width: 480px) {
+      .trust-badges { gap: 12px; }
+      .trust-badge { font-size: 0.8rem; }
+      .whats-inside { padding: 24px 16px; }
+      .win-item { padding: 14px 16px; gap: 12px; }
+      .email-capture { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <a href="#" class="logo">Dream<span>AI</span></a>
+      <span class="header-badge">Free Download</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="countdown">📋 Instant PDF Download</div>
+      <h1>5 <span class="highlight">AI Quick Wins</span> You Can Set Up This Weekend</h1>
+      <p>No tech skills required. Start saving time by Monday.</p>
+      <div class="no-skills">✅ No coding · No experience needed · Works today</div>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- Trust Badges -->
+    <div class="trust-badges">
+      <div class="trust-badge"><span class="icon">⭐</span> 4.9/5 Rating</div>
+      <div class="trust-badge"><span class="icon">🔒</span> Secure</div>
+      <div class="trust-badge"><span class="icon">📥</span> 1,200+ Downloads</div>
+    </div>
+
+    <!-- What's Inside -->
+    <div class="whats-inside">
+      <h2>What's Inside the Cheatsheet</h2>
+
+      <div class="win-item">
+        <div class="win-num">1</div>
+        <div class="win-content">
+          <div class="win-title">Auto-Respond to Missed Calls</div>
+          <div class="win-time">⏱ 15 min setup</div>
+          <div class="win-desc">An AI receptionist answers every call, qualifies leads, and books appointments — even at 2 AM.</div>
+        </div>
+      </div>
+
+      <div class="win-item">
+        <div class="win-num">2</div>
+        <div class="win-content">
+          <div class="win-title">Capture Leads While You Sleep</div>
+          <div class="win-time">⏱ 10 min setup</div>
+          <div class="win-desc">Website chatbot that engages visitors, answers FAQs, and captures contact info automatically.</div>
+        </div>
+      </div>
+
+      <div class="win-item">
+        <div class="win-num">3</div>
+        <div class="win-content">
+          <div class="win-title">Send Review Requests Automatically</div>
+          <div class="win-time">⏱ 5 min setup</div>
+          <div class="win-desc">After every job, auto-request Google reviews via text. Watch your rating climb without lifting a finger.</div>
+        </div>
+      </div>
+
+      <div class="win-item">
+        <div class="win-num">4</div>
+        <div class="win-content">
+          <div class="win-title">Book Appointments Without Back-and-Forth</div>
+          <div class="win-time">⏱ 10 min setup</div>
+          <div class="win-desc">Eliminate the "What time works for you?" text chain. AI handles scheduling in real time.</div>
+        </div>
+      </div>
+
+      <div class="win-item">
+        <div class="win-num">5</div>
+        <div class="win-content">
+          <div class="win-title">Follow Up With Every Lead</div>
+          <div class="win-time">⏱ 5 min setup</div>
+          <div class="win-desc">Automated follow-up sequences that nurture leads who didn't book on the first call.</div>
+        </div>
+      </div>
+
+      <div class="total-time">
+        <div class="time">45 minutes</div>
+        <div class="label">Total setup time for all 5 wins</div>
+      </div>
+    </div>
+
+    <!-- Email Capture -->
+    <div class="email-capture" id="emailCapture">
+      <h3>📥 Get the Free Cheatsheet</h3>
+      <p>Enter your details and we'll send the PDF instantly to your inbox.</p>
+      <div class="email-form">
+        <input type="text" id="userName" placeholder="Your name">
+        <input type="email" id="userEmail" placeholder="Your work email">
+        <button class="btn-primary" onclick="submitForm()">Download the Cheatsheet →</button>
+      </div>
+      <p class="privacy-note">No spam. Unsubscribe anytime. We respect your privacy.</p>
+    </div>
+
+    <!-- Download Success -->
+    <div class="download-success" id="downloadSuccess">
+      <div class="check">✅</div>
+      <h3>Check your inbox!</h3>
+      <p>We sent the "5 AI Quick Wins" cheatsheet to your email.</p>
+      <p style="font-size: 0.85rem;">Also check spam/promotions folders if you don't see it in 2 minutes.</p>
+    </div>
+
+    <!-- After Download CTA -->
+    <div class="after-cta" id="afterCta">
+      <h3>Want the complete system?</h3>
+      <p>The AI Employee Starter Kit includes all 5 quick wins — pre-configured and ready to deploy. Plus: voice AI, CRM integration, and ongoing support.</p>
+      <a href="#starter-kit" class="btn-white">Get the Starter Kit →</a>
+    </div>
+
+    <!-- Social Proof -->
+    <div class="social-proof">
+      <div class="avatars">
+        <div class="avatar">TR</div>
+        <div class="avatar">SL</div>
+        <div class="avatar">MP</div>
+        <div class="avatar">JR</div>
+        <div class="avatar">+1.2K</div>
+      </div>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial">
+        "Set up the missed call auto-responder on Saturday morning. By Monday we had 3 appointments booked that we would have lost. This cheatsheet is gold."
+      </p>
+      <p class="attribution">— Tyler R., HVAC Business Owner</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Dream AI — <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+    </div>
+  </footer>
+
+  <script>
+    function submitForm() {
+      const name = document.getElementById('userName').value.trim();
+      const email = document.getElementById('userEmail').value.trim();
+
+      if (!name || !email) {
+        alert('Please enter your name and email');
+        return;
+      }
+      if (!email.includes('@') || !email.includes('.')) {
+        alert('Please enter a valid email address');
+        return;
+      }
+
+      // Hide form, show success
+      document.getElementById('emailCapture').style.display = 'none';
+      const success = document.getElementById('downloadSuccess');
+      success.classList.add('visible');
+      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Show after-CTA after delay
+      setTimeout(() => {
+        const cta = document.getElementById('afterCta');
+        cta.classList.add('visible');
+        cta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 2500);
+    }
+  </script>
+
+</body>
+</html>

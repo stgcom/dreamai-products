@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 5: Email Templates — AI Receptionist Script Pack | Dream AI</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --primary: #1B1464; --accent: #6C3CE9; --accent-light: #8B5CF6; --bg: #FFFFFF; --surface: #F8F7FF; --border: #E8E4F8; --text: #1a1a2e; --text-light: #555; --muted: #8888aa; --success: #10B981; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); color: white; padding: 50px 40px 40px; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -60%; left: -20%; width: 140%; height: 200%; background: radial-gradient(ellipse, rgba(255,255,255,0.06) 0%, transparent 70%); pointer-events: none; }
+  .hero .badge { display: inline-block; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 6px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.2); }
+  .hero h1 { font-size: clamp(24px, 3.5vw, 36px); font-weight: 800; line-height: 1.15; margin-bottom: 10px; }
+  .hero .subtitle { font-size: 15px; opacity: 0.85; }
+  .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+  .progress-bar-wrapper { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 24px; margin: 24px auto; }
+  .progress-label { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+  .progress-label span { color: var(--accent); font-weight: 700; }
+  .progress-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-light)); border-radius: 3px; transition: width 0.4s ease; }
+  .complete-section { text-align: center; margin: 24px 0 32px; }
+  .complete-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--success); color: white; border: none; padding: 12px 28px; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; transition: transform 0.15s; }
+  .complete-btn:hover { transform: scale(1.04); }
+  .complete-btn.done { background: var(--border); color: var(--muted); cursor: default; }
+  .lesson-intro { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px 32px; margin-bottom: 32px; }
+  .lesson-intro h2 { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+  .lesson-intro p { font-size: 15px; color: var(--text-light); }
+  .category { margin-bottom: 40px; }
+  .category-header { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; padding: 16px 24px; border-radius: 14px; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; margin-bottom: 0; }
+  .category-header .cat-icon { width: 34px; height: 34px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .category-header .cat-count { margin-left: auto; background: rgba(255,255,255,0.2); padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .script-card { background: var(--bg); border: 1px solid var(--border); border-top: none; padding: 24px 24px 16px; position: relative; transition: box-shadow 0.2s; }
+  .script-card:last-child { border-radius: 0 0 14px 14px; }
+  .script-card:hover { box-shadow: 0 4px 20px rgba(108,60,233,0.08); }
+  .script-card + .script-card { border-top: 1px dashed var(--border); }
+  .script-num { position: absolute; top: 24px; left: 24px; width: 26px; height: 26px; background: var(--surface); border: 2px solid var(--border); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--accent); }
+  .script-title { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 4px; padding-left: 36px; }
+  .script-subtitle { font-size: 12px; color: var(--muted); margin-bottom: 12px; font-style: italic; }
+  .script-body { background: var(--surface); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 16px 18px; font-size: 14px; line-height: 1.8; color: var(--text); white-space: pre-wrap; }
+  .script-body .var { background: #EDE9FE; color: var(--accent); padding: 1px 8px; border-radius: 4px; font-weight: 600; font-size: 12px; }
+  .script-body .subject { display: block; font-weight: 700; color: var(--primary); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .copy-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: white; border: none; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 12px; transition: background 0.2s, transform 0.1s; }
+  .copy-btn:hover { background: var(--primary); }
+  .copy-btn:active { transform: scale(0.96); }
+  .copy-btn.copied { background: var(--success); }
+  .script-notes { margin-top: 12px; padding: 10px 14px; background: #FFF8E7; border-radius: 8px; font-size: 12.5px; color: #7C5E00; border: 1px solid #FDE68A; }
+  .script-notes strong { color: #92400E; }
+  .lesson-nav { display: flex; justify-content: space-between; align-items: center; margin: 32px 0; gap: 16px; }
+  .nav-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none; transition: transform 0.15s; }
+  .nav-btn:hover { transform: translateY(-2px); }
+  .nav-prev { background: var(--surface); color: var(--accent); border: 1px solid var(--border); }
+  .nav-next { background: var(--accent); color: white; }
+  .nav-lesson-label { font-size: 12px; color: var(--muted); display: block; }
+  .nav-lesson-title { font-size: 14px; font-weight: 700; }
+  .cta-banner { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; border-radius: 16px; padding: 32px 36px; text-align: center; margin: 32px 0; }
+  .cta-banner h2 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .cta-banner p { font-size: 14px; opacity: 0.9; margin-bottom: 16px; max-width: 460px; margin-left: auto; margin-right: auto; }
+  .cta-btn { display: inline-flex; align-items: center; gap: 8px; background: white; color: var(--primary); padding: 12px 28px; border-radius: 10px; font-size: 14px; font-weight: 700; text-decoration: none; transition: transform 0.15s; }
+  .cta-btn:hover { transform: scale(1.04); }
+  .download-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--surface); color: var(--accent); border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+  .download-btn:hover { background: var(--border); }
+  .footer { text-align: center; padding: 32px 24px 40px; border-top: 1px solid var(--border); margin-top: 20px; }
+  .footer .logo { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+  .footer p { font-size: 13px; color: var(--muted); }
+  .footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  @media print { body { font-size: 11pt; } .hero { padding: 20px; } .copy-btn, .complete-section, .lesson-nav, .cta-banner, .download-btn, .progress-bar-wrapper { display: none !important; } .script-card { break-inside: avoid; box-shadow: none; } .script-body { background: #f5f5f5; border-left-color: #999; } a { color: #333; } }
+  @media (max-width: 600px) { .hero { padding: 36px 20px 30px; } .script-card { padding: 20px 16px 14px; } .lesson-nav { flex-direction: column; } .nav-btn { width: 100%; justify-content: center; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Lesson 5 of 5</div>
+  <h1>Email Templates</h1>
+  <p class="subtitle">Written versions of your best scripts — ready to copy &amp; send</p>
+</div>
+
+<div class="container">
+
+<div class="progress-bar-wrapper">
+  <div class="progress-label"><span id="progress-text">Lesson 5 of 5</span><span id="progress-pct">100%</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:100%"></div></div>
+</div>
+
+<div style="text-align:right;margin:12px 0 20px;">
+  <button class="download-btn" onclick="window.print()">📄 Download as PDF</button>
+</div>
+
+<div class="lesson-intro">
+  <h2>📖 In This Lesson</h2>
+  <p>Phone scripts are great — but sometimes you need it in writing. These <strong>8 email templates</strong> are the written versions of your highest-performing call scripts, adapted for email with subject lines, proper formatting, and CTAs.</p>
+</div>
+
+<div class="category">
+  <div class="category-header">
+    <div class="cat-icon">✉️</div>
+    Email Templates
+    <span class="cat-count">8 Templates</span>
+  </div>
+
+  <!-- E1 -->
+  <div class="script-card">
+    <div class="script-num">1</div>
+    <div class="script-title">Welcome Email (New Lead)</div>
+    <div class="script-subtitle">Send immediately after first inquiry</div>
+    <div class="script-body" id="code-1"><span class="subject">Subject: Welcome to [BusinessName], [FirstName]!</span>Hi [FirstName],
+
+Thanks for reaching out to [BusinessName]! I'm [AIName], your dedicated point of contact here.
+
+I'd love to learn more about what you're looking for. In the meantime, here's what you can expect from us:
+
+• A response within [responseTime] hours
+• A no-pressure consultation if you'd like to learn more
+• Answers to any questions you have — no question is too small
+
+Would you have 10 minutes this week for a quick call? You can book directly here: [BookingLink]
+
+Looking forward to connecting,
+[AIName]
+[BusinessName]</div>
+    <button class="copy-btn" onclick="copyScript('code-1', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Template</button>
+    <div class="script-notes"><strong>Customize:</strong> Set <span class="var">[responseTime]</span> to your actual SLA. Add 2-3 social proof bullet points or a case study link after the signature.</div>
+  </div>
+
+  <!-- E2 -->
+  <div class="script-card">
+    <div class="script-num">2</div>
+    <div class="script-title">Follow-Up Email (No Response)</div>
+    <div class="script-subtitle">Send 48 hours after no reply to initial outreach</div>
+    <div class="script-body" id="code-2"><span class="subject">Subject: Quick follow-up — [BusinessName]</span>Hi [FirstName],
+
+I reached out a couple of days ago and just wanted to follow up. I know things get busy!
+
+If now isn't the right time, no worries at all — just let me know, and I'll check back in [timeframe] without being pushy.
+
+If you're interested but have questions, I'm happy to hop on a 10-minute call at your convenience: [BookingLink]
+
+Either way, I'm here when you need me.
+
+Best,
+[AIName]
+[BusinessName]</div>
+    <button class="copy-btn" onclick="copyScript('code-2', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Template</button>
+    <div class="script-notes"><strong>Customize:</strong> Set <span class="var">[timeframe]</span> (e.g., "a few weeks"). Keep the tone light — never guilt-trip. This works best when the first email was value-first, not sales-heavy.</div>
+  </div>
+
+  <!-- E3 -->
+  <div class="script-card">
+    <div class="script-num">3</div>
+    <div class="script-title">Appointment Confirmation Email</div>
+    <div class="script-subtitle">Send immediately after booking</div>
+    <div class="script-body" id="code-3"><span class="subject">Subject: Your appointment is confirmed — [Date] at [Time]</span>Hi [FirstName],
+
+Great news! Your appointment is confirmed. Here are the details:
+
+📅 Date: [DayOfWeek], [Date]
+🕐 Time: [Time]
+📍 Location: [Address or Video Link]
+👤 Service: [ServiceType]
+
+What to bring:
+• [Required document 1]
+• [Required document 2]
+
+Please arrive 5 minutes early. If you need to reschedule, just reply to this email or call us at [PhoneNumber].
+
+We're looking forward to seeing you!
+
+Best,
+[BusinessName]</div>
+    <button class="copy-btn" onclick="copyScript('code-3', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Template</button>
+    <div class="script-notes"><strong>Customize:</strong> Add Google Calendar / iCal links. For telehealth: replace "Location" with video link + "Test your camera 5 minutes early."</div>
+  </div>
+
+  <!-- E4 -->
+  <div class="script-card">
+    <div class="script-num">4</div>
+    <div class="script-title">Appointment Reminder Email</div>
+    <div class="script-subtitle">Send 24 hours before appointment</div>
+    <div class="script-body" id="code-4"><span class="subject">Subject: Reminder: Your [ServiceType] appointment tomorrow</span>Hi [FirstName],
+
+Just a friendly reminder about your appointment tomorrow:
+
+📅 [DayOfWeek], [Date] at [Time]
+📍 [Address or Video Link]
+
+Quick checklist:
+☐ [Prep item 1]
+☐ [Prep item 2]
+
+If anything has changed or you need to reschedule, just reply to this email or call [PhoneNumber].
+
+See you tomorrow!
+
+[BusinessName]</div>
+    <button class="copy-btn" onclick="copyScript('code-4', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Template</button>
+    <div class="script-notes"><strong>Customize:</strong> The checklist is key — it reduces no-shows by giving them specific prep tasks. Add "Reply YES to confirm" as the first line for higher engagement.</div>
+  </div>
+
+  <!-- E5 -->
+  <div class="script-card">
+    <div class="script-num">5</div>
+    <div class="script-title">Post-Visit Follow-Up Email</div>
+    <div class="script-subtitle">Send 24–48 hours after appointment</div>
+    <div class="script-body" id="code-5"><span class="subject">Subject: How was your visit, [FirstName]?</span>Hi [FirstName],
+
+Thank you for visiting [BusinessName] on [VisitDate]! We hope everything went well.
+
+A few things you might need:
+• [Follow-up resource or link]
+• [Next steps or action items]
+
+If you have any questions or concerns about your visit, please don't hesitate to reach out. We're here for you.
+
+If you had a great experience, we'd really appreciate a quick review on [Platform]. It helps others find us:
+[ReviewLink]
+
+Thanks again,
+[BusinessName]</div>
+    <button class="copy-btn" onclick="copyScript('code-5', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Template</button>
+    <div class="script-notes"><strong>Customize:</strong> Only include the review ask if the visit went well. For medical: add "If you're experiencing any issues, please call us immediately."</div>
+  </div>
+
+  <!-- E6 -->
+  <div class="script-card">
+    <div class="script-num">6</div>
+    <div class="script-title">Price/Proposal Email</div>
+    <div class="script-subtitle">Send after a qualified inquiry for high-ticket services</div>
+    <div class="script-body" id="code-6"><span class="subject">Subject: Your custom proposal from [BusinessName]</span>Hi [FirstName],
+
+Thanks for the great conversation! Based on what you shared about [their needs], I've put together a proposal tailored to your situation:
+
+📋 **Scope:** [ServiceDescription]
+💰 **Investment:** [Price]
+⏰ **Timeline:** [Timeline]
+🎁 **What's included:**
+• [Deliverable 1]
+• [Deliverable 2]
+• [Deliverable 3]
+
+I know this is a meaningful investment. Most of our clients see a return within [ROI timeframe].
+
+Want to talk it through? Book a quick call: [BookingLink]
+
+Looking forward to working with you,
+[AIName]</div>
+    <button class="copy-btn" onclick="copyScript('code-6', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Template</button>
+    <div class="script-notes"><strong>Customize:</strong> Always personalize the "Scope" line to reference their specific needs. Include a testimonial or case study from a similar client. Add a soft deadline: "This proposal is valid for 7 days."</div>
+  </div>
+
+  <!-- E7 -->
+  <div class="script-card">
+    <div class="script-num">7</div>
+    <div class="script-title">Referral Request Email</div>
+    <div class="script-subtitle">Send to happy customers after positive feedback</div>
+    <div class="script-body" id="code-7"><span class="subject">Subject: [FirstName], we have a favor to ask 🙏</span>Hi [FirstName],
+
+I'm so glad you had a great experience with [BusinessName]! Your satisfaction means the world to us.
+
+We grow primarily through word of mouth, and we'd love your help. If you know anyone who could benefit from our [ServiceType], we'd be incredibly grateful for the introduction.
+
+As a thank-you, we offer [ReferralIncentive] for every successful referral.
+
+Here's a quick message you can share:
+
+_"I've been working with [BusinessName] and had a great experience. If you need [ServiceType], I'd recommend reaching out — here's their info: [WebsiteLink]"_
+
+Just forward this email to anyone who comes to mind, or reply with their contact info and we'll take it from there.
+
+Thank you!
+[AIName]</div>
+    <button class="copy-btn" onclick="copyScript('code-7', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Template</button>
+    <div class="script-notes"><strong>Customize:</strong> The pre-written message makes it effortless for them. Include a one-click referral link if you have one. Only send to genuinely satisfied customers.</div>
+  </div>
+
+  <!-- E8 -->
+  <div class="script-card">
+    <div class="script-num">8</div>
+    <div class="script-title">Re-Engagement Email</div>
+    <div class="script-subtitle">Send to leads who went cold after 30+ days</div>
+    <div class="script-body" id="code-8"><span class="subject">Subject: Still thinking about [ServiceType], [FirstName]?</span>Hi [FirstName],
+
+It's been a while since we last connected, and I wanted to check in. A lot has changed since then:
+
+🆕 [New update or feature 1]
+🆕 [New update or feature 2]
+📈 [Social proof — "We've now helped X clients"]
+
+I'm not here to pressure you — just want to make sure you have the latest info in case the timing is right now.
+
+If you're still considering [ServiceType], here's a quick link to book a 10-minute call: [BookingLink]
+
+And if your needs have changed, no problem — just let me know and I'll update your preferences.
+
+Best,
+[AIName]
+[BusinessName]</div>
+    <button class="copy-btn" onclick="copyScript('code-8', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Template</button>
+    <div class="script-notes"><strong>Customize:</strong> The "new updates" section gives them a reason to re-engage. Add a limited-time offer or bonus if you have one. If no reply, move them to a quarterly nurture sequence.</div>
+  </div>
+</div>
+
+<div class="complete-section">
+  <button class="complete-btn" id="complete-btn" onclick="toggleComplete()">✅ Mark Lesson 5 Complete</button>
+</div>
+
+<div class="cta-banner">
+  <h2>🎉 Congratulations — You've Completed the Course!</h2>
+  <p>You now have 25 phone scripts and 8 email templates ready to deploy. Want these fully automated on an AI receptionist that never sleeps?</p>
+  <a href="https://dreamai.com" class="cta-btn" target="_blank">Get the Full Dream AI Starter Kit →</a>
+</div>
+
+<div class="lesson-nav">
+  <a href="lesson-4.html" class="nav-btn nav-prev">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <div><span class="nav-lesson-label">Previous: Lesson 4</span><span class="nav-lesson-title">Closing Scripts</span></div>
+  </a>
+  <a href="index.html" class="nav-btn nav-next">
+    <div style="text-align:right"><span class="nav-lesson-label">Back to</span><span class="nav-lesson-title">Course Home →</span></div>
+  </a>
+</div>
+
+</div>
+
+<div class="footer">
+  <div class="logo">Dream AI</div>
+  <p>&copy; Dream AI — Get the done-for-you version at <a href="https://dreamai.com" target="_blank">dreamai.com</a></p>
+</div>
+
+<script>
+const LESSON_NUM = 5;
+const LESSONS = 5;
+function copyScript(id, btn) {
+  const el = document.getElementById(id);
+  const text = el.innerText || el.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.innerHTML;
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = original; btn.classList.remove('copied'); }, 2000);
+  });
+}
+function getCompleted() { try { return JSON.parse(localStorage.getItem('sp_completed') || '[]'); } catch { return []; } }
+function saveCompleted(arr) { localStorage.setItem('sp_completed', JSON.stringify(arr)); }
+function updateUI() {
+  const done = getCompleted();
+  if (done.includes(LESSON_NUM)) { document.getElementById('complete-btn').textContent = '✅ Lesson 5 Complete!'; document.getElementById('complete-btn').classList.add('done'); }
+  const pct = Math.round((done.length / LESSONS) * 100);
+  document.getElementById('progress-text').textContent = `${done.length} of ${LESSONS} lessons completed`;
+  document.getElementById('progress-pct').textContent = `${pct}%`;
+  document.getElementById('progress-fill').style.width = `${pct}%`;
+}
+function toggleComplete() { let done = getCompleted(); if (!done.includes(LESSON_NUM)) { done.push(LESSON_NUM); saveCompleted(done); updateUI(); } }
+updateUI();
+</script>
+</body>
+</html>

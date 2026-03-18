@@ -1,0 +1,133 @@
+<!--
+  Dream AI — AI Employee vs Human Staff Comparison Table
+  Reusable HTML component. Drop into any page with: <iframe> or copy-paste.
+  
+  Brand colors:
+  - AI column highlight: #6C3CE9 (violet)
+  - Human column: neutral gray
+  - Background: transparent (inherits parent)
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Employee vs Human Staff — Dream AI</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0F0A2A;color:#F1F0FB;line-height:1.5;padding:1rem}
+
+  /* ===== TABLE WRAPPER ===== */
+  .comparison-wrap{max-width:860px;margin:0 auto;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .comparison-title{font-size:clamp(1.25rem,3.5vw,1.75rem);font-weight:800;text-align:center;margin-bottom:0.4rem}
+  .comparison-subtitle{text-align:center;color:#A5A0C8;font-size:0.95rem;margin-bottom:1.5rem}
+
+  /* ===== TABLE ===== */
+  .comparison-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:14px;overflow:hidden;font-size:0.9rem}
+  .comparison-table thead th{padding:1rem 0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;font-size:0.8rem;border-bottom:2px solid rgba(108,60,233,0.25)}
+  .comparison-table thead th:first-child{text-align:left;background:#1A1145;color:#A5A0C8}
+  .comparison-table thead th:nth-child(2){background:#6C3CE9;color:#fff;text-align:center;min-width:140px}
+  .comparison-table thead th:nth-child(3){background:#2A2552;color:#A5A0C8;text-align:center;min-width:140px}
+
+  /* Body rows */
+  .comparison-table tbody td{padding:0.75rem 0.75rem;border-bottom:1px solid rgba(108,60,233,0.1);vertical-align:middle}
+  .comparison-table tbody td:first-child{font-weight:600;color:#F1F0FB;background:#1A1145;min-width:140px}
+  .comparison-table tbody td:nth-child(2){text-align:center;background:rgba(108,60,233,0.08);color:#F1F0FB;font-weight:600}
+  .comparison-table tbody td:nth-child(3){text-align:center;background:#1A114599;color:#A5A0C8}
+
+  /* Row hover */
+  .comparison-table tbody tr:hover td{background:rgba(108,60,233,0.06)}
+  .comparison-table tbody tr:hover td:first-child{background:#1A1145}
+
+  /* Winner badge */
+  .winner{display:inline-block;background:rgba(16,185,129,0.15);color:#10B981;font-size:0.7rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:10px;margin-left:0.35rem;vertical-align:middle}
+
+  /* Bottom summary row */
+  .comparison-table tfoot td{padding:1rem 0.75rem;font-weight:700;font-size:0.95rem;border-top:2px solid rgba(108,60,233,0.25)}
+  .comparison-table tfoot td:first-child{background:#1A1145}
+  .comparison-table tfoot td:nth-child(2){background:rgba(108,60,233,0.15);color:#fff;text-align:center}
+  .comparison-table tfoot td:nth-child(3){background:#1A114599;color:#A5A0C8;text-align:center}
+
+  /* Responsive: stack on very small screens */
+  @media(max-width:480px){
+    .comparison-wrap{margin:0 -0.5rem}
+    .comparison-table{font-size:0.8rem}
+    .comparison-table thead th,.comparison-table tbody td,.comparison-table tfoot td{padding:0.6rem 0.5rem}
+    .winner{font-size:0.6rem;padding:0.1rem 0.35rem}
+  }
+
+  /* Legend */
+  .comparison-legend{display:flex;justify-content:center;gap:1.5rem;margin-top:1rem;font-size:0.8rem;color:#A5A0C8}
+  .legend-dot{width:12px;height:12px;border-radius:3px;display:inline-block;margin-right:0.35rem;vertical-align:middle}
+  .legend-ai{background:#6C3CE9}
+  .legend-human{background:#2A2552}
+</style>
+</head>
+<body>
+
+<div class="comparison-wrap">
+  <h2 class="comparison-title">AI Employee vs. Human Staff</h2>
+  <p class="comparison-subtitle">Same work. Fraction of the cost. Zero trade-offs.</p>
+
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>🤖 AI Employee</th>
+        <th>👤 Human Staff</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Monthly Cost</td>
+        <td>$297/mo <span class="winner">WIN</span></td>
+        <td>$3,500–5,000/mo</td>
+      </tr>
+      <tr>
+        <td>Availability</td>
+        <td>24/7/365 <span class="winner">WIN</span></td>
+        <td>~40 hrs/week</td>
+      </tr>
+      <tr>
+        <td>Training Time</td>
+        <td>Minutes <span class="winner">WIN</span></td>
+        <td>Weeks</td>
+      </tr>
+      <tr>
+        <td>Consistency</td>
+        <td>100% <span class="winner">WIN</span></td>
+        <td>Variable</td>
+      </tr>
+      <tr>
+        <td>Scalability</td>
+        <td>Instant <span class="winner">WIN</span></td>
+        <td>Hiring process</td>
+      </tr>
+      <tr>
+        <td>Error Rate</td>
+        <td>&lt;1% <span class="winner">WIN</span></td>
+        <td>5–15%</td>
+      </tr>
+      <tr>
+        <td>Languages</td>
+        <td>Many <span class="winner">WIN</span></td>
+        <td>1–2 typically</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>Annual Cost</td>
+        <td>$3,564/yr</td>
+        <td>$42,000–60,000/yr</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="comparison-legend">
+    <div><span class="legend-dot legend-ai"></span> AI Employee</div>
+    <div><span class="legend-dot legend-human"></span> Human Staff</div>
+  </div>
+</div>
+
+</body>
+</html>

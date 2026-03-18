@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Readiness Scorecard | Dream AI</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --indigo: #1B1464;
+    --violet: #6C3CE9;
+    --violet-light: #8B5CF6;
+    --violet-glow: rgba(108, 60, 233, 0.15);
+    --bg: #0F0A2E;
+    --surface: #1A1345;
+    --surface-2: #231C5A;
+    --text: #E8E4F0;
+    --text-muted: #9B93B8;
+    --white: #FFFFFF;
+    --red: #EF4444;
+    --orange: #F97316;
+    --yellow: #F59E0B;
+    --green: #10B981;
+    --blue: #3B82F6;
+    --border: rgba(108, 60, 233, 0.25);
+  }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    font-size: 16px;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 24px 20px 120px;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    padding: 48px 0 40px;
+  }
+  .logo {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--violet-light);
+    margin-bottom: 32px;
+  }
+  .header h1 {
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .header p {
+    font-size: 17px;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    background: var(--surface);
+    border-radius: 12px;
+    height: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--violet), var(--violet-light));
+    border-radius: 12px;
+    width: 0%;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .progress-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: right;
+    margin-bottom: 32px;
+  }
+
+  /* CATEGORY SECTION */
+  .category-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--violet-light);
+    background: var(--violet-glow);
+    border: 1px solid var(--border);
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+
+  /* QUESTION CARD */
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 28px;
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease forwards;
+  }
+  @keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .question-number {
+    font-size: 12px;
+    color: var(--violet-light);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .question-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .question-weight {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .weight-bar {
+    display: inline-block;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--violet);
+    vertical-align: middle;
+  }
+
+  /* OPTIONS */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .option-btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+    background: var(--surface-2);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 14px 18px;
+    color: var(--text);
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 56px;
+  }
+  .option-btn:hover {
+    border-color: var(--violet);
+    background: var(--violet-glow);
+  }
+  .option-btn.selected {
+    border-color: var(--violet-light);
+    background: var(--violet-glow);
+    color: var(--white);
+  }
+  .option-btn .radio {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--text-muted);
+    border-radius: 50%;
+    margin-right: 14px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .option-btn.selected .radio {
+    border-color: var(--violet-light);
+  }
+  .option-btn.selected .radio::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: var(--violet-light);
+    border-radius: 50%;
+  }
+
+  /* START SCREEN */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  .start-screen {
+    text-align: center;
+    padding: 20px 0;
+  }
+  .start-screen .features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 32px 0;
+    text-align: left;
+  }
+  .feature-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+  }
+  .feature-item .icon { font-size: 24px; margin-bottom: 8px; }
+  .feature-item h3 { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+  .feature-item p { font-size: 14px; color: var(--text-muted); }
+
+  /* BUTTONS */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--violet), var(--violet-light));
+    color: var(--white);
+    border: none;
+    border-radius: 12px;
+    padding: 16px 40px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    min-height: 56px;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(108, 60, 233, 0.4);
+  }
+  .btn-primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: var(--violet-light);
+    border: 2px solid var(--violet);
+    border-radius: 12px;
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    min-height: 56px;
+  }
+  .btn-secondary:hover {
+    background: var(--violet-glow);
+    transform: translateY(-1px);
+  }
+
+  .btn-next {
+    display: block;
+    width: 100%;
+    margin-top: 24px;
+  }
+
+  /* ===== RESULTS SCREEN ===== */
+  .results-screen { text-align: center; }
+
+  /* SCORING METHOD BADGE */
+  .scoring-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--violet-light);
+    background: var(--violet-glow);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeInUp 0.4s 0.3s ease forwards;
+  }
+
+  /* CIRCULAR SCORE GAUGE */
+  .score-ring-wrap {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    margin: 0 auto 24px;
+    opacity: 0;
+    animation: fadeInUp 0.5s 0.5s ease forwards;
+  }
+  .score-ring-wrap svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+  .score-ring-bg {
+    fill: none;
+    stroke: var(--surface-2);
+    stroke-width: 14;
+  }
+  .score-ring-fg {
+    fill: none;
+    stroke-width: 14;
+    stroke-linecap: round;
+    stroke-dasharray: 628.32;
+    stroke-dashoffset: 628.32;
+    transition: stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s;
+    filter: drop-shadow(0 0 8px rgba(108, 60, 233, 0.4));
+  }
+  .score-ring-ticks {
+    fill: none;
+    stroke: rgba(108, 60, 233, 0.12);
+    stroke-width: 2;
+  }
+  .score-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .score-number {
+    font-size: 56px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1;
+  }
+  .score-number small {
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+  .score-label-sm {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* SCORE BAND */
+  .score-band {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 28px;
+    border-radius: 30px;
+    margin-bottom: 8px;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: popIn 0.4s 1.5s ease forwards;
+  }
+  @keyframes popIn {
+    to { opacity: 1; transform: scale(1); }
+  }
+  .band-emergency { background: rgba(239, 68, 68, 0.15); color: var(--red); border: 1px solid rgba(239, 68, 68, 0.3); }
+  .band-urgent { background: rgba(249, 115, 22, 0.15); color: var(--orange); border: 1px solid rgba(249, 115, 22, 0.3); }
+  .band-curious { background: rgba(245, 158, 11, 0.15); color: var(--yellow); border: 1px solid rgba(245, 158, 11, 0.3); }
+  .band-ready { background: rgba(16, 185, 129, 0.15); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.3); }
+
+  .score-summary {
+    font-size: 16px;
+    color: var(--text-muted);
+    margin: 12px 0 36px;
+    opacity: 0;
+    animation: fadeInUp 0.5s 1.8s ease forwards;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* WEIGHT BREAKDOWN */
+  .weight-breakdown {
+    text-align: left;
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: fadeInUp 0.5s 2.0s ease forwards;
+  }
+  .weight-breakdown h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .weight-breakdown .section-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .weight-row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 10px;
+  }
+  .weight-row-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .weight-row-header .w-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .weight-row-header .w-pct {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--violet-light);
+    background: var(--violet-glow);
+    padding: 2px 10px;
+    border-radius: 12px;
+  }
+  .weight-row-header .w-score {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .weight-bar-bg {
+    height: 6px;
+    background: var(--surface-2);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+  .weight-bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    width: 0%;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .weight-answer {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  /* PERSONALIZED RECOMMENDATIONS */
+  .recommendations {
+    text-align: left;
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: fadeInUp 0.5s 2.3s ease forwards;
+  }
+  .recommendations h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+  .rec-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+    text-align: left;
+  }
+  .rec-card.priority-high {
+    border-color: rgba(239, 68, 68, 0.4);
+    background: linear-gradient(135deg, var(--surface), rgba(239, 68, 68, 0.05));
+  }
+  .rec-card.priority-medium {
+    border-color: rgba(245, 158, 11, 0.3);
+    background: linear-gradient(135deg, var(--surface), rgba(245, 158, 11, 0.04));
+  }
+  .rec-card.priority-low {
+    border-color: rgba(16, 185, 129, 0.3);
+    background: linear-gradient(135deg, var(--surface), rgba(16, 185, 129, 0.04));
+  }
+  .rec-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .rec-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .rec-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .rec-priority {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 8px;
+    margin-left: auto;
+  }
+  .rec-priority.p-high { background: rgba(239, 68, 68, 0.2); color: var(--red); }
+  .rec-priority.p-medium { background: rgba(245, 158, 11, 0.2); color: var(--yellow); }
+  .rec-priority.p-low { background: rgba(16, 185, 129, 0.2); color: var(--green); }
+  .rec-body {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .rec-impact {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--violet-light);
+    font-weight: 600;
+  }
+
+  /* ===== CTA SECTION ===== */
+  .cta-section {
+    text-align: center;
+    padding: 0 0 16px;
+    opacity: 0;
+    animation: fadeInUp 0.5s 2.6s ease forwards;
+  }
+  .cta-section .cta-box {
+    background: linear-gradient(135deg, var(--surface), var(--surface-2));
+    border: 2px solid var(--violet);
+    border-radius: 16px;
+    padding: 36px 28px;
+  }
+  .cta-box h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .cta-box .cta-price {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .cta-box .cta-price span {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--green);
+  }
+  .cta-box p {
+    font-size: 16px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+  .cta-box ul {
+    text-align: left;
+    list-style: none;
+    margin-bottom: 24px;
+  }
+  .cta-box ul li {
+    font-size: 15px;
+    color: var(--text);
+    padding: 6px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .cta-box ul li::before {
+    content: '✓';
+    color: var(--green);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* Trust elements */
+  .trust-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .trust-badge {
+    font-size: 14px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Testimonials */
+  .testimonials {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .testimonial {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    text-align: left;
+  }
+  .testimonial .quote {
+    font-size: 15px;
+    color: var(--text);
+    font-style: italic;
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .testimonial .author {
+    font-size: 13px;
+    color: var(--violet-light);
+    font-weight: 600;
+  }
+
+  /* ===== SMS OPT-IN ===== */
+  .sms-section {
+    background: linear-gradient(135deg, rgba(108, 60, 233, 0.12), rgba(139, 92, 246, 0.08));
+    border: 1px solid var(--violet);
+    border-radius: 14px;
+    padding: 28px 24px;
+    margin-bottom: 24px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeInUp 0.5s 2.9s ease forwards;
+  }
+  .sms-section h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .sms-section p {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .sms-row {
+    display: flex;
+    gap: 8px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .sms-row input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    color: var(--white);
+    font-size: 16px;
+    outline: none;
+    min-height: 56px;
+  }
+  .sms-row input::placeholder { color: var(--text-muted); }
+  .sms-row input:focus { border-color: var(--violet-light); }
+  .sms-row button {
+    background: linear-gradient(135deg, var(--violet), var(--violet-light));
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    padding: 14px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform 0.2s, box-shadow 0.2s;
+    min-height: 56px;
+  }
+  .sms-row button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(108, 60, 233, 0.3);
+  }
+  .sms-success {
+    display: none;
+    color: var(--green);
+    font-size: 15px;
+    margin-top: 12px;
+    font-weight: 600;
+  }
+  .sms-disclaimer {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 10px;
+    opacity: 0.7;
+  }
+
+  /* ===== STICKY CTA BAR (Mobile) ===== */
+  .sticky-cta-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #1A1345, #231C5A);
+    border-top: 1px solid var(--border);
+    padding: 12px 20px;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .sticky-cta-bar .btn-primary {
+    width: 100%;
+    font-size: 16px;
+    border-radius: 10px;
+  }
+
+  /* ===== EXIT-INTENT POPUP ===== */
+  .exit-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .exit-overlay.active { display: flex; }
+  .exit-modal {
+    background: linear-gradient(135deg, var(--surface), var(--surface-2));
+    border: 2px solid var(--violet);
+    border-radius: 18px;
+    padding: 36px 28px;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    animation: modalPop 0.3s ease;
+  }
+  @keyframes modalPop {
+    from { opacity: 0; transform: scale(0.92) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .exit-modal .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 22px;
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+  }
+  .exit-modal .close-btn:hover { color: var(--white); }
+  .exit-modal h2 { font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 10px; }
+  .exit-modal p { font-size: 16px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
+  .exit-modal .exit-input-row { display: flex; gap: 8px; margin-bottom: 12px; }
+  .exit-modal .exit-input-row input {
+    flex: 1;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    color: var(--white);
+    font-size: 16px;
+    outline: none;
+    min-height: 56px;
+  }
+  .exit-modal .exit-input-row input::placeholder { color: var(--text-muted); }
+  .exit-modal .exit-input-row input:focus { border-color: var(--violet-light); }
+  .exit-modal .exit-input-row button {
+    background: linear-gradient(135deg, var(--violet), var(--violet-light));
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    padding: 14px 20px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    min-height: 56px;
+  }
+  .exit-modal .exit-success { display: none; color: var(--green); font-size: 15px; font-weight: 600; margin-top: 8px; }
+  .exit-modal .no-thanks {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: 12px;
+    text-decoration: underline;
+  }
+  .exit-modal .no-thanks:hover { color: var(--white); }
+
+  /* PRINT BUTTON */
+  .print-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 16px;
+  }
+  .print-btn:hover { border-color: var(--violet); color: var(--white); }
+
+  /* RESPONSIVE */
+  @media (max-width: 500px) {
+    .start-screen .features { grid-template-columns: 1fr; }
+    .question-card { padding: 24px 20px; }
+    .sms-row { flex-direction: column; }
+    .exit-modal .exit-input-row { flex-direction: column; }
+    .score-ring-wrap { width: 200px; height: 200px; }
+    .score-number { font-size: 44px; }
+    .trust-badges { flex-direction: column; align-items: center; gap: 10px; }
+    .sticky-cta-bar { display: block; }
+    .container { padding-bottom: 100px; }
+  }
+
+  /* PRINT STYLES */
+  @media print {
+    body { background: #fff !important; color: #1a1a1a !important; font-size: 12pt; }
+    .container { max-width: 100%; padding: 20px; }
+    .header { padding: 20px 0; }
+    .logo { color: var(--indigo); }
+    .header h1 { color: var(--indigo); }
+    .header p { color: #555; }
+    .progress-wrap, .progress-label, .btn-primary, .btn-next, .print-btn,
+    .cta-section, .sms-section, .option-btn, .start-screen,
+    .question-card, #quiz-screen, .sticky-cta-bar, .exit-overlay { display: none !important; }
+    .results-screen { display: block !important; }
+    .score-ring-wrap { margin-bottom: 16px; }
+    .score-number { color: var(--indigo) !important; }
+    .score-number small { color: #555 !important; }
+    .score-summary { color: #555; opacity: 1; animation: none; }
+    .weight-breakdown, .recommendations { opacity: 1; animation: none; }
+    .weight-row, .rec-card { background: #f8f8f8 !important; border: 1px solid #ddd !important; break-inside: avoid; }
+    .score-band { opacity: 1; transform: none; }
+    .weight-breakdown h2, .recommendations h2 { color: var(--indigo) !important; }
+    .header { display: block !important; }
+    .header h1 { font-size: 24pt; }
+    @page { margin: 1.5cm; }
+  }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ==================== START SCREEN ==================== -->
+  <div id="start-screen" class="screen active">
+    <div class="header">
+      <div class="logo">Dream AI</div>
+      <h1>AI Readiness Scorecard</h1>
+      <p>Answer 6 smart questions to get your AI Readiness Score — weighted, scored, and personalized with your exact next steps.</p>
+    </div>
+
+    <div class="features">
+      <div class="feature-item">
+        <div class="icon">🧠</div>
+        <h3>AI-Scored</h3>
+        <p>Multi-step weighted algorithm, not a simple checklist.</p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">⚡</div>
+        <h3>Under 2 Minutes</h3>
+        <p>6 focused questions — no fluff, no filler.</p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">🎯</div>
+        <h3>Personalized</h3>
+        <p>Recommendations based on YOUR specific answers.</p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">💡</div>
+        <h3>Actionable</h3>
+        <p>Clear next steps matched to your urgency level.</p>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="startQuiz()">Start the Scorecard →</button>
+  </div>
+
+  <!-- ==================== QUIZ SCREEN ==================== -->
+  <div id="quiz-screen" class="screen">
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <div class="progress-label" id="progress-label">Question 1 of 6</div>
+
+    <div id="question-container"></div>
+
+    <button class="btn-primary btn-next" id="next-btn" disabled onclick="nextQuestion()">Next Question →</button>
+  </div>
+
+  <!-- ==================== RESULTS SCREEN ==================== -->
+  <div id="results-screen" class="screen results-screen">
+    <div class="header" style="padding-bottom:24px;">
+      <div class="logo">Dream AI</div>
+      <h1>Your AI Readiness Score</h1>
+    </div>
+
+    <div class="scoring-badge">🧠 AI-Weighted Multi-Step Scoring</div>
+
+    <!-- CIRCULAR SCORE GAUGE -->
+    <div class="score-ring-wrap">
+      <svg viewBox="0 0 240 240">
+        <!-- Tick marks -->
+        <g class="score-ring-ticks">
+          <line x1="120" y1="8" x2="120" y2="18"/>
+          <line x1="232" y1="120" x2="222" y2="120"/>
+          <line x1="120" y1="232" x2="120" y2="222"/>
+          <line x1="8" y1="120" x2="18" y2="120"/>
+        </g>
+        <!-- Background ring -->
+        <circle class="score-ring-bg" cx="120" cy="120" r="100"/>
+        <!-- Foreground ring -->
+        <circle class="score-ring-fg" id="score-ring" cx="120" cy="120" r="100"/>
+      </svg>
+      <div class="score-center">
+        <div class="score-number"><span id="score-value">0</span><small>/100</small></div>
+        <div class="score-label-sm">Readiness Score</div>
+      </div>
+    </div>
+
+    <div id="score-band" class="score-band"></div>
+    <p class="score-summary" id="score-summary"></p>
+
+    <!-- WEIGHT BREAKDOWN -->
+    <div class="weight-breakdown" id="weight-breakdown"></div>
+
+    <!-- PERSONALIZED RECOMMENDATIONS -->
+    <div class="recommendations" id="recommendations"></div>
+
+    <!-- ===== CTA SECTION ===== -->
+    <div class="cta-section" id="cta-section"></div>
+
+    <!-- ===== SMS OPT-IN ===== -->
+    <div class="sms-section">
+      <h3>📱 Get your results + a free AI Quick-Win guide texted to your phone</h3>
+      <p>Enter your number and we'll text your complete scorecard breakdown plus 3 fast wins you can implement this week.</p>
+      <div class="sms-row">
+        <input type="tel" id="sms-input" placeholder="(555) 123-4567" autocomplete="tel">
+        <button onclick="submitSMS()">Text Me My Results →</button>
+      </div>
+      <div class="sms-success" id="sms-success">✓ Check your phone! Your report is on the way.</div>
+      <div class="sms-disclaimer">Msg & data rates may apply. Reply STOP to unsubscribe. Privacy policy at dream-ai.com/privacy</div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">📄 Save as PDF / Print</button>
+  </div>
+
+</div>
+
+<!-- ===== EXIT-INTENT POPUP ===== -->
+<div class="exit-overlay" id="exit-overlay">
+  <div class="exit-modal">
+    <button class="close-btn" onclick="closeExitModal()" aria-label="Close">✕</button>
+    <div id="exit-content-default">
+      <h2>Wait! Before you go 👋</h2>
+      <p>Get your free AI Readiness Report sent to your email — full breakdown, action steps, and benchmarking data.</p>
+      <div class="exit-input-row">
+        <input type="email" id="exit-email-input" placeholder="your@email.com" autocomplete="email">
+        <button onclick="submitExitEmail()">Send My Free Report</button>
+      </div>
+      <div class="exit-success" id="exit-email-success">✓ Report sent! Check your inbox.</div>
+      <button class="no-thanks" onclick="closeExitModal()">No thanks, I'm good</button>
+    </div>
+    <div id="exit-content-discount" style="display:none;">
+      <h2>Get 20% off the Starter Kit 🎉</h2>
+      <p>We'll text you a one-time discount code. Limited offer — expires in 24 hours.</p>
+      <div class="exit-input-row">
+        <input type="tel" id="exit-sms-input" placeholder="(555) 123-4567" autocomplete="tel">
+        <button onclick="submitExitSMS()">Text Me the Code →</button>
+      </div>
+      <div class="exit-success" id="exit-sms-success">✓ Code sent to your phone!</div>
+      <button class="no-thanks" onclick="closeExitModal()">No thanks, maybe later</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STICKY CTA BAR (Mobile only) ===== -->
+<div class="sticky-cta-bar" id="sticky-bar" style="display:none;">
+  <button class="btn-primary" id="sticky-cta-btn" onclick="scrollToCTA()">See Your Recommendation →</button>
+</div>
+
+<script>
+// ================================================================
+//  AI READINESS SCORECARD — MULTI-STEP WEIGHTED SCORING ENGINE
+// ================================================================
+
+/**
+ * SCORING ARCHITECTURE
+ *
+ * Each question has:
+ *   - weight: percentage contribution to final score (sums to 100%)
+ *   - options: scored 0-100 (raw urgency score)
+ *
+ * Final score = Σ(option_score × weight) → normalized 0-100
+ *
+ * This allows nuanced scoring where a single high-impact answer
+ * (like 50+ missed calls/week) can significantly elevate the score
+ * even if other answers are moderate.
+ */
+
+const questions = [
+  // ═══════════════════════════════════════════════════════════════
+  // Q1: Missed Call Volume (Weight: 30%)
+  // The #1 indicator of AI readiness — more missed = more urgent
+  // ═══════════════════════════════════════════════════════════════
+  {
+    id: 'missed_calls',
+    category: 'Call Volume & Urgency',
+    weight: 0.30,
+    weightLabel: '30%',
+    question: 'How many calls does your business miss or leave unanswered each week?',
+    hint: 'Including voicemails that go unreturned for 24+ hours',
+    options: [
+      { text: '0–5 — We catch almost everything', score: 10 },
+      { text: '6–15 — A few slip through daily', score: 35 },
+      { text: '16–30 — We know we\'re losing leads', score: 60 },
+      { text: '31–50 — It\'s a known problem we haven\'t solved', score: 80 },
+      { text: '50+ — We\'re hemorrhaging money every day', score: 100 }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // Q2: Current Tech Stack (Weight: 25%)
+  // Manual processes = higher AI need
+  // ═══════════════════════════════════════════════════════════════
+  {
+    id: 'tech_stack',
+    category: 'Current Technology',
+    weight: 0.25,
+    weightLabel: '25%',
+    question: 'Which best describes your current tech setup?',
+    hint: 'Be honest — this determines your starting point',
+    options: [
+      { text: 'Mostly pen-and-paper, spreadsheets, and phone calls', score: 95 },
+      { text: 'We use some software but nothing is connected', score: 70 },
+      { text: 'We have a CRM and a few tools, but lots of manual work', score: 45 },
+      { text: 'Integrated tech stack with automation in most areas', score: 15 },
+      { text: 'Fully automated — just looking to optimize with AI', score: 5 }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // Q3: Revenue Impact from Missed Opportunities (Weight: 25%)
+  // Higher loss = higher urgency
+  // ═══════════════════════════════════════════════════════════════
+  {
+    id: 'revenue_impact',
+    category: 'Revenue Impact',
+    weight: 0.25,
+    weightLabel: '25%',
+    question: 'Roughly how much revenue do you estimate you\'re losing monthly from missed calls, slow follow-up, or dropped leads?',
+    hint: 'Include lost deals, no-shows, and leads that went cold',
+    options: [
+      { text: 'Under $1,000/mo — minimal impact', score: 10 },
+      { text: '$1,000–$5,000/mo — noticeable but manageable', score: 35 },
+      { text: '$5,000–$15,000/mo — it\'s hurting growth', score: 60 },
+      { text: '$15,000–$30,000/mo — a serious problem', score: 80 },
+      { text: '$30,000+/mo — this is crisis territory', score: 100 }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // Q4: Openness to AI (Weight: 20%)
+  // Resistance = lower score (less urgency, more skepticism)
+  // Note: Inverted scoring — high openness = lower urgency score
+  // ═══════════════════════════════════════════════════════════════
+  {
+    id: 'ai_openness',
+    category: 'AI Openness',
+    weight: 0.20,
+    weightLabel: '20%',
+    question: 'How do you feel about implementing AI in your business?',
+    hint: 'There\'s no wrong answer — this helps us match the right approach',
+    options: [
+      { text: 'Skeptical — I\'m not sure AI is right for our industry', score: 20 },
+      { text: 'Curious but overwhelmed — don\'t know where to start', score: 55 },
+      { text: 'Open to it — just need the right tool and guidance', score: 75 },
+      { text: 'Ready to move — I know AI can transform our operations', score: 90 },
+      { text: 'Already using some AI — want to go deeper', score: 100 }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // Q5: Current Workflow Efficiency (Weight: 15%) [NEW]
+  // Manual bottlenecks = higher AI opportunity
+  // ═══════════════════════════════════════════════════════════════
+  {
+    id: 'workflow_efficiency',
+    category: 'Workflow Efficiency',
+    weight: 0.15,
+    weightLabel: '15%',
+    question: 'How much of your team\'s day is spent on repetitive, manual tasks?',
+    hint: 'Data entry, scheduling, follow-ups, appointment reminders, invoicing',
+    options: [
+      { text: 'Very little — most routine work is already automated', score: 10 },
+      { text: 'Some — about 25% of the day on manual tasks', score: 30 },
+      { text: 'Significant — roughly half the day on repetitive work', score: 60 },
+      { text: 'Most of it — 75%+ is manual, repetitive processes', score: 85 },
+      { text: 'Nearly everything — we\'re drowning in busywork', score: 100 }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // Q6: Investment Readiness (Weight: 15%) [NEW]
+  // Budget willingness = ability to act on recommendations
+  // ═══════════════════════════════════════════════════════════════
+  {
+    id: 'investment_readiness',
+    category: 'Investment Readiness',
+    weight: 0.15,
+    weightLabel: '15%',
+    question: 'What\'s your monthly budget range for AI and automation tools?',
+    hint: 'Include software, services, and any implementation costs',
+    options: [
+      { text: 'Under $200/mo — exploring on a tight budget', score: 25 },
+      { text: '$200–$500/mo — can invest if the ROI is clear', score: 45 },
+      { text: '$500–$1,500/mo — ready to invest in the right solution', score: 65 },
+      { text: '$1,500–$3,000/mo — serious about automation', score: 85 },
+      { text: '$3,000+/mo — whatever it takes to get results fast', score: 100 }
+    ]
+  }
+];
+
+// ================================================================
+//  SCORE INTERPRETATION TIERS
+// ================================================================
+const scoreTiers = [
+  {
+    min: 0, max: 30,
+    label: 'AI Ready',
+    cssClass: 'band-ready',
+    ringColor: '#10B981',
+    emoji: '✅',
+    summary: 'Your business has strong foundations and solid systems in place. You\'re ahead of most — AI will optimize what you\'ve already built and give you a competitive edge.',
+    ctaTitle: 'AI Employee Starter Kit',
+    ctaPrice: '$297',
+    ctaDesc: 'Fine-tune your operations with AI-powered enhancements. Perfect for businesses already running well who want to level up.',
+    ctaFeatures: [
+      'AI receptionist for after-hours coverage',
+      'Automated lead follow-up sequences',
+      'Review generation automation',
+      '30-day implementation support'
+    ],
+    ctaLink: 'https://dream-ai.com/products/starter-kit'
+  },
+  {
+    min: 31, max: 60,
+    label: 'AI Curious',
+    cssClass: 'band-curious',
+    ringColor: '#F59E0B',
+    emoji: '🤔',
+    summary: 'You have some systems in place, but key areas are still manual. The right AI tools can close these gaps and unlock significant time savings — you\'re closer than you think.',
+    ctaTitle: 'Scorecard Upgrade + AI Calculator',
+    ctaPrice: '$47',
+    ctaDesc: 'Get a detailed breakdown of exactly where you\'re leaking revenue, plus a custom ROI calculator showing what AI automation would save you.',
+    ctaFeatures: [
+      'Detailed gap analysis report',
+      'Custom ROI projection calculator',
+      'Priority-ranked improvement roadmap',
+      'Scorecard upgrade + re-assessment'
+    ],
+    ctaLink: 'https://dream-ai.com/products/scorecard-upgrade'
+  },
+  {
+    min: 61, max: 85,
+    label: 'AI Urgent',
+    cssClass: 'band-urgent',
+    ringColor: '#F97316',
+    emoji: '🚨',
+    summary: 'Your business is leaking revenue daily through manual processes and missed opportunities. Every week without automation costs you real money. It\'s time to act.',
+    ctaTitle: 'Full AI Employee',
+    ctaPrice: '$997/mo',
+    ctaDesc: 'Deploy a complete AI-powered team that handles calls, follow-ups, scheduling, and customer communication — so your team can focus on revenue-generating work.',
+    ctaFeatures: [
+      'AI receptionist (24/7 call handling)',
+      'Automated lead qualification & follow-up',
+      'Smart scheduling & dispatch',
+      'Customer communication automation',
+      'Monthly performance reporting',
+      'Dedicated onboarding specialist'
+    ],
+    ctaLink: 'https://dream-ai.com/products/ai-employee'
+  },
+  {
+    min: 86, max: 100,
+    label: 'AI Emergency',
+    cssClass: 'band-emergency',
+    ringColor: '#EF4444',
+    emoji: '🔥',
+    summary: 'Your business is losing tens of thousands monthly to missed calls, manual processes, and dropped leads. This isn\'t a gap — it\'s a crater. Let\'s fix this immediately.',
+    ctaTitle: 'Book an Emergency Demo Call',
+    ctaPrice: 'Free',
+    ctaDesc: 'Skip the products — let\'s talk. You need a custom AI implementation plan built around your specific operation. This call is free and comes with a no-BS assessment.',
+    ctaFeatures: [
+      'Live 1-on-1 strategy session',
+      'Custom AI implementation roadmap',
+      'ROI projection for your business',
+      'Priority implementation available',
+      'No obligation — just clarity'
+    ],
+    ctaLink: 'https://dream-ai.com/book-demo'
+  }
+];
+
+// ================================================================
+//  STATE
+// ================================================================
+let currentQ = 0;
+let answers = new Array(questions.length).fill(null);
+let quizCompleted = false;
+let userEmail = '';
+
+// ================================================================
+//  CATEGORY DETAIL DATA (for personalized recommendations)
+// ================================================================
+const recommendationBank = {
+  missed_calls: {
+    high: {
+      icon: '📞',
+      title: 'Deploy an AI Receptionist Immediately',
+      body: 'You\'re missing {count}+ calls per week. Each unanswered call is a potential customer choosing your competitor. An AI receptionist captures every call 24/7, qualifies leads, answers FAQs, and books appointments — while you focus on the work.',
+      impact: 'Impact: Capture 30-50% more leads without hiring',
+      priority: 'high'
+    },
+    low: {
+      icon: '📞',
+      title: 'Add After-Hours Call Coverage',
+      body: 'Your call handling is solid during business hours. Adding AI coverage for evenings and weekends captures the 40% of calls that come after 5pm — pure incremental revenue.',
+      impact: 'Impact: +15-25% more booked appointments',
+      priority: 'low'
+    }
+  },
+  tech_stack: {
+    high: {
+      icon: '🔧',
+      title: 'Connect Your Tools — Automate the Gaps',
+      body: 'You\'re using multiple tools that don\'t talk to each other, which means manual data entry is eating your team\'s time. Connecting your CRM, calendar, and communication tools creates a seamless workflow.',
+      impact: 'Impact: 5-10 hours/week saved per team member',
+      priority: 'high'
+    },
+    low: {
+      icon: '🔧',
+      title: 'Optimize Your Existing Stack with AI Layers',
+      body: 'Your tech foundation is strong. Adding AI-powered features — smart routing, predictive scheduling, automated responses — squeezes more value from tools you already pay for.',
+      impact: 'Impact: 20-30% efficiency gains on existing tools',
+      priority: 'low'
+    }
+  },
+  revenue_impact: {
+    high: {
+      icon: '💰',
+      title: 'Stop the Revenue Bleed — Now',
+      body: 'You\'re losing ${loss}+/month to missed calls and slow follow-up. That\'s ${annual}/year walking out the door. AI automation pays for itself in the first week at this level of loss.',
+      impact: 'Impact: Recover $${monthly}+/month within 30 days',
+      priority: 'high'
+    },
+    low: {
+      icon: '💰',
+      title: 'Capture the Low-Hanging Fruit',
+      body: 'Your revenue leakage is manageable but still money left on the table. Automated follow-up and lead capture can add 10-15% to your bottom line with minimal effort.',
+      impact: 'Impact: +10-15% revenue growth through better conversion',
+      priority: 'low'
+    }
+  },
+  ai_openness: {
+    high: {
+      icon: '🧠',
+      title: 'Your Readiness is Your Advantage',
+      body: 'Most businesses resist AI for 2-3 years before realizing they\'ve fallen behind. You\'re ahead of the curve — the sooner you implement, the longer you\'re the most advanced operator in your market.',
+      impact: 'Impact: 12-18 month competitive head start',
+      priority: 'medium'
+    },
+    low: {
+      icon: '🧠',
+      title: 'Start Small, Prove the Value',
+      body: 'You don\'t need to overhaul everything at once. Start with one automation (like appointment reminders or after-hours answering) and let the results speak for themselves. Most skeptics become champions within 30 days.',
+      impact: 'Impact: Quick win → full buy-in from your team',
+      priority: 'medium'
+    }
+  },
+  workflow_efficiency: {
+    high: {
+      icon: '⚡',
+      title: 'Eliminate the Busywork bottleneck',
+      body: 'Your team is spending {pct}% of their day on tasks a robot should do. Data entry, scheduling, follow-ups, reminders — every hour spent on these is an hour not spent on revenue. AI handles this in seconds.',
+      impact: 'Impact: Free up {hours}+ hours/week for revenue work',
+      priority: 'high'
+    },
+    low: {
+      icon: '⚡',
+      title: 'Fine-Tune Your Workflows',
+      body: 'You\'ve done the hard work of automating the basics. Now layer in AI intelligence — predictive scheduling, smart routing, and automated decision-making to push efficiency even higher.',
+      impact: 'Impact: 10-20% additional efficiency on top of existing automation',
+      priority: 'low'
+    }
+  },
+  investment_readiness: {
+    high: {
+      icon: '🎯',
+      title: 'Match Investment to Impact',
+      body: 'You\'re ready to invest — and at your revenue loss level, the ROI is obvious. We\'ll build a custom implementation plan that delivers measurable results in the first 30 days.',
+      impact: 'Impact: Full ROI within 60-90 days',
+      priority: 'medium'
+    },
+    low: {
+      icon: '🎯',
+      title: 'Start with High-ROI, Low-Cost Wins',
+      body: 'Budget-conscious is smart. We\'ll start with the highest-impact automation that pays for itself fast — then scale as you see results. No risky big bets.',
+      impact: 'Impact: Self-funding automation within 30 days',
+      priority: 'medium'
+    }
+  }
+};
+
+// ================================================================
+//  QUIZ ENGINE
+// ================================================================
+function startQuiz() {
+  document.getElementById('start-screen').classList.remove('active');
+  document.getElementById('quiz-screen').classList.add('active');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  const container = document.getElementById('question-container');
+  const pctWidth = Math.round(q.weight * 100);
+
+  container.innerHTML = `
+    <div class="question-card" style="animation-delay: 0s;">
+      <div class="category-badge">${q.category}</div>
+      <div class="question-number">Question ${currentQ + 1} of ${questions.length}</div>
+      <div class="question-text">${q.question}</div>
+      <div class="question-weight">
+        <span class="weight-bar" style="width:${pctWidth}px"></span>
+        Weight: ${q.weightLabel} of total score
+      </div>
+      ${q.hint ? `<div style="font-size:13px;color:var(--text-muted);margin-bottom:16px;font-style:italic;">💡 ${q.hint}</div>` : ''}
+      <div class="options">
+        ${q.options.map((opt, i) => `
+          <button class="option-btn ${answers[currentQ] === i ? 'selected' : ''}" onclick="selectOption(${i})">
+            <span class="radio"></span>
+            <span>${opt.text}</span>
+          </button>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  // Update progress
+  const pct = ((currentQ) / questions.length) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `Question ${currentQ + 1} of ${questions.length}`;
+  document.getElementById('next-btn').disabled = answers[currentQ] === null;
+  document.getElementById('next-btn').textContent = currentQ === questions.length - 1 ? 'Calculate My Score →' : 'Next Question →';
+}
+
+function selectOption(idx) {
+  answers[currentQ] = idx;
+  document.querySelectorAll('.option-btn').forEach((btn, i) => {
+    btn.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('next-btn').disabled = false;
+}
+
+function nextQuestion() {
+  if (answers[currentQ] === null) return;
+  if (currentQ < questions.length - 1) {
+    currentQ++;
+    renderQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    calculateAndShowResults();
+  }
+}
+
+// ================================================================
+//  MULTI-STEP SCORING ALGORITHM
+// ================================================================
+function calculateAndShowResults() {
+  // --- Step 1: Calculate weighted raw scores ---
+  let weightedTotal = 0;
+  const questionResults = [];
+
+  questions.forEach((q, i) => {
+    const answerIdx = answers[i];
+    const option = q.options[answerIdx];
+    const rawScore = option.score; // 0-100
+    const weightedScore = rawScore * q.weight; // 0-weight
+
+    weightedTotal += weightedScore;
+
+    questionResults.push({
+      question: q,
+      answerIdx: answerIdx,
+      answerText: option.text,
+      rawScore: rawScore,
+      weightedScore: weightedScore
+    });
+  });
+
+  // --- Step 2: Normalize to 0-100 ---
+  // weightedTotal is already 0-100 because weights sum to 1.0 and scores are 0-100
+  const finalScore = Math.round(weightedTotal);
+
+  // --- Step 3: Determine tier ---
+  const tier = scoreTiers.find(t => finalScore >= t.min && finalScore <= t.max) || scoreTiers[scoreTiers.length - 1];
+
+  // --- Step 4: Calculate per-question urgency levels ---
+  questionResults.forEach(r => {
+    if (r.rawScore >= 70) r.urgency = 'high';
+    else if (r.rawScore >= 40) r.urgency = 'medium';
+    else r.urgency = 'low';
+  });
+
+  // --- Step 5: Generate personalized recommendations ---
+  const recommendations = generateRecommendations(questionResults, tier);
+
+  // --- Display ---
+  showResultsScreen(finalScore, tier, questionResults, recommendations);
+}
+
+// ================================================================
+//  PERSONALIZED RECOMMENDATION GENERATOR
+// ================================================================
+function generateRecommendations(results, tier) {
+  const recs = [];
+
+  results.forEach(r => {
+    const bank = recommendationBank[r.question.id];
+    if (!bank) return;
+
+    let template;
+    if (r.urgency === 'high') {
+      template = bank.high;
+    } else {
+      template = bank.low || bank.high;
+    }
+
+    // Personalize the template with actual answer data
+    let body = template.body;
+
+    // Q1: missed calls
+    if (r.question.id === 'missed_calls') {
+      const counts = ['0-5', '6-15', '16-30', '31-50', '50+'];
+      body = body.replace('{count}', counts[r.answerIdx] || 'many');
+    }
+    // Q3: revenue impact
+    if (r.question.id === 'revenue_impact') {
+      const losses = ['<$1K', '$1-5K', '$5-15K', '$15-30K', '$30K+'];
+      const annuals = ['<$12K', '$12-60K', '$60-180K', '$180-360K', '$360K+'];
+      body = body.replace('{loss}', losses[r.answerIdx] || 'thousands');
+      body = body.replace('${annual}', annuals[r.answerIdx] || 'hundreds of thousands');
+      body = body.replace('${monthly}', losses[r.answerIdx] || 'thousands');
+    }
+    // Q5: workflow
+    if (r.question.id === 'workflow_efficiency') {
+      const pcts = ['25', '25', '50', '75', '90'];
+      const hours = ['2', '3', '5', '8', '10'];
+      body = body.replace('{pct}', pcts[r.answerIdx] || '50');
+      body = body.replace('{hours}', hours[r.answerIdx] || '5');
+    }
+
+    recs.push({
+      ...template,
+      body: body,
+      urgency: r.urgency,
+      category: r.question.category,
+      weight: r.question.weightLabel,
+      rawScore: r.rawScore
+    });
+  });
+
+  // Sort: high urgency first, then by weight
+  recs.sort((a, b) => {
+    const priorityOrder = { high: 0, medium: 1, low: 2 };
+    const pa = priorityOrder[a.urgency] || 2;
+    const pb = priorityOrder[b.urgency] || 2;
+    if (pa !== pb) return pa - pb;
+    return 0;
+  });
+
+  return recs;
+}
+
+// ================================================================
+//  RESULTS SCREEN RENDERER
+// ================================================================
+function showResultsScreen(score, tier, questionResults, recommendations) {
+  document.getElementById('quiz-screen').classList.remove('active');
+  document.getElementById('results-screen').classList.add('active');
+  quizCompleted = true;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Show sticky CTA on mobile
+  if (window.innerWidth <= 500) {
+    document.getElementById('sticky-bar').style.display = 'block';
+  }
+
+  // --- Animate score ring ---
+  const ring = document.getElementById('score-ring');
+  const circumference = 2 * Math.PI * 100; // r=100
+  const offset = circumference - (score / 100) * circumference;
+  ring.style.stroke = tier.ringColor;
+  setTimeout(() => { ring.style.strokeDashoffset = offset; }, 300);
+
+  // --- Animate score counter ---
+  let counted = 0;
+  const counterEl = document.getElementById('score-value');
+  const step = Math.max(1, Math.floor(score / 50));
+  const interval = setInterval(() => {
+    counted = Math.min(counted + step, score);
+    counterEl.textContent = counted;
+    if (counted >= score) clearInterval(interval);
+  }, 25);
+
+  // --- Score band ---
+  const bandEl = document.getElementById('score-band');
+  bandEl.textContent = `${tier.emoji} ${tier.label}`;
+  bandEl.className = 'score-band ' + tier.cssClass;
+
+  // --- Summary ---
+  document.getElementById('score-summary').textContent = tier.summary;
+
+  // --- Weight Breakdown ---
+  const breakdownEl = document.getElementById('weight-breakdown');
+  let html = '<h2>Score Breakdown</h2><p class="section-sub">How each question weighted into your final score</p>';
+
+  questionResults.forEach(r => {
+    const barColor = r.rawScore >= 70 ? '#EF4444' : r.rawScore >= 40 ? '#F59E0B' : '#10B981';
+    const scoreLabel = r.rawScore >= 70 ? 'High urgency' : r.rawScore >= 40 ? 'Moderate' : 'Low need';
+    html += `
+      <div class="weight-row">
+        <div class="weight-row-header">
+          <span class="w-name">
+            <span class="w-pct">${r.question.weightLabel}</span>
+            ${r.question.category}
+          </span>
+          <span class="w-score" style="color:${barColor}">${r.rawScore}/100 ${scoreLabel}</span>
+        </div>
+        <div class="weight-bar-bg">
+          <div class="weight-bar-fill" style="background:${barColor}" data-pct="${r.rawScore}"></div>
+        </div>
+        <div class="weight-answer">Your answer: "${r.answerText}"</div>
+      </div>
+    `;
+  });
+  breakdownEl.innerHTML = html;
+
+  // Animate weight bars
+  setTimeout(() => {
+    document.querySelectorAll('.weight-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.pct + '%';
+    });
+  }, 1000);
+
+  // --- Personalized Recommendations ---
+  const recsEl = document.getElementById('recommendations');
+  let recsHTML = '<h2>Your Personalized Recommendations</h2>';
+
+  // Show top 3 (highest urgency first)
+  const topRecs = recommendations.slice(0, 3);
+  topRecs.forEach(r => {
+    const priorityClass = r.priority === 'high' ? 'p-high' : r.priority === 'medium' ? 'p-medium' : 'p-low';
+    const cardClass = r.priority === 'high' ? 'priority-high' : r.priority === 'medium' ? 'priority-medium' : 'priority-low';
+    recsHTML += `
+      <div class="rec-card ${cardClass}">
+        <div class="rec-header">
+          <span class="rec-icon">${r.icon}</span>
+          <span class="rec-title">${r.title}</span>
+          <span class="rec-priority ${priorityClass}">${r.priority === 'high' ? 'URGENT' : r.priority === 'medium' ? 'RECOMMENDED' : 'OPTIONAL'}</span>
+        </div>
+        <div class="rec-body">${r.body}</div>
+        <div class="rec-impact">${r.impact}</div>
+      </div>
+    `;
+  });
+  recsEl.innerHTML = recsHTML;
+
+  // --- CTA Section (personalized to tier) ---
+  const ctaEl = document.getElementById('cta-section');
+  const features = tier.ctaFeatures.map(f => `<li>${f}</li>`).join('');
+  ctaEl.innerHTML = `
+    <div class="cta-box">
+      <h2>${tier.ctaTitle}</h2>
+      <div class="cta-price">Starting at <span>${tier.ctaPrice}</span></div>
+      <p>${tier.ctaDesc}</p>
+      <ul>${features}</ul>
+      <a id="cta-link" href="${tier.ctaLink}" target="_blank" class="btn-primary" style="width: 100%; max-width: 360px;">
+        ${score >= 86 ? 'Book My Free Demo Call →' : 'Get Started →'}
+      </a>
+      <div class="trust-badges">
+        <div class="trust-badge">⭐ Trusted by 500+ businesses</div>
+        <div class="trust-badge">🔒 Secure checkout</div>
+        <div class="trust-badge">💰 30-day guarantee</div>
+      </div>
+      <div class="testimonials">
+        <div class="testimonial">
+          <div class="quote">"We automated 60% of our customer follow-ups in week one. ROI paid for itself before day 30."</div>
+          <div class="author">— Mike R., HVAC business owner</div>
+        </div>
+        <div class="testimonial">
+          <div class="quote">"The playbook showed us exactly what to fix first. No guesswork, just results."</div>
+          <div class="author">— Sarah L., dental practice manager</div>
+        </div>
+        <div class="testimonial">
+          <div class="quote">"I wish I'd found this before wasting $5k on a marketing agency that delivered nothing."</div>
+          <div class="author">— James T., roofing company owner</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Store results for SMS/email
+  window._scoreResults = {
+    score,
+    tier: tier.label,
+    questionResults: questionResults.map(r => ({
+      category: r.question.category,
+      weight: r.question.weightLabel,
+      answer: r.answerText,
+      rawScore: r.rawScore
+    })),
+    recommendations: topRecs.map(r => r.title)
+  };
+}
+
+// ================================================================
+//  SMS OPT-IN
+// ================================================================
+function submitSMS() {
+  const phone = document.getElementById('sms-input').value.replace(/\D/g, '');
+  if (!phone || phone.length < 10) {
+    document.getElementById('sms-input').style.borderColor = '#EF4444';
+    return;
+  }
+  document.getElementById('sms-success').style.display = 'block';
+  document.getElementById('sms-input').disabled = true;
+  document.querySelector('.sms-section button').disabled = true;
+
+  if (window._scoreResults) {
+    window._scoreResults.phone = phone;
+    console.log('SMS opt-in:', JSON.stringify(window._scoreResults));
+  }
+}
+
+// ================================================================
+//  EXIT-INTENT POPUP
+// ================================================================
+let exitIntentFired = false;
+let exitIntentDismissed = false;
+
+function handleExitIntent(e) {
+  if (!quizCompleted || exitIntentFired || exitIntentDismissed) return;
+  if (e.type === 'mouseleave' && e.clientY <= 0) {
+    showExitModal();
+  }
+}
+
+function showExitModal() {
+  exitIntentFired = true;
+  const overlay = document.getElementById('exit-overlay');
+  overlay.classList.add('active');
+  if (userEmail) {
+    document.getElementById('exit-content-default').style.display = 'none';
+    document.getElementById('exit-content-discount').style.display = 'block';
+  } else {
+    document.getElementById('exit-content-default').style.display = 'block';
+    document.getElementById('exit-content-discount').style.display = 'none';
+  }
+}
+
+function closeExitModal() {
+  exitIntentDismissed = true;
+  document.getElementById('exit-overlay').classList.remove('active');
+}
+
+function submitExitEmail() {
+  const email = document.getElementById('exit-email-input').value;
+  if (!email || !email.includes('@')) {
+    document.getElementById('exit-email-input').style.borderColor = '#EF4444';
+    return;
+  }
+  userEmail = email;
+  document.getElementById('exit-email-success').style.display = 'block';
+  document.getElementById('exit-email-input').disabled = true;
+  document.querySelector('#exit-content-default button[onclick="submitExitEmail()"]').disabled = true;
+}
+
+function submitExitSMS() {
+  const phone = document.getElementById('exit-sms-input').value.replace(/\D/g, '');
+  if (!phone || phone.length < 10) {
+    document.getElementById('exit-sms-input').style.borderColor = '#EF4444';
+    return;
+  }
+  document.getElementById('exit-sms-success').style.display = 'block';
+  document.getElementById('exit-sms-input').disabled = true;
+  document.querySelector('#exit-content-discount button[onclick="submitExitSMS()"]').disabled = true;
+}
+
+document.addEventListener('mouseleave', handleExitIntent);
+
+let mobileExitShown = false;
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && quizCompleted && !exitIntentFired && !mobileExitShown && !exitIntentDismissed) {
+    mobileExitShown = true;
+  }
+  if (!document.hidden && mobileExitShown && !exitIntentFired && !exitIntentDismissed) {
+    showExitModal();
+    mobileExitShown = false;
+  }
+});
+
+document.getElementById('exit-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeExitModal();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeExitModal();
+});
+
+// ================================================================
+//  STICKY CTA HELPER
+// ================================================================
+function scrollToCTA() {
+  const cta = document.getElementById('cta-section');
+  if (cta) cta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ================================================================
+//  KEYBOARD NAVIGATION
+// ================================================================
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && document.getElementById('quiz-screen').classList.contains('active')) {
+    if (answers[currentQ] !== null) nextQuestion();
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1: Cold Call Scripts — AI Receptionist Script Pack | Dream AI</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #1B1464; --accent: #6C3CE9; --accent-light: #8B5CF6;
+    --bg: #FFFFFF; --surface: #F8F7FF; --border: #E8E4F8;
+    --text: #1a1a2e; --text-light: #555; --muted: #8888aa; --success: #10B981;
+  }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); color: white; padding: 50px 40px 40px; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -60%; left: -20%; width: 140%; height: 200%; background: radial-gradient(ellipse, rgba(255,255,255,0.06) 0%, transparent 70%); pointer-events: none; }
+  .hero .badge { display: inline-block; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 6px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.2); }
+  .hero h1 { font-size: clamp(24px, 3.5vw, 36px); font-weight: 800; line-height: 1.15; margin-bottom: 10px; }
+  .hero .subtitle { font-size: 15px; opacity: 0.85; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+  /* Progress */
+  .progress-bar-wrapper { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 24px; margin: 24px auto; }
+  .progress-label { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+  .progress-label span { color: var(--accent); font-weight: 700; }
+  .progress-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-light)); border-radius: 3px; transition: width 0.4s ease; }
+
+  /* Complete Button */
+  .complete-section { text-align: center; margin: 24px 0 32px; }
+  .complete-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--success); color: white; border: none; padding: 12px 28px; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; transition: transform 0.15s, opacity 0.2s; }
+  .complete-btn:hover { transform: scale(1.04); }
+  .complete-btn.done { background: var(--border); color: var(--muted); cursor: default; }
+
+  /* Lesson Intro */
+  .lesson-intro { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px 32px; margin-bottom: 32px; }
+  .lesson-intro h2 { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+  .lesson-intro p { font-size: 15px; color: var(--text-light); }
+
+  /* Category */
+  .category { margin-bottom: 40px; }
+  .category-header { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; padding: 16px 24px; border-radius: 14px 14px 0 0; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  .category-header .cat-icon { width: 34px; height: 34px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .category-header .cat-count { margin-left: auto; background: rgba(255,255,255,0.2); padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+
+  /* Script Card */
+  .script-card { background: var(--bg); border: 1px solid var(--border); border-top: none; padding: 24px 24px 16px; position: relative; transition: box-shadow 0.2s; }
+  .script-card:last-child { border-radius: 0 0 14px 14px; }
+  .script-card:hover { box-shadow: 0 4px 20px rgba(108,60,233,0.08); }
+  .script-card + .script-card { border-top: 1px dashed var(--border); }
+  .script-num { position: absolute; top: 24px; left: 24px; width: 26px; height: 26px; background: var(--surface); border: 2px solid var(--border); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--accent); }
+  .script-title { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 4px; padding-left: 36px; }
+  .script-subtitle { font-size: 12px; color: var(--muted); margin-bottom: 12px; font-style: italic; }
+  .script-body { background: var(--surface); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 16px 18px; font-size: 14px; line-height: 1.8; color: var(--text); white-space: pre-wrap; }
+  .script-body .var { background: #EDE9FE; color: var(--accent); padding: 1px 8px; border-radius: 4px; font-weight: 600; font-size: 12px; }
+  .copy-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: white; border: none; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 12px; transition: background 0.2s, transform 0.1s; }
+  .copy-btn:hover { background: var(--primary); }
+  .copy-btn:active { transform: scale(0.96); }
+  .copy-btn.copied { background: var(--success); }
+  .script-notes { margin-top: 12px; padding: 10px 14px; background: #FFF8E7; border-radius: 8px; font-size: 12.5px; color: #7C5E00; border: 1px solid #FDE68A; }
+  .script-notes strong { color: #92400E; }
+
+  /* Nav */
+  .lesson-nav { display: flex; justify-content: space-between; align-items: center; margin: 32px 0; gap: 16px; }
+  .nav-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none; transition: transform 0.15s; }
+  .nav-btn:hover { transform: translateY(-2px); }
+  .nav-prev { background: var(--surface); color: var(--accent); border: 1px solid var(--border); }
+  .nav-next { background: var(--accent); color: white; }
+  .nav-btn.disabled { opacity: 0.4; pointer-events: none; }
+  .nav-lesson-label { font-size: 12px; color: var(--muted); display: block; }
+  .nav-lesson-title { font-size: 14px; font-weight: 700; }
+
+  /* CTA */
+  .cta-banner { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; border-radius: 16px; padding: 32px 36px; text-align: center; margin: 32px 0; }
+  .cta-banner h2 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .cta-banner p { font-size: 14px; opacity: 0.9; margin-bottom: 16px; max-width: 460px; margin-left: auto; margin-right: auto; }
+  .cta-btn { display: inline-flex; align-items: center; gap: 8px; background: white; color: var(--primary); padding: 12px 28px; border-radius: 10px; font-size: 14px; font-weight: 700; text-decoration: none; transition: transform 0.15s; }
+  .cta-btn:hover { transform: scale(1.04); }
+
+  /* Download PDF */
+  .download-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--surface); color: var(--accent); border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+  .download-btn:hover { background: var(--border); }
+
+  .footer { text-align: center; padding: 32px 24px 40px; border-top: 1px solid var(--border); margin-top: 20px; }
+  .footer .logo { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+  .footer p { font-size: 13px; color: var(--muted); }
+  .footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+
+  @media print {
+    body { font-size: 11pt; }
+    .hero { padding: 20px; }
+    .copy-btn, .complete-section, .lesson-nav, .cta-banner, .download-btn { display: none !important; }
+    .progress-bar-wrapper { display: none; }
+    .script-card { break-inside: avoid; box-shadow: none; }
+    .script-body { background: #f5f5f5; border-left-color: #999; }
+    a { color: #333; }
+  }
+  @media (max-width: 600px) {
+    .hero { padding: 36px 20px 30px; }
+    .script-card { padding: 20px 16px 14px; }
+    .lesson-nav { flex-direction: column; }
+    .nav-btn { width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Lesson 1 of 5</div>
+  <h1>Cold Call Scripts</h1>
+  <p class="subtitle">First impressions that convert — greetings &amp; qualification</p>
+</div>
+
+<div class="container">
+
+<!-- Progress -->
+<div class="progress-bar-wrapper">
+  <div class="progress-label"><span id="progress-text">Lesson 1 of 5</span><span id="progress-pct">20%</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:20%"></div></div>
+</div>
+
+<!-- Download -->
+<div style="text-align:right;margin:12px 0 20px;">
+  <button class="download-btn" onclick="window.print()">📄 Download as PDF</button>
+</div>
+
+<!-- Lesson Intro -->
+<div class="lesson-intro">
+  <h2>📖 In This Lesson</h2>
+  <p>You'll master <strong>10 scripts</strong> for the most critical moment of any call — the first 15 seconds. We cover 5 professional greetings for different industries and 5 qualification frameworks to identify your best prospects instantly.</p>
+</div>
+
+<!-- ==================== GREETINGS ==================== -->
+<div class="category" id="cat-greetings">
+  <div class="category-header">
+    <div class="cat-icon">👋</div>
+    Greetings
+    <span class="cat-count">5 Scripts</span>
+  </div>
+
+  <div class="script-card" id="script-1">
+    <div class="script-num">1</div>
+    <div class="script-title">Professional Greeting</div>
+    <div class="script-subtitle">Best for: corporate, B2B, consulting, financial services</div>
+    <div class="script-body" id="code-1">Thank you for calling <span class="var">[BusinessName]</span>. This is <span class="var">[AIName]</span>, your virtual assistant. How may I help you today?</div>
+    <button class="copy-btn" onclick="copyScript('code-1', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Script</button>
+    <div class="script-notes"><strong>Customize:</strong> Replace <span class="var">[BusinessName]</span> with your company name. <span class="var">[AIName]</span> can be the name your customers will associate with the assistant. Keep it gender-neutral for broad appeal.</div>
+  </div>
+
+  <div class="script-card" id="script-2">
+    <div class="script-num">2</div>
+    <div class="script-title">Friendly Greeting</div>
+    <div class="script-subtitle">Best for: salons, gyms, restaurants, pet services</div>
+    <div class="script-body" id="code-2">Hey there! Thanks for reaching out to <span class="var">[BusinessName]</span>. I'm <span class="var">[AIName]</span>, and I'm here to help you out. What can I do for you?</div>
+    <button class="copy-btn" onclick="copyScript('code-2', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Script</button>
+    <div class="script-notes"><strong>Customize:</strong> For a spa or wellness brand, soften to: "Hi! Welcome to <span class="var">[BusinessName]</span>. I'm <span class="var">[AIName]</span> — so glad you called. How can I help?"</div>
+  </div>
+
+  <div class="script-card" id="script-3">
+    <div class="script-num">3</div>
+    <div class="script-title">Luxury Greeting</div>
+    <div class="script-subtitle">Best for: high-end retail, real estate, private clinics, legal</div>
+    <div class="script-body" id="code-3">Good <span class="var">[timeOfDay]</span>. You've reached <span class="var">[BusinessName]</span>. My name is <span class="var">[AIName]</span>, and it would be my pleasure to assist you. How may I be of service?</div>
+    <button class="copy-btn" onclick="copyScript('code-3', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Script</button>
+    <div class="script-notes"><strong>Customize:</strong> <span class="var">[timeOfDay]</span> auto-fills as "morning", "afternoon", or "evening". Set the AI voice to a calm, measured tone. Avoid slang or contractions in follow-up responses.</div>
+  </div>
+
+  <div class="script-card" id="script-4">
+    <div class="script-num">4</div>
+    <div class="script-title">Casual Greeting</div>
+    <div class="script-subtitle">Best for: startups, creative agencies, food trucks, event vendors</div>
+    <div class="script-body" id="code-4">Hi! You've got <span class="var">[BusinessName]</span>. I'm <span class="var">[AIName]</span> — what's on your mind today?</div>
+    <button class="copy-btn" onclick="copyScript('code-4', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Script</button>
+    <div class="script-notes"><strong>Customize:</strong> This works great when your brand voice is relaxed and conversational. Pair with a slightly faster speech rate in your voice AI settings.</div>
+  </div>
+
+  <div class="script-card" id="script-5">
+    <div class="script-num">5</div>
+    <div class="script-title">Emergency Greeting</div>
+    <div class="script-subtitle">Best for: plumbing, electrical, HVAC, locksmith, towing</div>
+    <div class="script-body" id="code-5">Thank you for calling <span class="var">[BusinessName]</span>. I understand urgent issues can't wait. I'm <span class="var">[AIName]</span>, and I'll get you taken care of right away. Can you briefly describe the emergency?</div>
+    <button class="copy-btn" onclick="copyScript('code-5', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Script</button>
+    <div class="script-notes"><strong>Customize:</strong> Immediately after this greeting, the system should escalate to priority booking or dispatch. Set voice speed slightly faster to convey urgency.</div>
+  </div>
+</div>
+
+<!-- ==================== QUALIFICATION ==================== -->
+<div class="category" id="cat-qualification">
+  <div class="category-header">
+    <div class="cat-icon">🎯</div>
+    Qualification
+    <span class="cat-count">5 Scripts</span>
+  </div>
+
+  <div class="script-card" id="script-6">
+    <div class="script-num">6</div>
+    <div class="script-title">Buyer Qualification</div>
+    <div class="script-subtitle">Best for: real estate, autos, high-ticket services</div>
+    <div class="script-body" id="code-6">Great — I'd love to learn more about what you're looking for. Are you currently actively searching, or are you in the early research phase?</div>
+    <button class="copy-btn" onclick="copyScript('code-6', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Script</button>
+    <div class="script-notes"><strong>Customize:</strong> Follow up with budget range, timeline, and specific needs. Tag the lead as "Hot" (actively searching) or "Warm" (researching) in your CRM.</div>
+  </div>
+
+  <div class="script-card" id="script-7">
+    <div class="script-num">7</div>
+    <div class="script-title">Seller Qualification</div>
+    <div class="script-subtitle">Best for: real estate, buyback programs, consignment</div>
+    <div class="script-body" id="code-7">Thanks for reaching out about selling. To match you with the right specialist, can you tell me: where is the property located? And roughly, what's your ideal timeline for selling?</div>
+    <button class="copy-btn" onclick="copyScript('code-7', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Script</button>
+    <div class="script-notes"><strong>Customize:</strong> Adjust fields to your industry. For buyback: "What's the item or product you're looking to sell?" Capture condition, age, and any prior appraisals.</div>
+  </div>
+
+  <div class="script-card" id="script-8">
+    <div class="script-num">8</div>
+    <div class="script-title">New Patient Qualification</div>
+    <div class="script-subtitle">Best for: medical, dental, chiropractic, veterinary</div>
+    <div class="script-body" id="code-8">Welcome! So glad you chose <span class="var">[PracticeName]</span>. Are you a new patient with us, or have you visited before? And do you have a specific concern or service you're calling about today?</div>
+    <button class="copy-btn" onclick="copyScript('code-8', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Script</button>
+    <div class="script-notes"><strong>Customize:</strong> For new patients, branch into insurance check before booking. For returning patients, verify date of birth for chart lookup.</div>
+  </div>
+
+  <div class="script-card" id="script-9">
+    <div class="script-num">9</div>
+    <div class="script-title">Service Inquiry Qualification</div>
+    <div class="script-subtitle">Best for: contractors, home services, landscaping, cleaning</div>
+    <div class="script-body" id="code-9">I'd be happy to help with that. Can you tell me a bit more about the project? Specifically: the property address or zip code, the type of service you need, and whether this is a residential or commercial property?</div>
+    <button class="copy-btn" onclick="copyScript('code-9', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Script</button>
+    <div class="script-notes"><strong>Customize:</strong> For plumbing: "Is this an active leak or a scheduled maintenance?" For landscaping: "Roughly how large is the property?"</div>
+  </div>
+
+  <div class="script-card" id="script-10">
+    <div class="script-num">10</div>
+    <div class="script-title">Emergency Triage</div>
+    <div class="script-subtitle">Best for: medical, veterinary, urgent care, crisis services</div>
+    <div class="script-body" id="code-10">I want to make sure you get the right level of care as quickly as possible. Is anyone currently experiencing chest pain, difficulty breathing, severe bleeding, or loss of consciousness?</div>
+    <button class="copy-btn" onclick="copyScript('code-10', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Script</button>
+    <div class="script-notes"><strong>Customize:</strong> If YES → "Please hang up and call 911 immediately." If NO → "Okay. Let me get you connected with a provider right away." Always prioritize safety over data collection.</div>
+  </div>
+</div>
+
+<!-- Complete -->
+<div class="complete-section">
+  <button class="complete-btn" id="complete-btn" onclick="toggleComplete()">
+    ✅ Mark Lesson 1 Complete
+  </button>
+</div>
+
+<!-- CTA -->
+<div class="cta-banner">
+  <h2>Want Scripts Custom-Written for Your Business?</h2>
+  <p>The Dream AI Starter Kit includes custom scripts trained on your specific business, industry, and customer scenarios.</p>
+  <a href="https://dreamai.com" class="cta-btn" target="_blank">Explore the Starter Kit →</a>
+</div>
+
+<!-- Nav -->
+<div class="lesson-nav">
+  <a href="index.html" class="nav-btn nav-prev">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <div><span class="nav-lesson-label">Back to</span><span class="nav-lesson-title">Course Home</span></div>
+  </a>
+  <a href="lesson-2.html" class="nav-btn nav-next">
+    <div style="text-align:right"><span class="nav-lesson-label">Next: Lesson 2</span><span class="nav-lesson-title">Follow-Up Scripts →</span></div>
+  </a>
+</div>
+
+</div>
+
+<div class="footer">
+  <div class="logo">Dream AI</div>
+  <p>&copy; Dream AI — Get the done-for-you version at <a href="https://dreamai.com" target="_blank">dreamai.com</a></p>
+</div>
+
+<script>
+const LESSON_NUM = 1;
+const LESSONS = 5;
+
+function copyScript(id, btn) {
+  const el = document.getElementById(id);
+  const text = el.innerText || el.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.innerHTML;
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = original; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function getCompleted() { try { return JSON.parse(localStorage.getItem('sp_completed') || '[]'); } catch { return []; } }
+function saveCompleted(arr) { localStorage.setItem('sp_completed', JSON.stringify(arr)); }
+
+function updateUI() {
+  const done = getCompleted();
+  if (done.includes(LESSON_NUM)) {
+    document.getElementById('complete-btn').textContent = '✅ Lesson 1 Complete!';
+    document.getElementById('complete-btn').classList.add('done');
+  }
+  // Update progress
+  const pct = Math.round((done.length / LESSONS) * 100);
+  document.getElementById('progress-text').textContent = `${done.length} of ${LESSONS} lessons completed`;
+  document.getElementById('progress-pct').textContent = `${pct}%`;
+  document.getElementById('progress-fill').style.width = `${pct}%`;
+}
+
+function toggleComplete() {
+  let done = getCompleted();
+  if (!done.includes(LESSON_NUM)) {
+    done.push(LESSON_NUM);
+    saveCompleted(done);
+    updateUI();
+  }
+}
+
+updateUI();
+</script>
+</body>
+</html>

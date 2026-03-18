@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Readiness Scorecard | Dream AI</title>
+  <style>
+    :root {
+      --primary: #6C3AED;
+      --primary-dark: #5B21B6;
+      --primary-light: #EDE9FE;
+      --accent: #F59E0B;
+      --text: #1F2937;
+      --text-light: #6B7280;
+      --bg: #FFFFFF;
+      --bg-alt: #F9FAFB;
+      --success: #10B981;
+      --radius: 12px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      background: var(--bg);
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+      padding: 16px 0;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+    .header-badge {
+      font-size: 0.75rem;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 48px 0 32px;
+      text-align: center;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: clamp(1.75rem, 5vw, 2.25rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--primary), #8B5CF6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.125rem;
+      color: var(--text-light);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* Trust Badges */
+    .trust-badges {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      padding: 20px 0;
+      flex-wrap: wrap;
+    }
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.875rem;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+    .trust-badge .icon { font-size: 1.1rem; }
+
+    /* Question Preview */
+    .questions-preview {
+      background: var(--bg-alt);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      margin: 24px 0;
+      border: 1px solid #E5E7EB;
+    }
+    .questions-preview h2 {
+      font-size: 1.15rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .question-item {
+      background: white;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      border: 1px solid #E5E7EB;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .question-item:last-child { margin-bottom: 0; }
+    .q-number {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .q-text {
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+    .q-text .category {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      text-align: center;
+      padding: 32px 0;
+    }
+    .cta-section h3 {
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+    }
+    .cta-section p {
+      color: var(--text-light);
+      margin-bottom: 24px;
+      max-width: 440px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Benefits */
+    .benefits {
+      background: var(--primary-light);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      margin: 24px 0;
+    }
+    .benefits h3 {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .benefit-item:last-child { margin-bottom: 0; }
+    .benefit-icon {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      background: white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    .benefit-text {
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    /* Score Preview */
+    .score-preview {
+      background: white;
+      border: 2px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      margin: 24px 0;
+      text-align: center;
+    }
+    .score-preview h3 {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+    }
+    .score-bar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .score-label {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+    .score-bar {
+      width: 100%;
+      height: 12px;
+      background: #E5E7EB;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #EF4444, #F59E0B, #10B981);
+      width: 0%;
+      animation: fillBar 2s ease-out 1s forwards;
+    }
+    @keyframes fillBar {
+      to { width: 72%; }
+    }
+    .score-result {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-alt);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 12px;
+    }
+    .score-result .score-num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .score-result .score-desc {
+      text-align: right;
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    /* Social Proof */
+    .social-proof {
+      text-align: center;
+      padding: 32px 0;
+    }
+    .social-proof .stars {
+      color: var(--accent);
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+    .social-proof .stat {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .social-proof p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+    .social-proof .testimonial {
+      margin-top: 16px;
+      font-style: italic;
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .social-proof .attribution {
+      font-style: normal;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 8px;
+      font-size: 0.85rem;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 16px 40px;
+      border-radius: 8px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(108, 58, 237, 0.3);
+    }
+
+    /* Footer */
+    footer {
+      padding: 24px 0;
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.8rem;
+      border-top: 1px solid #E5E7EB;
+      margin-top: 32px;
+    }
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    @media (max-width: 480px) {
+      .trust-badges { gap: 12px; }
+      .trust-badge { font-size: 0.8rem; }
+      .questions-preview { padding: 24px 16px; }
+      .question-item { padding: 14px 16px; }
+      .benefits { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <a href="#" class="logo">Dream<span>AI</span></a>
+      <span class="header-badge">Free Assessment</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="badge">⏱ Takes 90 seconds</div>
+      <h1>How <span class="highlight">AI-Ready</span> Is Your Business?</h1>
+      <p>6 questions, 90 seconds, instant score. Know exactly where to start with AI automation.</p>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- Trust Badges -->
+    <div class="trust-badges">
+      <div class="trust-badge"><span class="icon">⭐</span> 4.9/5 Rating</div>
+      <div class="trust-badge"><span class="icon">🔒</span> Secure</div>
+      <div class="trust-badge"><span class="icon">📊</span> 500+ Assessed</div>
+    </div>
+
+    <!-- Question Preview -->
+    <div class="questions-preview">
+      <h2>Sneak Peek — Here's What We'll Ask</h2>
+
+      <div class="question-item">
+        <div class="q-number">1</div>
+        <div class="q-text">
+          <span class="category">Operations</span>
+          How many hours per week does your team spend on repetitive tasks?
+        </div>
+      </div>
+
+      <div class="question-item">
+        <div class="q-number">2</div>
+        <div class="q-text">
+          <span class="category">Customer Communication</span>
+          How do you currently handle missed calls and after-hours inquiries?
+        </div>
+      </div>
+
+      <div class="question-item">
+        <div class="q-number">3</div>
+        <div class="q-text">
+          <span class="category">Lead Management</span>
+          Do you have a system for following up with every lead automatically?
+        </div>
+      </div>
+
+      <div class="question-item">
+        <div class="q-number">4</div>
+        <div class="q-text">
+          <span class="category">Tech Stack</span>
+          What tools are you currently using? (CRM, scheduling, etc.)
+        </div>
+      </div>
+
+      <div class="question-item">
+        <div class="q-number">5</div>
+        <div class="q-text">
+          <span class="category">Online Presence</span>
+          How are customers finding and reviewing your business online?
+        </div>
+      </div>
+
+      <div class="question-item">
+        <div class="q-number">6</div>
+        <div class="q-text">
+          <span class="category">Growth Goals</span>
+          What's the #1 thing you'd automate if you could?
+        </div>
+      </div>
+    </div>
+
+    <!-- Score Preview -->
+    <div class="score-preview">
+      <h3>Here's What Your Score Looks Like</h3>
+      <div class="score-bar-container">
+        <span class="score-label">Not Ready</span>
+        <span class="score-label">AI-Ready</span>
+      </div>
+      <div class="score-bar">
+        <div class="score-bar-fill"></div>
+      </div>
+      <div class="score-result">
+        <div>
+          <div class="score-num">72</div>
+          <div style="font-size: 0.8rem; color: var(--text-light);">out of 100</div>
+        </div>
+        <div class="score-desc">
+          <strong>Ready to Automate</strong><br>
+          Your personalized action plan is ready
+        </div>
+      </div>
+    </div>
+
+    <!-- Benefits -->
+    <div class="benefits">
+      <h3>What You'll Get From Your Score</h3>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">🎯</div>
+        <div class="benefit-text"><strong>Your AI Readiness Score</strong> — a clear number showing where you stand</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">🗺️</div>
+        <div class="benefit-text"><strong>Custom Action Plan</strong> — know exactly where to start with AI automation</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">💰</div>
+        <div class="benefit-text"><strong>Revenue Opportunity</strong> — estimated savings from automation</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">⚡</div>
+        <div class="benefit-text"><strong>Quick Win List</strong> — 3 things you can automate this week</div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <h3>Ready to discover your AI potential?</h3>
+      <p>Join 500+ businesses who've taken the assessment and started their AI journey.</p>
+      <a href="#scorecard" class="btn-primary">Take the Free Assessment →</a>
+    </div>
+
+    <!-- Social Proof -->
+    <div class="social-proof">
+      <div class="stars">★★★★★</div>
+      <div class="stat">500+</div>
+      <p>businesses assessed</p>
+      <p class="testimonial">
+        "The scorecard showed me I was losing 3x more than I thought. The action plan made it easy to fix everything in 2 weeks."
+      </p>
+      <p class="attribution">— Maria K., Dental Practice Manager</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Dream AI — <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>

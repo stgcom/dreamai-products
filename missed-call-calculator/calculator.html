@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Missed Call Revenue Calculator — Dream AI</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --indigo: #1B1464;
+    --violet: #6C3CE9;
+    --violet-light: #8B5CF6;
+    --violet-glow: rgba(108, 60, 233, 0.15);
+    --green: #10B981;
+    --yellow: #F59E0B;
+    --red: #EF4444;
+    --bg: #0F0A2A;
+    --card: #1A1145;
+    --card-border: rgba(108, 60, 233, 0.25);
+    --text: #F1F0FB;
+    --text-muted: #A5A0C8;
+    --input-bg: rgba(255,255,255,0.06);
+    --input-border: rgba(108, 60, 233, 0.3);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 3rem 1.5rem 2rem;
+    background: linear-gradient(180deg, rgba(108,60,233,0.12) 0%, transparent 100%);
+  }
+  .hero .logo {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--violet-light);
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-size: clamp(1.75rem, 5vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, #fff 30%, var(--violet-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  .container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 1.25rem 3rem;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .field { margin-bottom: 1.25rem; }
+  .field:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  input[type="number"], select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+  }
+  input[type="number"]:focus, select:focus {
+    border-color: var(--violet);
+    box-shadow: 0 0 0 3px var(--violet-glow);
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23A5A0C8' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+  }
+  select option { background: var(--indigo); color: var(--text); }
+
+  .input-hint {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+    opacity: 0.7;
+  }
+
+  /* Results */
+  #results {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+  .results-header {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--violet-light);
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .stat-box {
+    background: rgba(255,255,255,0.03);
+    border-radius: 12px;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .stat-box.full { grid-column: 1 / -1; }
+  .stat-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 0.35rem;
+  }
+  .stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+  .stat-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+  }
+
+  .severity-low .stat-value { color: var(--yellow); }
+  .severity-med .stat-value { color: #F97316; }
+  .severity-high .stat-value { color: var(--red); }
+
+  .big-revenue {
+    background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(239,68,68,0.05));
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 14px;
+    padding: 1.75rem;
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+  .big-revenue .stat-value {
+    font-size: clamp(2.2rem, 7vw, 3rem);
+    color: var(--red);
+  }
+
+  .severity-banner {
+    text-align: center;
+    padding: 0.85rem;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+  .severity-banner.sev-low { background: rgba(245,158,11,0.12); color: var(--yellow); border: 1px solid rgba(245,158,11,0.2); }
+  .severity-banner.sev-med { background: rgba(249,115,22,0.12); color: #F97316; border: 1px solid rgba(249,115,22,0.2); }
+  .severity-banner.sev-high { background: rgba(239,68,68,0.12); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+
+  /* CTAs */
+  .cta-primary {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, var(--violet), var(--violet-light));
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.2s;
+    margin-bottom: 0.75rem;
+  }
+  .cta-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(108,60,233,0.35); }
+
+  .cta-secondary {
+    display: block;
+    width: 100%;
+    padding: 0.85rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--violet-light);
+    background: transparent;
+    border: 1px solid var(--input-border);
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.2s;
+  }
+  .cta-secondary:hover { background: rgba(108,60,233,0.08); }
+
+  .footer-note {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    opacity: 0.5;
+    padding: 2rem 1rem 1rem;
+  }
+
+  @media (max-width: 480px) {
+    .stat-grid { grid-template-columns: 1fr; }
+    .card { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="logo">Dream AI</div>
+  <h1>How Much Are Your<br>Missed Calls Costing You?</h1>
+  <p>Enter a few numbers. Find out the real revenue you're losing every month — and what to do about it.</p>
+</div>
+
+<div class="container">
+
+  <!-- INPUTS -->
+  <div class="card" id="inputCard">
+    <div class="field">
+      <label for="industry">Industry</label>
+      <select id="industry">
+        <option value="plumbing">Plumbing</option>
+        <option value="hvac">HVAC</option>
+        <option value="electrical">Electrical</option>
+        <option value="roofing">Roofing</option>
+        <option value="landscaping">Landscaping / Lawn Care</option>
+        <option value="auto-repair">Auto Repair</option>
+        <option value="dental">Dental</option>
+        <option value="legal">Legal Services</option>
+        <option value="realestate">Real Estate</option>
+        <option value="home-services">Other Home Services</option>
+        <option value="medical">Medical / Chiropractic</option>
+        <option value="other">Other Service Business</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="callsPerDay">Average Calls Per Day</label>
+      <input type="number" id="callsPerDay" min="1" max="500" value="30" placeholder="e.g. 30">
+      <div class="input-hint">Total inbound calls on a typical business day</div>
+    </div>
+
+    <div class="field">
+      <label for="answerRate">Current Answer Rate (%)</label>
+      <input type="number" id="answerRate" min="0" max="100" value="60" placeholder="e.g. 60">
+      <div class="input-hint">% of calls your team actually picks up</div>
+    </div>
+
+    <div class="field">
+      <label for="avgValue">Average Job / Customer Value ($)</label>
+      <input type="number" id="avgValue" min="1" max="100000" value="350" placeholder="e.g. 350">
+      <div class="input-hint">Typical revenue from one booked job or customer</div>
+    </div>
+
+    <div class="field">
+      <label for="workDays">Working Days Per Month</label>
+      <input type="number" id="workDays" min="1" max="31" value="22" placeholder="e.g. 22">
+    </div>
+
+    <button class="cta-primary" onclick="calculate()" style="margin-top:0.5rem;">Calculate My Lost Revenue →</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="card">
+      <div class="results-header">Your Revenue Leak</div>
+
+      <div class="stat-grid">
+        <div class="stat-box" id="boxMissedDay">
+          <div class="stat-label">Missed Calls / Day</div>
+          <div class="stat-value" id="missedDay">—</div>
+        </div>
+        <div class="stat-box" id="boxMissedMonth">
+          <div class="stat-label">Missed Calls / Month</div>
+          <div class="stat-value" id="missedMonth">—</div>
+        </div>
+      </div>
+
+      <div class="big-revenue">
+        <div class="stat-label">Estimated Revenue Lost / Month</div>
+        <div class="stat-value" id="revMonth">—</div>
+        <div class="stat-sub" id="revPerDay"></div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-box full" id="boxRevYear">
+          <div class="stat-label">Revenue Lost / Year</div>
+          <div class="stat-value" id="revYear">—</div>
+        </div>
+      </div>
+
+      <div class="severity-banner" id="severityBanner">—</div>
+    </div>
+
+    <a class="cta-primary" href="https://dreamai.com/starter-kit" target="_blank" rel="noopener" onclick="trackCTA()">
+      🚀 Get the Full Fix — $297 Starter Kit
+    </a>
+    <button class="cta-secondary" onclick="downloadResults()">📥 Download Your Results</button>
+  </div>
+
+</div>
+
+<div class="footer-note">
+  Calculations are estimates based on industry averages. Actual results vary.<br>
+  &copy; Dream AI — <a href="https://dreamai.com" style="color:var(--violet-light);">dreamai.com</a>
+</div>
+
+<script>
+function fmt(n) {
+  return n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
+function fmtCurrency(n) {
+  return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
+
+function calculate() {
+  var callsPerDay = parseFloat(document.getElementById('callsPerDay').value) || 0;
+  var answerRate  = parseFloat(document.getElementById('answerRate').value) || 0;
+  var avgValue    = parseFloat(document.getElementById('avgValue').value) || 0;
+  var workDays    = parseFloat(document.getElementById('workDays').value) || 0;
+
+  if (callsPerDay <= 0 || avgValue <= 0 || workDays <= 0) return;
+
+  var missRate = 1 - (answerRate / 100);
+  var missedDay   = Math.round(callsPerDay * missRate);
+  var missedMonth = missedDay * workDays;
+  var revMonth    = missedMonth * avgValue;
+  var revYear     = revMonth * 12;
+  var revPerDay   = revMonth / workDays;
+
+  document.getElementById('missedDay').textContent   = fmt(missedDay);
+  document.getElementById('missedMonth').textContent = fmt(missedMonth);
+  document.getElementById('revMonth').textContent    = fmtCurrency(revMonth);
+  document.getElementById('revYear').textContent     = fmtCurrency(revYear);
+  document.getElementById('revPerDay').textContent   = '= ' + fmtCurrency(revPerDay) + ' / working day';
+
+  // Color-code severity
+  var boxes = ['boxMissedDay', 'boxMissedMonth', 'boxRevYear'];
+  var sevClass, bannerClass, bannerText;
+
+  if (revMonth < 5000) {
+    sevClass = 'severity-low';  bannerClass = 'sev-low';
+    bannerText = '⚠️ Moderate leak — but it adds up fast over a year.';
+  } else if (revMonth < 20000) {
+    sevClass = 'severity-med';  bannerClass = 'sev-med';
+    bannerText = '🔴 Significant leak — you're losing a full salary every month.';
+  } else {
+    sevClass = 'severity-high'; bannerClass = 'sev-high';
+    bannerText = '🚨 CRITICAL — you're hemorrhaging revenue. Act now.';
+  }
+
+  boxes.forEach(function(id) {
+    var el = document.getElementById(id);
+    el.className = el.className.replace(/severity-\w+/g, '').trim() + ' ' + sevClass;
+  });
+
+  var banner = document.getElementById('severityBanner');
+  banner.className = 'severity-banner ' + bannerClass;
+  banner.textContent = bannerText;
+
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // GA4 event placeholder
+  if (typeof gtag === 'function') {
+    gtag('event', 'calculator_results', {
+      industry: document.getElementById('industry').value,
+      rev_month: revMonth,
+      rev_year: revYear,
+      missed_month: missedMonth
+    });
+  }
+}
+
+function trackCTA() {
+  if (typeof gtag === 'function') {
+    gtag('event', 'click', {
+      event_category: 'CTA',
+      event_label: 'starter_kit_from_calculator'
+    });
+  }
+}
+
+function downloadResults() {
+  var industry = document.getElementById('industry').options[document.getElementById('industry').selectedIndex].text;
+  var callsPerDay = document.getElementById('callsPerDay').value;
+  var answerRate  = document.getElementById('answerRate').value;
+  var avgValue    = document.getElementById('avgValue').value;
+  var workDays    = document.getElementById('workDays').value;
+
+  var missedDay   = document.getElementById('missedDay').textContent;
+  var missedMonth = document.getElementById('missedMonth').textContent;
+  var revMonth    = document.getElementById('revMonth').textContent;
+  var revYear     = document.getElementById('revYear').textContent;
+
+  var text =
+    '═══════════════════════════════════════════\n' +
+    '  MISSED CALL REVENUE CALCULATOR — RESULTS\n' +
+    '  Powered by Dream AI | dreamai.com\n' +
+    '═══════════════════════════════════════════\n\n' +
+    'YOUR INPUTS\n' +
+    '───────────────────────────────────────────\n' +
+    '  Industry:            ' + industry + '\n' +
+    '  Calls Per Day:       ' + callsPerDay + '\n' +
+    '  Answer Rate:         ' + answerRate + '%\n' +
+    '  Avg Job Value:       $' + avgValue + '\n' +
+    '  Working Days/Month:  ' + workDays + '\n\n' +
+    'YOUR REVENUE LEAK\n' +
+    '───────────────────────────────────────────\n' +
+    '  Missed Calls/Day:    ' + missedDay + '\n' +
+    '  Missed Calls/Month:  ' + missedMonth + '\n' +
+    '  Revenue Lost/Month:  ' + revMonth + '\n' +
+    '  Revenue Lost/Year:   ' + revYear + '\n\n' +
+    '═══════════════════════════════════════════\n' +
+    '  Stop leaving money on the table.\n' +
+    '  Get the Dream AI Starter Kit → dreamai.com/starter-kit\n' +
+    '═══════════════════════════════════════════\n';
+
+  var blob = new Blob([text], { type: 'text/plain' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'DreamAI-MissedCallResults.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Auto-calculate on any input change
+document.querySelectorAll('#inputCard input, #inputCard select').forEach(function(el) {
+  el.addEventListener('input', function() {
+    var calls = parseFloat(document.getElementById('callsPerDay').value) || 0;
+    var rate  = parseFloat(document.getElementById('answerRate').value);
+    var val   = parseFloat(document.getElementById('avgValue').value) || 0;
+    var days  = parseFloat(document.getElementById('workDays').value) || 0;
+    if (calls > 0 && val > 0 && days > 0 && !isNaN(rate)) {
+      calculate();
+    }
+  });
+});
+</script>
+
+</body>
+</html>

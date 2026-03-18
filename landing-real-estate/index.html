@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop Losing $15,000 Commissions | Dream AI for Real Estate</title>
+    <meta name="description" content="AI that works 24/7 to capture leads, qualify buyers, and book showings — so every commission opportunity gets answered.">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --accent: #e94560;
+            --accent-hover: #c73a52;
+            --gold: #f5a623;
+            --light: #f8f9fc;
+            --gray: #6b7280;
+            --white: #ffffff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: var(--primary); line-height: 1.6; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        /* Nav */
+        nav { background: var(--white); border-bottom: 1px solid #e5e7eb; padding: 16px 0; position: sticky; top: 0; z-index: 100; }
+        nav .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+        .logo span { color: var(--accent); }
+        nav a.nav-cta { background: var(--accent); color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: background 0.2s; }
+        nav a.nav-cta:hover { background: var(--accent-hover); }
+
+        /* Hero */
+        .hero { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white; padding: 80px 0 100px; text-align: center; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(233,69,96,0.15) 0%, transparent 70%); }
+        .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
+        .hero h1 .highlight { color: var(--gold); }
+        .hero p { font-size: 1.25rem; opacity: 0.85; max-width: 650px; margin: 0 auto 32px; }
+        .hero-cta { display: inline-block; background: var(--accent); color: white; padding: 16px 40px; border-radius: 10px; text-decoration: none; font-size: 1.15rem; font-weight: 700; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 20px rgba(233,69,96,0.4); }
+        .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(233,69,96,0.5); }
+        .hero-cta-sub { font-size: 0.85rem; opacity: 0.6; margin-top: 12px; }
+
+        /* Stats bar */
+        .stats-bar { background: var(--white); padding: 40px 0; border-bottom: 1px solid #e5e7eb; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; text-align: center; }
+        .stat-number { font-size: 2.4rem; font-weight: 800; color: var(--accent); }
+        .stat-label { font-size: 0.9rem; color: var(--gray); margin-top: 4px; }
+
+        /* Pain section */
+        .pain-section { padding: 80px 0; background: var(--light); }
+        .pain-section h2 { font-size: 2rem; text-align: center; margin-bottom: 12px; }
+        .pain-subtitle { text-align: center; color: var(--gray); font-size: 1.1rem; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .pain-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .pain-card { background: white; border-radius: 12px; padding: 32px; border: 1px solid #e5e7eb; }
+        .pain-card .icon { font-size: 2rem; margin-bottom: 16px; }
+        .pain-card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+        .pain-card p { color: var(--gray); font-size: 0.95rem; }
+        .pain-card .cost { color: var(--accent); font-weight: 700; font-size: 0.9rem; margin-top: 12px; display: block; }
+
+        /* Solution */
+        .solution-section { padding: 80px 0; }
+        .solution-section h2 { font-size: 2rem; text-align: center; margin-bottom: 12px; }
+        .solution-subtitle { text-align: center; color: var(--gray); font-size: 1.1rem; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .solution-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
+        .feature { padding: 24px 0; }
+        .feature h3 { font-size: 1.2rem; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .feature h3 .check { color: #10b981; font-size: 1.3rem; }
+        .feature p { color: var(--gray); }
+
+        /* How it works */
+        .how-section { background: var(--primary); color: white; padding: 80px 0; }
+        .how-section h2 { font-size: 2rem; text-align: center; margin-bottom: 48px; }
+        .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; text-align: center; }
+        .step { padding: 24px; }
+        .step-num { background: var(--accent); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3rem; margin: 0 auto 16px; }
+        .step h3 { margin-bottom: 8px; font-size: 1.1rem; }
+        .step p { opacity: 0.7; font-size: 0.95rem; }
+
+        /* Testimonial */
+        .testimonial-section { padding: 80px 0; background: var(--light); }
+        .testimonial-card { max-width: 700px; margin: 0 auto; background: white; border-radius: 16px; padding: 40px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); text-align: center; }
+        .testimonial-card blockquote { font-size: 1.2rem; font-style: italic; line-height: 1.7; margin-bottom: 24px; color: #374151; }
+        .testimonial-card .author { font-weight: 700; font-size: 1rem; }
+        .testimonial-card .role { color: var(--gray); font-size: 0.9rem; }
+        .testimonial-card .stars { color: var(--gold); font-size: 1.3rem; margin-bottom: 16px; }
+
+        /* CTA section */
+        .cta-section { padding: 80px 0; text-align: center; }
+        .cta-section h2 { font-size: 2rem; margin-bottom: 12px; }
+        .cta-section p { color: var(--gray); font-size: 1.1rem; margin-bottom: 32px; max-width: 550px; margin-left: auto; margin-right: auto; }
+        .cta-section .main-cta { display: inline-block; background: var(--accent); color: white; padding: 16px 48px; border-radius: 10px; text-decoration: none; font-size: 1.2rem; font-weight: 700; box-shadow: 0 4px 20px rgba(233,69,96,0.4); transition: transform 0.2s; }
+        .cta-section .main-cta:hover { transform: translateY(-2px); }
+
+        /* Trust badges */
+        .trust-section { padding: 40px 0; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; }
+        .trust-badges { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; opacity: 0.5; font-size: 0.85rem; color: var(--gray); }
+        .trust-badges span { display: flex; align-items: center; gap: 6px; }
+
+        /* Footer */
+        footer { padding: 40px 0; text-align: center; color: var(--gray); font-size: 0.85rem; }
+
+        /* Mobile */
+        @media (max-width: 640px) {
+            .hero { padding: 48px 0 64px; }
+            .hero h1 { font-size: 1.8rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .stat-number { font-size: 1.8rem; }
+            nav a.nav-cta { padding: 8px 16px; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="container">
+        <div class="logo">Dream<span>AI</span></div>
+        <a href="#calculator" class="nav-cta">See Your Lost Revenue →</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="container">
+        <h1>Every Missed Call Is a <span class="highlight">$15,000 Commission</span> Left on the Table</h1>
+        <p>Your AI assistant works 24/7 — capturing leads, qualifying buyers, and booking showings while you focus on closing deals.</p>
+        <a href="#calculator" class="hero-cta">See How Many Leads You're Losing</a>
+        <p class="hero-cta-sub">Free calculator · No signup required · Results in 60 seconds</p>
+    </div>
+</section>
+
+<section class="stats-bar">
+    <div class="container">
+        <div class="stats-grid">
+            <div>
+                <div class="stat-number">78%</div>
+                <div class="stat-label">of buyers work with the first agent to respond</div>
+            </div>
+            <div>
+                <div class="stat-number">40%</div>
+                <div class="stat-label">of leads go unanswered after hours</div>
+            </div>
+            <div>
+                <div class="stat-number">$15K</div>
+                <div class="stat-label">average commission on a single lost deal</div>
+            </div>
+            <div>
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">your AI never sleeps, never calls in sick</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pain-section">
+    <div class="container">
+        <h2>The Real Estate Lead Problem</h2>
+        <p class="pain-subtitle">Sound familiar? These leaks are costing you thousands every month.</p>
+        <div class="pain-cards">
+            <div class="pain-card">
+                <div class="icon">📱</div>
+                <h3>Missed Showing Requests</h3>
+                <p>A buyer texts at 9 PM wanting to see a listing. By morning, they've already scheduled with another agent.</p>
+                <span class="cost">Cost: $8,000–$25,000 per lost deal</span>
+            </div>
+            <div class="pain-card">
+                <div class="icon">🏃</div>
+                <h3>Slow Follow-Up on Web Leads</h3>
+                <p>Zillow and Realtor.com leads pile up in your inbox. By the time you call, they've moved on to someone faster.</p>
+                <span class="cost">Cost: 60% of your lead generation budget wasted</span>
+            </div>
+            <div class="pain-card">
+                <div class="icon">⏰</div>
+                <h3>After-Hours Inquiries</h3>
+                <p>Open houses generate buzz at 5 PM on a Saturday. Your voicemail captures interest — but does nothing with it.</p>
+                <span class="cost">Cost: 40% of after-hours leads go to competitors</span>
+            </div>
+            <div class="pain-card">
+                <div class="icon">📋</div>
+                <h3>CRM Data Entry Drain</h3>
+                <p>You spend 5–10 hours a week manually entering lead info, updating statuses, and scheduling follow-ups.</p>
+                <span class="cost">Cost: 10+ hours/week you could spend showing homes</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="solution-section">
+    <div class="container">
+        <h2>Meet Your AI Real Estate Assistant</h2>
+        <p class="solution-subtitle">It works the hours you can't — and does the tasks you hate.</p>
+        <div class="solution-features">
+            <div class="feature">
+                <h3><span class="check">✓</span> 24/7 Lead Capture</h3>
+                <p>Every call, text, and website inquiry gets an instant response. Your AI assistant answers questions about listings, neighborhoods, and pricing — in any language.</p>
+            </div>
+            <div class="feature">
+                <h3><span class="check">✓</span> Buyer Qualification</h3>
+                <p>Automatically asks the right questions: pre-approval status, timeline, budget range, must-haves. Only warm, qualified leads reach your phone.</p>
+            </div>
+            <div class="feature">
+                <h3><span class="check">✓</span> Automatic Showing Booking</h3>
+                <p>Clients book showings directly through the AI. It checks your calendar, confirms availability, and sends confirmation texts — no back-and-forth needed.</p>
+            </div>
+            <div class="feature">
+                <h3><span class="check">✓</span> Speed-to-Lead in Under 60 Seconds</h3>
+                <p>While competitors check their phones, your AI has already engaged, qualified, and scheduled. First responder wins 78% of the time.</p>
+            </div>
+            <div class="feature">
+                <h3><span class="check">✓</span> CRM Auto-Fill</h3>
+                <p>Lead info, conversation notes, qualification scores — all automatically logged in your CRM. Zero manual data entry. Zero missed details.</p>
+            </div>
+            <div class="feature">
+                <h3><span class="check">✓</span> Nurture Sequences</h3>
+                <p>Not every lead is ready now. Your AI sends smart follow-ups, market updates, and "just listed" alerts — keeping you top of mind until they're ready to buy.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="how-section">
+    <div class="container">
+        <h2>How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <h3>Connect Your Channels</h3>
+                <p>Forward your business number, connect your website chat, or link your Zillow inbox. Takes 5 minutes.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <h3>Train Your AI Agent</h3>
+                <p>Feed it your listings, service areas, and brand voice. We handle the technical setup for you.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <h3>Watch Leads Roll In</h3>
+                <p>Your AI captures, qualifies, and books — 24/7. You get notifications for only the warmest leads.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="testimonial-section">
+    <div class="container">
+        <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <blockquote>"I was skeptical about AI handling my leads, but within the first week my AI assistant booked 3 showings I would have missed — one on a Sunday at 10 PM. That single showing led to a $22,000 commission. It paid for itself 44x over in month one."</blockquote>
+            <div class="author">Marcus Chen</div>
+            <div class="role">Keller Williams Agent, Austin TX · $4.2M in volume last year</div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section" id="calculator">
+    <div class="container">
+        <h2>See How Many Leads You're Losing</h2>
+        <p>Use our free calculator to estimate the revenue leaking from missed calls, slow follow-ups, and after-hours inquiries.</p>
+        <a href="#" class="main-cta">Calculate Your Lost Commissions →</a>
+        <p class="hero-cta-sub" style="margin-top: 16px; opacity: 0.5; font-size: 0.85rem;">Takes 60 seconds · Custom results for your business</p>
+    </div>
+</section>
+
+<section class="trust-section">
+    <div class="container">
+        <div class="trust-badges">
+            <span>🔒 SOC 2 Compliant</span>
+            <span>⚡ 99.9% Uptime</span>
+            <span>🇺🇸 US-Based Support</span>
+            <span>⭐ 4.9/5 Customer Rating</span>
+            <span>📱 SMS + Voice + Chat</span>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p>© 2026 Dream AI · AI employees for modern businesses</p>
+    </div>
+</footer>
+
+</body>
+</html>
