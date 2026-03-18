@@ -1,0 +1,15 @@
+.secrets/
+.secrets.bak/
+config.bak/
+config/
+*.env
+memory/2026-03-18.md
+MEMORY.md
+SOUL.md
+AGENTS.md
+USER.md
+IDENTITY.md
+TOOLS.md
+HEARTBEAT.md
+BOOTSTRAP.md
+DREAM-AI-SYSTEM-PROMPT.md

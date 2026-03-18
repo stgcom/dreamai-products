@@ -1,0 +1,153 @@
+{
+  "brand": {
+    "primary_color": "#1B1464",
+    "accent_color": "#6C3CE9",
+    "background_dark": "#0D0B3E",
+    "background_light": "#F8F7FF",
+    "text_primary": "#FFFFFF",
+    "text_secondary": "#C4C3FF",
+    "style": "premium, dark theme, modern, clean typography, professional tech aesthetic"
+  },
+  "linkedin_quote_cards": [
+    {
+      "filename": "li-stat-1-missed-calls.png",
+      "prompt": "LinkedIn quote card design. Dark navy background (#1B1464). Large white bold text: '78% of buyers purchase from the FIRST agent who responds.' Subtle gradient accent in violet (#6C3CE9) at the bottom. Small logo placeholder in corner. Clean sans-serif typography. Professional business aesthetic. 1200x627px LinkedIn post size.",
+      "size": "1200x627",
+      "niche": "real-estate"
+    },
+    {
+      "filename": "li-stat-2-after-hours.png",
+      "prompt": "LinkedIn quote card design. Dark navy background (#1B1464). Large white bold text: '37% of business calls come in after 5 PM. Nobody answers.' Violet accent bar (#6C3CE9) on the left side. Clean modern typography. Professional business style. 1200x627px.",
+      "size": "1200x627",
+      "niche": "general"
+    },
+    {
+      "filename": "li-stat-3-noshow.png",
+      "prompt": "LinkedIn quote card. Dark navy background (#1B1464). White bold text: 'The average MedSpa loses $8,000/month to no-shows.' Subtle violet glow effect (#6C3CE9). Clean sans-serif font. Premium look. 1200x627px LinkedIn format.",
+      "size": "1200x627",
+      "niche": "medspa"
+    },
+    {
+      "filename": "li-stat-4-hvac.png",
+      "prompt": "LinkedIn quote card. Dark navy background (#1B1464). White bold text: 'Last summer, HVAC companies missed $12,000/month in emergency calls alone.' Orange accent highlight (#6C3CE9). Professional clean design. 1200x627px.",
+      "size": "1200x627",
+      "niche": "hvac"
+    },
+    {
+      "filename": "li-stat-5-response-time.png",
+      "prompt": "LinkedIn quote card. Dark navy background (#1B1464). White bold text: 'The average business takes 15 hours to respond to a web lead. The lead buys in 5.' Clock icon visual element. Violet accent (#6C3CE9). 1200x627px.",
+      "size": "1200x627",
+      "niche": "general"
+    },
+    {
+      "filename": "li-stat-6-reviews.png",
+      "prompt": "LinkedIn quote card. Dark navy background (#1B1464). White bold text: 'Businesses with 50+ Google reviews get 3x more calls than those with fewer than 10.' Star icon accent in violet (#6C3CE9). Clean professional design. 1200x627px.",
+      "size": "1200x627",
+      "niche": "general"
+    }
+  ],
+  "instagram_carousels": [
+    {
+      "filename": "ig-carousel-1-calculator-preview.png",
+      "prompt": "Instagram carousel cover slide. Dark theme design. Title: 'What Are Missed Calls Costing Your Business?' Subtitle: 'Swipe to calculate →' Dark navy background (#1B1464) with violet accent (#6C3CE9). Phone mockup showing calculator interface. Clean modern typography. 1080x1080px square.",
+      "size": "1080x1080",
+      "niche": "general"
+    },
+    {
+      "filename": "ig-carousel-2-scorecard-preview.png",
+      "prompt": "Instagram carousel cover. Dark theme. Title: 'Is Your Business Ready for an AI Employee?' Subtitle: 'Take this 60-second quiz →' Dark navy (#1B1464) background. Score dial graphic with violet accent (#6C3CE9). Clean design. 1080x1080px.",
+      "size": "1080x1080",
+      "niche": "general"
+    },
+    {
+      "filename": "ig-reel-cover-1.png",
+      "prompt": "Instagram Reel cover thumbnail. Vertical format. Dark background. Bold white text overlay: 'POV: Your AI answers the phone at 2 AM and books a $3,000 job.' Violet accent glow (#6C3CE9). Modern, eye-catching design. 1080x1920px vertical.",
+      "size": "1080x1920",
+      "niche": "hvac"
+    },
+    {
+      "filename": "ig-reel-cover-2.png",
+      "prompt": "Instagram Reel cover. Vertical. Dark navy background. Bold text: '3 automations every real estate agent needs in 2026.' Numbered list visual (1, 2, 3 with violet circles #6C3CE9). Clean modern style. 1080x1920px.",
+      "size": "1080x1920",
+      "niche": "real-estate"
+    },
+    {
+      "filename": "ig-reel-cover-3.png",
+      "prompt": "Instagram Reel cover thumbnail. Dark theme. Bold white text: 'The AI front desk that never takes a day off.' Violet accent (#6C3CE9). MedSpa aesthetic — elegant, clean. 1080x1920px vertical.",
+      "size": "1080x1920",
+      "niche": "medspa"
+    }
+  ],
+  "instagram_stories": [
+    {
+      "filename": "ig-story-poll-1.png",
+      "prompt": "Instagram Story poll template. Dark navy background (#1B1464). Question text: 'Do you answer every business call?' Two poll options: 'Yes ✓' and 'No ✗' in rounded pill buttons. Violet accent (#6C3CE9). Clean modern design. 1080x1920px story format.",
+      "size": "1080x1920",
+      "niche": "general"
+    },
+    {
+      "filename": "ig-story-quiz-1.png",
+      "prompt": "Instagram Story quiz template. Dark navy background (#1B1464). Question: 'How many calls do you miss per week?' Four options in boxes: '1-5', '5-10', '10-20', '20+'. Violet accent (#6C3CE9). Clean design. 1080x1920px.",
+      "size": "1080x1920",
+      "niche": "general"
+    },
+    {
+      "filename": "ig-story-countdown.png",
+      "prompt": "Instagram Story countdown template. Dark theme. Text: 'AI Readiness Scorecard — FREE' with countdown timer graphic. Violet gradient (#6C3CE9). Arrow pointing up. Swipe-up CTA area. 1080x1920px.",
+      "size": "1080x1920",
+      "niche": "general"
+    }
+  ],
+  "ad_creatives": [
+    {
+      "filename": "fb-ad-1-missed-calls.png",
+      "prompt": "Facebook ad creative. Split design: LEFT side shows a phone with red missed call notifications. RIGHT side shows a calendar with booked appointments in green. Dark navy background (#1B1464). Headline text: 'Stop Losing $8,000/Month to Missed Calls.' Violet CTA button (#6C3CE9). Professional, attention-grabbing. 1200x628px Facebook ad size.",
+      "size": "1200x628",
+      "niche": "general"
+    },
+    {
+      "filename": "fb-ad-2-before-after.png",
+      "prompt": "Facebook ad creative - before/after split. LEFT (before): chaotic scene - phone ringing, sticky notes, overwhelmed receptionist, red tones. RIGHT (after): calm scene - calendar full of appointments, green checkmarks, relaxed. Text overlay: 'Before AI → After AI'. Dark navy (#1B1464) and violet (#6C3CE9). 1200x628px.",
+      "size": "1200x628",
+      "niche": "general"
+    },
+    {
+      "filename": "fb-ad-3-product-showcase.png",
+      "prompt": "Facebook ad creative showing 3 products floating on dark navy background (#1B1464): Calculator app on phone screen, Quiz results on tablet, Scripts on laptop. Violet glow effects (#6C3CE9). Text: 'AI Employees for Small Business — Starting at $3'. Clean, modern, premium. 1200x628px.",
+      "size": "1200x628",
+      "niche": "general"
+    },
+    {
+      "filename": "ig-ad-1-story-format.png",
+      "prompt": "Instagram Story ad. Vertical format. Dark navy background (#1B1464). Large text at top: 'Your competitors are using AI. You're not.' Phone mockup in center showing missed call notifications. Violet CTA button at bottom: 'Get Your Free AI Score'. Swipe up arrow. 1080x1920px.",
+      "size": "1080x1920",
+      "niche": "general"
+    },
+    {
+      "filename": "li-ad-1-b2b.png",
+      "prompt": "LinkedIn ad creative. Professional clean design. Dark navy background (#1B1464). Headline: 'The Hidden Cost of Slow Lead Response.' Subtext: 'Businesses using AI employees respond in 60 seconds instead of 15 hours.' Bar chart graphic comparing response times. Violet accent (#6C3CE9). Logo placement area. 1200x627px.",
+      "size": "1200x627",
+      "niche": "b2b"
+    }
+  ],
+  "product_visuals": [
+    {
+      "filename": "product-calc-preview.png",
+      "prompt": "Product showcase mockup. iPhone on dark surface showing a revenue calculator app with large red numbers showing '$8,400/month lost'. Dark navy environment (#1B1464). Violet accent light (#6C3CE9). Premium product photography style. Clean, minimal, high-end. 1200x1200px.",
+      "size": "1200x1200",
+      "product": "calculator"
+    },
+    {
+      "filename": "product-scorecard-preview.png",
+      "prompt": "Product mockup. iPad showing an AI readiness quiz with colorful score rings and charts. Dark surface, dark navy background (#1B1464). Violet accent lighting (#6C3CE9). Premium product photography aesthetic. Clean, modern. 1200x1200px.",
+      "size": "1200x1200",
+      "product": "scorecard"
+    },
+    {
+      "filename": "product-bundle-preview.png",
+      "prompt": "Product bundle mockup. Multiple digital products floating: tablet showing quiz, phone showing calculator, laptop showing scripts document. All on dark navy background (#1B1464) with violet glow effects (#6C3CE9). Premium floating product photography style. Text overlay: 'AI Employee Starter Pack'. 1200x1200px.",
+      "size": "1200x1200",
+      "product": "bundle"
+    }
+  ]
+}

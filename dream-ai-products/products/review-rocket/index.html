@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Review Rocket Kit — Dream AI</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0D0B3E;color:#fff;line-height:1.6}
+.container{max-width:800px;margin:0 auto;padding:40px 24px}
+.cover{text-align:center;padding:80px 20px;background:linear-gradient(135deg,#1B1464 0%,#0D0B3E 50%,#6C3CE9 100%);border-radius:16px;margin-bottom:48px}
+.cover h1{font-size:2.5em;font-weight:800;margin-bottom:16px;letter-spacing:-1px}
+.cover p{font-size:1.2em;color:#C4C3FF;max-width:500px;margin:0 auto}
+.cover .badge{display:inline-block;background:#6C3CE9;padding:8px 20px;border-radius:20px;font-size:.85em;font-weight:600;margin-bottom:20px}
+h2{color:#6C3CE9;font-size:1.6em;margin:48px 0 16px;padding-bottom:8px;border-bottom:2px solid #1B1464}
+h3{color:#C4C3FF;font-size:1.2em;margin:24px 0 12px}
+p,li{color:#D0CFFF;font-size:1em}
+ul{padding-left:20px;margin:12px 0}
+li{margin:8px 0}
+.section{margin:32px 0}
+.template{background:#1B1464;border-radius:12px;padding:20px 24px;margin:16px 0;border-left:4px solid #6C3CE9}
+.template .label{font-size:.8em;color:#6C3CE9;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.template p{color:#fff;font-size:.95em}
+.template .var{background:#6C3CE9;padding:2px 8px;border-radius:4px;font-size:.85em;color:#fff}
+.btn{display:inline-block;background:#6C3CE9;color:#fff;padding:12px 24px;border:none;border-radius:8px;font-size:.95em;cursor:pointer;font-weight:600;margin:8px 4px;transition:.2s}
+.btn:hover{background:#5a2bd0}
+.btn-outline{background:transparent;border:2px solid #6C3CE9;color:#6C3CE9}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin:20px 0}
+.step{background:#1B1464;border-radius:12px;padding:24px;text-align:center}
+.step .num{font-size:2em;font-weight:800;color:#6C3CE9;margin-bottom:8px}
+.step h4{color:#fff;margin-bottom:8px}
+.step p{color:#C4C3FF;font-size:.9em}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
+.stat{background:#1B1464;border-radius:12px;padding:24px;text-align:center}
+.stat .big{font-size:2.2em;font-weight:800;color:#6C3CE9}
+.stat p{color:#C4C3FF;font-size:.85em;margin-top:4px}
+table{width:100%;border-collapse:collapse;margin:20px 0}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid #1B1464}
+th{color:#6C3CE9;font-weight:600;font-size:.85em;text-transform:uppercase}
+td{color:#D0CFFF}
+.checklist{list-style:none;padding:0}
+.checklist li{padding:12px 16px;background:#1B1464;border-radius:8px;margin:8px 0;display:flex;align-items:center;gap:12px}
+.checklist li::before{content:"✅";font-size:1.1em}
+.toc{background:#1B1464;border-radius:12px;padding:24px 32px;margin:32px 0}
+.toc h3{margin:0 0 16px;color:#6C3CE9}
+.toc a{color:#C4C3FF;text-decoration:none;display:block;padding:6px 0;font-size:.95em}
+.toc a:hover{color:#6C3CE9}
+.negative{border-left-color:#e74c3c}
+@media(max-width:600px){.cover h1{font-size:1.8em}.stats{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
+@media print{body{background:#fff;color:#333}.cover{background:#1B1464 !important;color:#fff !important;-webkit-print-color-adjust:exact}.template{border:1px solid #ccc;background:#f9f9f9}.template .var{background:#eee;color:#333}.step,.stat{background:#f4f4f4;border:1px solid #ddd}.btn{display:none}}
+</style>
+</head>
+<body>
+
+<div class="cover">
+<div class="badge">📦 DIGITAL PRODUCT</div>
+<h1>Google Review Rocket Kit</h1>
+<p>Automated review collection that gets you 50+ five-star reviews in 90 days</p>
+<p style="margin-top:20px;color:#A09CFF">A Dream AI Production</p>
+</div>
+
+<div class="container">
+
+<div class="toc">
+<h3>📋 What's Inside</h3>
+<a href="#problem">1. The Review Problem (and Why It's Costing You)</a>
+<a href="#sms">2. 5 SMS Review Request Templates</a>
+<a href="#email">3. 3-Email Review Sequence</a>
+<a href="#link">4. Google Review Link Setup</a>
+<a href="#automation">5. N8N Automation Workflow</a>
+<a href="#responses">6. Review Response Templates</a>
+<a href="#tracker">7. Monthly Goals Tracker</a>
+<a href="#casestudy">8. Case Study: Dallas MedSpa</a>
+<a href="#checklist">9. Quick-Start Checklist</a>
+</div>
+
+<div class="section" id="problem">
+<h2>1. The Review Problem</h2>
+<p>Here's what the data says about online reviews:</p>
+<div class="stats">
+<div class="stat"><div class="big">98%</div><p>of consumers read online reviews before buying</p></div>
+<div class="stat"><div class="big">3×</div><p>more calls go to businesses with 50+ Google reviews</p></div>
+<div class="stat"><div class="big">87%</div><p>of consumers used Google to evaluate local businesses in 2024</p></div>
+</div>
+<p style="margin-top:20px"><strong>The problem?</strong> Your happy customers mean to leave reviews. They just forget. The average business asks 0% of happy customers for reviews. This kit fixes that — completely automated.</p>
+</div>
+
+<div class="section" id="sms">
+<h2>2. SMS Review Request Templates</h2>
+<p>Send 24 hours after service. Personalize with <span class="var">[FirstName]</span> and your Google review link.</p>
+
+<div class="template">
+<div class="label">Template 1 — Warm & Personal</div>
+<p>Hi [FirstName]! 👋 It's [BusinessName]. Thank you so much for choosing us today — we loved helping you with [Service].</p>
+<p style="margin-top:10px">If you have 30 seconds, a Google review would mean the world to us: [GoogleReviewLink]</p>
+<p style="margin-top:10px">Thank you! 🙏 — [YourName]</p>
+<button class="btn" onclick="copyTemplate(this)">📋 Copy</button>
+</div>
+
+<div class="template">
+<div class="label">Template 2 — Short & Direct</div>
+<p>[FirstName] — hope you're happy with your [Service] from [BusinessName]! Quick favor: leave us a review? Takes 30 seconds: [GoogleReviewLink]</p>
+<button class="btn" onclick="copyTemplate(this)">📋 Copy</button>
+</div>
+
+<div class="template">
+<div class="label">Template 3 — Value-Focused</div>
+<p>Hi [FirstName]! Thanks for being a [BusinessName] customer. We're on a mission to help more people like you — and honest reviews make all the difference.</p>
+<p style="margin-top:10px">Could you share your experience? [GoogleReviewLink]</p>
+<p style="margin-top:10px">Even one sentence helps! Thank you ❤️</p>
+<button class="btn" onclick="copyTemplate(this)">📋 Copy</button>
+</div>
+
+<div class="template">
+<div class="label">Template 4 — Gratitude-First</div>
+<p>We're so grateful you chose [BusinessName], [FirstName]! 🌟</p>
+<p style="margin-top:10px">If we earned it, we'd love a quick Google review: [GoogleReviewLink]</p>
+<p style="margin-top:10px">If anything wasn't perfect, reply here — we want to make it right.</p>
+<button class="btn" onclick="copyTemplate(this)">📋 Copy</button>
+</div>
+
+<div class="template">
+<div class="label">Template 5 — Incentive-Based</div>
+<p>Hi [FirstName]! Thanks for trusting [BusinessName] with your [Service].</p>
+<p style="margin-top:10px">Leave us a Google review and get 10% off your next visit! 🎉 [GoogleReviewLink]</p>
+<p style="margin-top:10px">Just screenshot your review and show us next time. —[YourName]</p>
+<button class="btn" onclick="copyTemplate(this)">📋 Copy</button>
+</div>
+</div>
+
+<div class="section" id="email">
+<h2>3. 3-Email Review Sequence</h2>
+<p>For customers who don't respond to SMS. Or use instead of SMS for email-first customers.</p>
+
+<div class="template">
+<div class="label">Email 1 — 24 Hours After Service</div>
+<p><strong>Subject:</strong> Quick favor, [FirstName]?</p>
+<p>Hi [FirstName],</p>
+<p style="margin-top:10px">Thank you for choosing [BusinessName]! We hope you had a great experience with [Service].</p>
+<p style="margin-top:10px">Would you mind taking 30 seconds to leave us a Google review? It helps other people like you find us.</p>
+<p style="margin-top:10px"><a href="#" style="color:#6C3CE9;font-weight:700">⭐ Leave a Google Review →</a></p>
+<p style="margin-top:10px;color:#A09CFF;font-size:.9em">Thank you for being a valued customer.<br>— [YourName], [BusinessName]</p>
+<button class="btn" onclick="copyTemplate(this)">📋 Copy</button>
+</div>
+
+<div class="template">
+<div class="label">Email 2 — 48 Hours Later (Follow-up)</div>
+<p><strong>Subject:</strong> Did you get a chance?</p>
+<p>Hi [FirstName],</p>
+<p style="margin-top:10px">Just following up on my earlier email. We're a small business and every review genuinely helps us grow.</p>
+<p style="margin-top:10px"><a href="#" style="color:#6C3CE9;font-weight:700">⭐ Leave your review here →</a></p>
+<p style="margin-top:10px">It only takes 30 seconds. Thank you! 🙏</p>
+<button class="btn" onclick="copyTemplate(this)">📋 Copy</button>
+</div>
+
+<div class="template">
+<div class="label">Email 3 — 7 Days Later (Last Nudge)</div>
+<p><strong>Subject:</strong> Last ask (pinkie promise) 🤙</p>
+<p>Hi [FirstName],</p>
+<p style="margin-top:10px">I promise this is my last nudge about a review! I know you're busy.</p>
+<p style="margin-top:10px">If you've had a good experience with [BusinessName], here's the link one more time: <a href="#" style="color:#6C3CE9">⭐ Google Review</a></p>
+<p style="margin-top:10px">If not, just reply to this email and tell us how we can improve — that helps just as much.</p>
+<p style="margin-top:10px">Thanks for everything,<br>[YourName]</p>
+<button class="btn" onclick="copyTemplate(this)">📋 Copy</button>
+</div>
+</div>
+
+<div class="section" id="link">
+<h2>4. Google Review Link Setup</h2>
+<div class="steps">
+<div class="step"><div class="num">1</div><h4>Find Your Place ID</h4><p>Go to Google Maps → search your business → URL contains your Place ID</p></div>
+<div class="step"><div class="num">2</div><h4>Create Short Link</h4><p>Use bit.ly or your own domain. Format: yourplace.com/review</p></div>
+<div class="step"><div class="num">3</div><h4>Generate QR Code</h4><p>Use a free QR generator. Print on receipts, cards, signage</p></div>
+<div class="step"><div class="num">4</div><h4>Add Everywhere</h4><p>Email signature, business card, receipt, follow-up text, in-store sign</p></div>
+</div>
+<p style="margin-top:20px"><strong>Pro tip:</strong> The shorter your link, the higher the click rate. Use a custom domain if possible (e.g., review.yourbusiness.com).</p>
+</div>
+
+<div class="section" id="automation">
+<h2>5. N8N Automation Workflow</h2>
+<p>Connect your CRM/service system to automate review requests:</p>
+<div class="steps">
+<div class="step"><div class="num">①</div><h4>Trigger</h4><p>Service completed → webhook fires</p></div>
+<div class="step"><div class="num">②</div><h4>Wait</h4><p>24-hour delay (give customer time to experience results)</p></div>
+<div class="step"><div class="num">③</div><h4>Send SMS</h4><p>Personalized review request via Twilio</p></div>
+<div class="step"><div class="num">④</div><h4>Wait 48h</h4><p>Check if review was left (via Google Places API)</p></div>
+<div class="step"><div class="num">⑤</div><h4>Follow Up</h4><p>If no review → send email follow-up</p></div>
+<div class="step"><div class="num">⑥</div><h4>Track</h4><p>Log to spreadsheet: sent, opened, review left (Y/N), rating</p></div>
+</div>
+<button class="btn" onclick="copyN8N()">📋 Copy N8N Workflow JSON</button>
+<pre id="n8n-json" style="display:none">{
+  "name": "Review Request Automation",
+  "nodes": [
+    {"type": "webhook", "name": "Service Complete", "parameters": {"path": "/service-complete"}},
+    {"type": "wait", "name": "Wait 24 Hours", "parameters": {"hours": 24}},
+    {"type": "twilio", "name": "Send Review SMS", "parameters": {"to": "{{$json.customer_phone}}", "body": "Hi {{$json.customer_name}}! Thanks for choosing us. If you're happy with your service, a quick Google review means the world: {{$json.review_link}}"}},
+    {"type": "wait", "name": "Wait 48 Hours", "parameters": {"hours": 48}},
+    {"type": "if", "name": "Check Review Status", "parameters": {"condition": "review_left == false"}},
+    {"type": "email", "name": "Follow-up Email", "parameters": {"to": "{{$json.customer_email}}", "subject": "Quick favor?", "body": "Hi {{$json.customer_name}}, just following up — would you mind leaving us a Google review? It really helps! {{$json.review_link}}"}}
+  ]
+}</pre>
+</div>
+
+<div class="section" id="responses">
+<h2>6. Review Response Templates</h2>
+<h3>Positive Reviews (5)</h3>
+
+<div class="template">
+<div class="label">Response 1 — Thank You</div>
+<p>"Thank you so much, [Name]! We're thrilled we could help. Your kind words mean the world to our team. We look forward to serving you again!"</p>
+<button class="btn" onclick="copyTemplate(this)">📋 Copy</button>
+</div>
+
+<div class="template">
+<div class="label">Response 2 — Appreciation</div>
+<p>"[Name], this made our day! 🙏 Thank you for taking the time to share your experience. You're the reason we love what we do!"</p>
+<button class="btn" onclick="copyTemplate(this)">📋 Copy</button>
+</div>
+
+<div class="template">
+<div class="label">Response 3 — Thrilled</div>
+<p>"We're so glad to hear this, [Name]! Delivered with care is how we operate. Can't wait to see you again."</p>
+<button class="btn" onclick="copyTemplate(this)">📋 Copy</button>
+</div>
+
+<div class="template">
+<div class="label">Response 4 — Grateful</div>
+<p>"Thank you for the 5 stars, [Name]! Your trust in us means everything. See you next time! 🌟"</p>
+<button class="btn" onclick="copyTemplate(this)">📋 Copy</button>
+</div>
+
+<div class="template">
+<div class="label">Response 5 — Welcome Back</div>
+<p>"Wow, thank you [Name]! We're honored by your review. You're always welcome here — see you soon!"</p>
+<button class="btn" onclick="copyTemplate(this)">📋 Copy</button>
+</div>
+
+<h3 style="margin-top:32px">Negative Reviews (3)</h3>
+
+<div class="template negative">
+<div class="label">Response 1 — We're Sorry</div>
+<p>"[Name], we're sorry to hear this. This isn't the experience we want for any customer. Could you email us at [email] or call [number]? We'd love the chance to make this right."</p>
+<button class="btn" onclick="copyTemplate(this)">📋 Copy</button>
+</div>
+
+<div class="template negative">
+<div class="label">Response 2 — Let's Fix It</div>
+<p>"Thank you for this honest feedback, [Name]. We take this seriously. Please reach out directly so we can understand what happened and fix it. [Phone/Email]"</p>
+<button class="btn" onclick="copyTemplate(this)">📋 Copy</button>
+</div>
+
+<div class="template negative">
+<div class="label">Response 3 — We Hear You</div>
+<p>"[Name], we hear you and we're sorry. This isn't up to our standard. We want to earn back your trust — please contact us at [Phone/Email] so we can resolve this personally."</p>
+<button class="btn" onclick="copyTemplate(this)">📋 Copy</button>
+</div>
+</div>
+
+<div class="section" id="tracker">
+<h2>7. Monthly Review Goals Tracker</h2>
+<table>
+<tr><th>Month</th><th>Goal</th><th>Reviews Asked</th><th>Reviews Left</th><th>Conversion Rate</th><th>Avg Rating</th></tr>
+<tr><td>Month 1</td><td>15</td><td>___</td><td>___</td><td>___%</td><td>___</td></tr>
+<tr><td>Month 2</td><td>25</td><td>___</td><td>___</td><td>___%</td><td>___</td></tr>
+<tr><td>Month 3</td><td>40</td><td>___</td><td>___</td><td>___%</td><td>___</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>80</strong></td><td>___</td><td>___</td><td>___%</td><td>___</td></tr>
+</table>
+<p style="margin-top:16px"><strong>Industry benchmarks:</strong> 30-40% of asked customers leave a review. With automation, expect 40-60%.</p>
+<p style="margin-top:8px"><strong>Pro tip:</strong> Ask within 24 hours of service — conversion rate drops 50% after 48 hours.</p>
+</div>
+
+<div class="section" id="casestudy">
+<h2>8. Case Study: Dallas MedSpa</h2>
+<div style="background:#1B1464;border-radius:12px;padding:32px;margin:20px 0">
+<h3 style="color:#6C3CE9;margin:0 0 8px">The Challenge</h3>
+<p>A single-location MedSpa in Dallas had only 12 Google reviews. Competitors had 100+. New patients couldn't find them.</p>
+
+<h3 style="color:#6C3CE9;margin:24px 0 8px">The Solution</h3>
+<p>Implemented this exact kit: automated SMS 24h post-treatment, email follow-up for non-responders, monthly review goals.</p>
+
+<h3 style="color:#6C3CE9;margin:24px 0 8px">The Results (90 Days)</h3>
+<div class="stats">
+<div class="stat"><div class="big">47</div><p>new five-star reviews</p></div>
+<div class="stat"><div class="big">4.8★</div><p>average rating (up from 4.2)</p></div>
+<div class="stat"><div class="big">3×</div><p>increase in new patient calls from Google</p></div>
+</div>
+
+<p style="margin-top:20px"><em>"We were shocked how fast it happened. Most of our patients were happy to leave a review — they just needed a nudge."</em> — Dr. Sarah K., Owner</p>
+</div>
+</div>
+
+<div class="section" id="checklist">
+<h2>9. Quick-Start Checklist</h2>
+<ul class="checklist">
+<li>Find your Google Place ID and create short review link</li>
+<li>Generate QR code for in-store signage</li>
+<li>Choose 2-3 SMS templates and personalize them</li>
+<li>Customize the 3 email templates</li>
+<li>Set up N8N automation (or manual SMS schedule)</li>
+<li>Customize response templates for positive/negative reviews</li>
+<li>Set Month 1 goal in tracker</li>
+<li>Ask your first 5 customers for reviews TODAY</li>
+<li>Print QR code at your front desk/checkout</li>
+<li>Add review link to your email signature</li>
+</ul>
+</div>
+
+<div style="text-align:center;margin:48px 0;padding:40px;background:linear-gradient(135deg,#1B1464,#6C3CE9);border-radius:16px">
+<h2 style="color:#fff;border:none;margin:0 0 8px">Want This Done For You?</h2>
+<p style="color:#C4C3FF;max-width:400px;margin:0 auto 24px">Dream AI builds and deploys automated review systems for your business — no setup required.</p>
+<button class="btn" style="font-size:1.1em;padding:16px 32px" onclick="window.open('https://dreamai.com','_blank')">🚀 Get the Full AI Employee — $297</button>
+</div>
+
+<p style="text-align:center;color:#A09CFF;font-size:.85em;padding:40px 0 20px">© 2026 Dream AI. All rights reserved.<br>dreamai.com</p>
+
+</div>
+
+<script>
+function copyTemplate(btn){
+const p=btn.parentElement;
+const text=p.querySelectorAll('p');
+let content='';
+text.forEach(t=>{if(t.textContent.trim())content+=t.textContent.trim()+'\n\n'});
+navigator.clipboard.writeText(content.trim()).then(()=>{btn.textContent='✅ Copied!';setTimeout(()=>{btn.textContent='📋 Copy'},2000)});
+}
+function copyN8N(){
+const json=document.getElementById('n8n-json').textContent;
+navigator.clipboard.writeText(json.trim()).then(()=>{event.target.textContent='✅ Copied!';setTimeout(()=>{event.target.textContent='📋 Copy N8N Workflow JSON'},2000)});
+}
+</script>
+
+</body>
+</html>

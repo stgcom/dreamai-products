@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 3: Objection Handling — AI Receptionist Script Pack | Dream AI</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --primary: #1B1464; --accent: #6C3CE9; --accent-light: #8B5CF6; --bg: #FFFFFF; --surface: #F8F7FF; --border: #E8E4F8; --text: #1a1a2e; --text-light: #555; --muted: #8888aa; --success: #10B981; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); color: white; padding: 50px 40px 40px; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -60%; left: -20%; width: 140%; height: 200%; background: radial-gradient(ellipse, rgba(255,255,255,0.06) 0%, transparent 70%); pointer-events: none; }
+  .hero .badge { display: inline-block; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 6px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.2); }
+  .hero h1 { font-size: clamp(24px, 3.5vw, 36px); font-weight: 800; line-height: 1.15; margin-bottom: 10px; }
+  .hero .subtitle { font-size: 15px; opacity: 0.85; }
+  .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+  .progress-bar-wrapper { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 24px; margin: 24px auto; }
+  .progress-label { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+  .progress-label span { color: var(--accent); font-weight: 700; }
+  .progress-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-light)); border-radius: 3px; transition: width 0.4s ease; }
+  .complete-section { text-align: center; margin: 24px 0 32px; }
+  .complete-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--success); color: white; border: none; padding: 12px 28px; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; transition: transform 0.15s; }
+  .complete-btn:hover { transform: scale(1.04); }
+  .complete-btn.done { background: var(--border); color: var(--muted); cursor: default; }
+  .lesson-intro { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px 32px; margin-bottom: 32px; }
+  .lesson-intro h2 { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+  .lesson-intro p { font-size: 15px; color: var(--text-light); }
+  .category { margin-bottom: 40px; }
+  .category-header { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; padding: 16px 24px; border-radius: 14px; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; margin-bottom: 0; }
+  .category-header .cat-icon { width: 34px; height: 34px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .category-header .cat-count { margin-left: auto; background: rgba(255,255,255,0.2); padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .script-card { background: var(--bg); border: 1px solid var(--border); border-top: none; padding: 24px 24px 16px; position: relative; transition: box-shadow 0.2s; }
+  .script-card:last-child { border-radius: 0 0 14px 14px; }
+  .script-card:hover { box-shadow: 0 4px 20px rgba(108,60,233,0.08); }
+  .script-card + .script-card { border-top: 1px dashed var(--border); }
+  .script-num { position: absolute; top: 24px; left: 24px; width: 26px; height: 26px; background: var(--surface); border: 2px solid var(--border); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--accent); }
+  .script-title { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 4px; padding-left: 36px; }
+  .script-subtitle { font-size: 12px; color: var(--muted); margin-bottom: 12px; font-style: italic; }
+  .script-body { background: var(--surface); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 16px 18px; font-size: 14px; line-height: 1.8; color: var(--text); white-space: pre-wrap; }
+  .script-body .var { background: #EDE9FE; color: var(--accent); padding: 1px 8px; border-radius: 4px; font-weight: 600; font-size: 12px; }
+  .copy-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: white; border: none; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 12px; transition: background 0.2s, transform 0.1s; }
+  .copy-btn:hover { background: var(--primary); }
+  .copy-btn:active { transform: scale(0.96); }
+  .copy-btn.copied { background: var(--success); }
+  .script-notes { margin-top: 12px; padding: 10px 14px; background: #FFF8E7; border-radius: 8px; font-size: 12.5px; color: #7C5E00; border: 1px solid #FDE68A; }
+  .script-notes strong { color: #92400E; }
+  .lesson-nav { display: flex; justify-content: space-between; align-items: center; margin: 32px 0; gap: 16px; }
+  .nav-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none; transition: transform 0.15s; }
+  .nav-btn:hover { transform: translateY(-2px); }
+  .nav-prev { background: var(--surface); color: var(--accent); border: 1px solid var(--border); }
+  .nav-next { background: var(--accent); color: white; }
+  .nav-lesson-label { font-size: 12px; color: var(--muted); display: block; }
+  .nav-lesson-title { font-size: 14px; font-weight: 700; }
+  .cta-banner { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; border-radius: 16px; padding: 32px 36px; text-align: center; margin: 32px 0; }
+  .cta-banner h2 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .cta-banner p { font-size: 14px; opacity: 0.9; margin-bottom: 16px; max-width: 460px; margin-left: auto; margin-right: auto; }
+  .cta-btn { display: inline-flex; align-items: center; gap: 8px; background: white; color: var(--primary); padding: 12px 28px; border-radius: 10px; font-size: 14px; font-weight: 700; text-decoration: none; transition: transform 0.15s; }
+  .cta-btn:hover { transform: scale(1.04); }
+  .download-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--surface); color: var(--accent); border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+  .download-btn:hover { background: var(--border); }
+  .footer { text-align: center; padding: 32px 24px 40px; border-top: 1px solid var(--border); margin-top: 20px; }
+  .footer .logo { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+  .footer p { font-size: 13px; color: var(--muted); }
+  .footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  @media print { body { font-size: 11pt; } .hero { padding: 20px; } .copy-btn, .complete-section, .lesson-nav, .cta-banner, .download-btn, .progress-bar-wrapper { display: none !important; } .script-card { break-inside: avoid; box-shadow: none; } .script-body { background: #f5f5f5; border-left-color: #999; } a { color: #333; } }
+  @media (max-width: 600px) { .hero { padding: 36px 20px 30px; } .script-card { padding: 20px 16px 14px; } .lesson-nav { flex-direction: column; } .nav-btn { width: 100%; justify-content: center; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Lesson 3 of 5</div>
+  <h1>Objection Handling</h1>
+  <p class="subtitle">Turn "no" into "tell me more" — 5 common objections decoded</p>
+</div>
+
+<div class="container">
+
+<div class="progress-bar-wrapper">
+  <div class="progress-label"><span id="progress-text">Lesson 3 of 5</span><span id="progress-pct">60%</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:60%"></div></div>
+</div>
+
+<div style="text-align:right;margin:12px 0 20px;">
+  <button class="download-btn" onclick="window.print()">📄 Download as PDF</button>
+</div>
+
+<div class="lesson-intro">
+  <h2>📖 In This Lesson</h2>
+  <p>Objections are not rejections — they're buying signals. You'll master <strong>5 scripts</strong> for the most common objections: price, timing, competitor loyalty, readiness, and brush-offs. Each script includes a psychology note explaining <em>why</em> it works.</p>
+</div>
+
+<div class="category">
+  <div class="category-header">
+    <div class="cat-icon">🛡️</div>
+    Objection Handling
+    <span class="cat-count">5 Scripts</span>
+  </div>
+
+  <div class="script-card">
+    <div class="script-num">18</div>
+    <div class="script-title">"That's Too Expensive"</div>
+    <div class="script-subtitle">When price is the primary concern</div>
+    <div class="script-body" id="code-18">I completely understand — budget matters. What I can tell you is that most of our clients find the investment pays for itself within <span class="var">[timeframe]</span>. Would it help if I walked you through what's included in the package? Sometimes seeing the full picture makes the value clearer.</div>
+    <button class="copy-btn" onclick="copyScript('code-18', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Script</button>
+    <div class="script-notes"><strong>Customize:</strong> Fill in <span class="var">[timeframe]</span> with your ROI window (e.g., "the first two months"). If applicable, mention payment plans, tiered pricing, or a "starter" option.</div>
+  </div>
+
+  <div class="script-card">
+    <div class="script-num">19</div>
+    <div class="script-title">"I Need to Think About It"</div>
+    <div class="script-subtitle">When they're interested but not ready to commit</div>
+    <div class="script-body" id="code-19">Of course — it's an important decision, and I want you to feel completely comfortable. Would it be helpful if I sent you a summary or some resources to review at your own pace? I can also schedule a quick follow-up call whenever you're ready.</div>
+    <button class="copy-btn" onclick="copyScript('code-19', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Script</button>
+    <div class="script-notes"><strong>Customize:</strong> Never pressure. The goal is to keep the door open. Capture email for a follow-up sequence. Set a reminder in your CRM for 48 hours out.</div>
+  </div>
+
+  <div class="script-card">
+    <div class="script-num">20</div>
+    <div class="script-title">"I Already Have Someone"</div>
+    <div class="script-subtitle">When they're with a competitor</div>
+    <div class="script-body" id="code-20">That's great that you have a provider you trust. Just out of curiosity, are you completely satisfied with everything, or are there areas where you wish you were getting more? Sometimes a second opinion can reveal options you didn't know existed.</div>
+    <button class="copy-btn" onclick="copyScript('code-20', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Script</button>
+    <div class="script-notes"><strong>Customize:</strong> Be respectful of the existing relationship. Position yourself as complementary, not adversarial. If they express frustration, offer a no-obligation consultation.</div>
+  </div>
+
+  <div class="script-card">
+    <div class="script-num">21</div>
+    <div class="script-title">"I'm Not Ready Yet"</div>
+    <div class="script-subtitle">When timing is the blocker</div>
+    <div class="script-body" id="code-21">Totally fair. Timing is everything. When do you think you'd be in a better position to move forward? I can set a reminder to reach back out then, so you don't have to remember to call us. Would that work for you?</div>
+    <button class="copy-btn" onclick="copyScript('code-21', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Script</button>
+    <div class="script-notes"><strong>Customize:</strong> Capture a specific date or month. The AI should book a follow-up callback automatically. Add them to a long-term nurture email sequence.</div>
+  </div>
+
+  <div class="script-card">
+    <div class="script-num">22</div>
+    <div class="script-title">"Just Call Me Back Later"</div>
+    <div class="script-subtitle">When they want to end the conversation</div>
+    <div class="script-body" id="code-22">No problem at all — I don't want to take up your time. Can I get your name and the best number to reach you? And would you prefer a morning or afternoon callback? I want to make sure we connect when it's convenient for you.</div>
+    <button class="copy-btn" onclick="copyScript('code-22', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Script</button>
+    <div class="script-notes"><strong>Customize:</strong> Always leave with a commitment. "Afternoon works? Perfect, I'll have someone call you Tuesday between 1–4 PM." Specificity converts better than vague promises.</div>
+  </div>
+</div>
+
+<div class="complete-section">
+  <button class="complete-btn" id="complete-btn" onclick="toggleComplete()">✅ Mark Lesson 3 Complete</button>
+</div>
+
+<div class="cta-banner">
+  <h2>Objection Handling on Autopilot</h2>
+  <p>Our Starter Kit trains your AI receptionist on YOUR specific objections — so every call is handled perfectly, every time.</p>
+  <a href="https://dreamai.com" class="cta-btn" target="_blank">Explore the Starter Kit →</a>
+</div>
+
+<div class="lesson-nav">
+  <a href="lesson-2.html" class="nav-btn nav-prev">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <div><span class="nav-lesson-label">Previous: Lesson 2</span><span class="nav-lesson-title">Follow-Up Scripts</span></div>
+  </a>
+  <a href="lesson-4.html" class="nav-btn nav-next">
+    <div style="text-align:right"><span class="nav-lesson-label">Next: Lesson 4</span><span class="nav-lesson-title">Closing Scripts →</span></div>
+  </a>
+</div>
+
+</div>
+
+<div class="footer">
+  <div class="logo">Dream AI</div>
+  <p>&copy; Dream AI — Get the done-for-you version at <a href="https://dreamai.com" target="_blank">dreamai.com</a></p>
+</div>
+
+<script>
+const LESSON_NUM = 3;
+const LESSONS = 5;
+function copyScript(id, btn) {
+  const el = document.getElementById(id);
+  const text = el.innerText || el.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.innerHTML;
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = original; btn.classList.remove('copied'); }, 2000);
+  });
+}
+function getCompleted() { try { return JSON.parse(localStorage.getItem('sp_completed') || '[]'); } catch { return []; } }
+function saveCompleted(arr) { localStorage.setItem('sp_completed', JSON.stringify(arr)); }
+function updateUI() {
+  const done = getCompleted();
+  if (done.includes(LESSON_NUM)) { document.getElementById('complete-btn').textContent = '✅ Lesson 3 Complete!'; document.getElementById('complete-btn').classList.add('done'); }
+  const pct = Math.round((done.length / LESSONS) * 100);
+  document.getElementById('progress-text').textContent = `${done.length} of ${LESSONS} lessons completed`;
+  document.getElementById('progress-pct').textContent = `${pct}%`;
+  document.getElementById('progress-fill').style.width = `${pct}%`;
+}
+function toggleComplete() { let done = getCompleted(); if (!done.includes(LESSON_NUM)) { done.push(LESSON_NUM); saveCompleted(done); updateUI(); } }
+updateUI();
+</script>
+</body>
+</html>

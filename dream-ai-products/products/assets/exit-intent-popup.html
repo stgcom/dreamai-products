@@ -1,0 +1,75 @@
+<!-- Exit-Intent Popup Component -->
+<!-- Add to any Dream AI landing page or product page -->
+<style>
+.popup-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);display:none;z-index:9999;align-items:center;justify-content:center}
+.popup{background:linear-gradient(135deg,#1B1464,#0D0B3E);border:2px solid #6C3CE9;border-radius:16px;padding:40px 32px;max-width:420px;text-align:center;position:relative;margin:20px}
+.popup-close{position:absolute;top:12px;right:16px;background:none;border:none;color:#C4C3FF;font-size:1.5em;cursor:pointer}
+.popup h3{color:#fff;font-size:1.4em;margin-bottom:8px}
+.popup p{color:#C4C3FF;font-size:.95em;margin-bottom:20px}
+.popup input[type=email]{width:100%;padding:14px 16px;border:2px solid #6C3CE9;border-radius:8px;font-size:1em;background:#0D0B3E;color:#fff;margin-bottom:12px;outline:none}
+.popup input::placeholder{color:#A09CFF}
+.popup button{width:100%;padding:14px;background:#6C3CE9;color:#fff;border:none;border-radius:8px;font-size:1.1em;font-weight:700;cursor:pointer}
+.popup button:hover{background:#5a2bd0}
+.popup-bonus{color:#ffd700;font-size:.85em;font-weight:600;margin-top:8px}
+.popup-success{display:none}
+.popup-success h4{color:#81c784;font-size:1.2em;margin-bottom:8px}
+.popup-success p{color:#C4C3FF}
+.popup-alternate{color:#A09CFF;font-size:.8em;margin-top:12px}
+.popup-alternate a{color:#6C3CE9;text-decoration:underline}
+@media(max-width:500px){.popup{padding:24px 20px;margin:16px}.popup h3{font-size:1.2em}}
+</style>
+
+<div class="popup-overlay" id="exitPopup">
+<div class="popup">
+<button class="popup-close" onclick="closePopup()">×</button>
+
+<div id="popupForm">
+<h3>Wait! Before you go... 🎁</h3>
+<p>Get your <strong>free AI Readiness Report</strong> + "5 AI Quick Wins You Can Set Up This Weekend" guide — sent straight to your inbox.</p>
+<input type="email" id="popupEmail" placeholder="your@email.com">
+<button onclick="submitPopup()">Get My Free Report →</button>
+<div class="popup-bonus">⚡ First 100 people: free AI Quick-Win Cheat Sheet included</div>
+<div class="popup-alternate">Already have your report? <a href="#calculator">Try the Revenue Calculator →</a></div>
+</div>
+
+<div class="popup-success" id="popupSuccess">
+<h4>✅ Check your inbox!</h4>
+<p>Your free AI Readiness Report is on its way. Check your email in 2 minutes.</p>
+<p style="margin-top:16px"><a href="#starterkit" style="color:#6C3CE9;font-weight:700">Or browse the full AI Employee Starter Kit →</a></p>
+</div>
+</div>
+</div>
+
+<script>
+// Exit intent detection
+let popupShown=false;
+let popupDismissed=false;
+document.addEventListener('mouseleave',function(e){
+  if(e.clientY<10 && !popupShown && !popupDismissed){
+    document.getElementById('exitPopup').style.display='flex';
+    popupShown=true;
+  }
+});
+// Mobile: back button trigger
+document.addEventListener('backbutton',function(){
+  if(!popupShown && !popupDismissed){
+    document.getElementById('exitPopup').style.display='flex';
+    popupShown=true;
+  }
+});
+function closePopup(){
+  document.getElementById('exitPopup').style.display='none';
+  popupDismissed=true;
+}
+function submitPopup(){
+  const email=document.getElementById('popupEmail').value;
+  if(!email||!email.includes('@')){alert('Please enter a valid email');return;}
+  document.getElementById('popupForm').style.display='none';
+  document.getElementById('popupSuccess').style.display='block';
+  if(window.fbq) fbq('track','Lead',{value:'exit_popup'});
+}
+// Close on overlay click
+document.getElementById('exitPopup')?.addEventListener('click',function(e){
+  if(e.target===this) closePopup();
+});
+</script>

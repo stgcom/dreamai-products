@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "n8n-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "supergateway",
+        "--streamableHttp",
+        "https://dreamain8n.zeabur.app/mcp-server/http",
+        "--header",
+        "authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0MDdhNTJjYS02Y2I3LTQ2MTctYTFlNC1hNmNlODYwZDc0OTIiLCJpc3MiOiJuOG4iLCJhdWQiOiJtY3Atc2VydmVyLWFwaSIsImp0aSI6IjE5YzEwM2YzLTE0NWItNDI1Ny1hZjU5LTNjMTZlODhmNWRjZCIsImlhdCI6MTc3MzgwMzk2NX0.pIu-ssVxjNsldbp5yhaHkzbHOJIv7FI3dv40JHwo3Po"
+      ]
+    }
+  }
+}

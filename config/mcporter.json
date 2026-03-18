@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "n8n-mcp": {
+      "baseUrl": "https://dreamain8n.zeabur.app/mcp-server/http",
+      "headers": {
+        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0MDdhNTJjYS02Y2I3LTQ2MTctYTFlNC1hNmNlODYwZDc0OTIiLCJpc3MiOiJuOG4iLCJhdWQiOiJtY3Atc2VydmVyLWFwaSIsImp0aSI6IjE5YzEwM2YzLTE0NWItNDI1Ny1hZjU5LTNjMTZlODhmNWRjZCIsImlhdCI6MTc3MzgwMzk2NX0.pIu-ssVxjNsldbp5yhaHkzbHOJIv7FI3dv40JHwo3Po"
+      }
+    },
+    "postgres-mcp": {
+      "command": "npx mcp-postgres",
+      "env": {
+        "DATABASE_URL": "postgresql://dreamai_reader:dr34d4i_secured_r2026@sjc1.clusters.zeabur.com:22417/zeabur"
+      }
+    }
+  },
+  "imports": []
+}

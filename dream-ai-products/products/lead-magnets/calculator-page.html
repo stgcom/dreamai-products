@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revenue Loss Calculator | Dream AI</title>
+  <style>
+    :root {
+      --primary: #6C3AED;
+      --primary-dark: #5B21B6;
+      --primary-light: #EDE9FE;
+      --accent: #F59E0B;
+      --text: #1F2937;
+      --text-light: #6B7280;
+      --bg: #FFFFFF;
+      --bg-alt: #F9FAFB;
+      --success: #10B981;
+      --danger: #EF4444;
+      --radius: 12px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      background: var(--bg);
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+      padding: 16px 0;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+    .header-badge {
+      font-size: 0.75rem;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 48px 0 32px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(1.75rem, 5vw, 2.25rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--primary), #8B5CF6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.125rem;
+      color: var(--text-light);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .subtle-note {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      margin-top: 8px;
+    }
+
+    /* Trust Badges */
+    .trust-badges {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      padding: 20px 0;
+      flex-wrap: wrap;
+    }
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.875rem;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+    .trust-badge .icon { font-size: 1.1rem; }
+
+    /* Calculator Section */
+    .calculator-section {
+      background: var(--bg-alt);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      margin: 24px 0;
+      border: 1px solid #E5E7EB;
+    }
+    .calc-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .calc-header h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .calc-header p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    .calc-field {
+      margin-bottom: 20px;
+    }
+    .calc-field label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+    .calc-field .hint {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-bottom: 6px;
+    }
+    .calc-field input, .calc-field select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #E5E7EB;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+      background: white;
+    }
+    .calc-field input:focus, .calc-field select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    /* Email Gate */
+    .email-gate {
+      background: white;
+      border: 2px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      margin: 24px 0;
+      text-align: center;
+    }
+    .email-gate h3 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .email-gate p {
+      color: var(--text-light);
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+    .email-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+    .email-form input {
+      padding: 12px 16px;
+      border: 2px solid #E5E7EB;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+    .email-form input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    /* CTA Button */
+    .btn-primary {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      width: 100%;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(108, 58, 237, 0.3);
+    }
+    .btn-secondary {
+      display: inline-block;
+      background: white;
+      color: var(--primary);
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: 2px solid var(--primary);
+      cursor: pointer;
+      transition: background 0.15s;
+      width: 100%;
+    }
+    .btn-secondary:hover {
+      background: var(--primary-light);
+    }
+
+    /* Results */
+    .results {
+      display: none;
+      text-align: center;
+      padding: 32px 24px;
+      background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+      border-radius: var(--radius);
+      margin: 24px 0;
+    }
+    .results.visible { display: block; }
+    .results .amount {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--danger);
+      margin: 8px 0;
+    }
+    .results .period {
+      font-size: 1rem;
+      color: var(--text-light);
+      margin-bottom: 16px;
+    }
+    .results .details {
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    /* Social Proof */
+    .social-proof {
+      text-align: center;
+      padding: 32px 0;
+    }
+    .social-proof .avatars {
+      display: flex;
+      justify-content: center;
+      gap: -8px;
+      margin-bottom: 12px;
+    }
+    .social-proof .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      border: 2px solid white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-left: -8px;
+    }
+    .social-proof .avatar:first-child { margin-left: 0; }
+    .social-proof p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+    .social-proof .stars {
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    /* After Results CTA */
+    .after-cta {
+      display: none;
+      text-align: center;
+      padding: 32px 24px;
+      background: var(--primary-light);
+      border-radius: var(--radius);
+      margin: 24px 0;
+    }
+    .after-cta.visible { display: block; }
+    .after-cta h3 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+    .after-cta p {
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 24px 0;
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.8rem;
+      border-top: 1px solid #E5E7EB;
+      margin-top: 32px;
+    }
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    @media (max-width: 480px) {
+      .trust-badges { gap: 12px; }
+      .trust-badge { font-size: 0.8rem; }
+      .calculator-section { padding: 24px 16px; }
+      .results .amount { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <a href="#" class="logo">Dream<span>AI</span></a>
+      <span class="header-badge">Free Calculator</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Calculate How Much Money You're <span class="highlight">Losing</span> to Missed Calls</h1>
+      <p>Free 60-second calculator — used by 2,000+ businesses</p>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- Trust Badges -->
+    <div class="trust-badges">
+      <div class="trust-badge"><span class="icon">⭐</span> 4.9/5 Rating</div>
+      <div class="trust-badge"><span class="icon">🔒</span> Secure</div>
+      <div class="trust-badge"><span class="icon">📊</span> 2,000+ Calculations</div>
+    </div>
+
+    <!-- Calculator -->
+    <div class="calculator-section">
+      <div class="calc-header">
+        <h2>💸 Revenue Loss Calculator</h2>
+        <p>Answer 3 quick questions to see your numbers</p>
+      </div>
+
+      <div class="calc-field">
+        <label>How many calls do you receive per week?</label>
+        <div class="hint">Estimate your total incoming calls (business + referrals)</div>
+        <input type="number" id="callsPerWeek" placeholder="e.g. 50" min="1" value="50">
+      </div>
+
+      <div class="calc-field">
+        <label>What percentage of calls do you typically miss?</label>
+        <div class="hint">Industry average is 25-40%</div>
+        <select id="missRate">
+          <option value="0.15">15% — Very low</option>
+          <option value="0.25">25% — Below average</option>
+          <option value="0.35" selected>35% — Industry average</option>
+          <option value="0.45">45% — Above average</option>
+          <option value="0.55">55% — High</option>
+        </select>
+      </div>
+
+      <div class="calc-field">
+        <label>Average value of a customer</label>
+        <div class="hint">Lifetime value or typical job size</div>
+        <input type="number" id="avgValue" placeholder="e.g. 250" min="1" value="250">
+      </div>
+
+      <div class="calc-field">
+        <label>What % of missed callers would have converted?</label>
+        <div class="hint">If you had answered, how many would have booked?</div>
+        <select id="convRate">
+          <option value="0.15">15%</option>
+          <option value="0.25" selected>25% — Typical</option>
+          <option value="0.35">35%</option>
+          <option value="0.50">50% — High intent</option>
+        </select>
+      </div>
+
+      <button class="btn-primary" onclick="calculateLoss()" style="margin-top: 8px;">
+        Calculate My Revenue Loss →
+      </button>
+    </div>
+
+    <!-- Email Gate (shown before results) -->
+    <div class="email-gate" id="emailGate">
+      <h3>📧 Get Your Results + Free Report</h3>
+      <p>Enter your details below and we'll send your personalized loss calculation — plus 3 ways to fix it fast.</p>
+      <div class="email-form">
+        <input type="text" id="userName" placeholder="Your name">
+        <input type="email" id="userEmail" placeholder="Your work email">
+        <button class="btn-primary" onclick="submitEmail()">Show My Results →</button>
+      </div>
+      <p class="subtle-note" style="margin-top: 12px; font-size: 0.8rem;">No spam. Unsubscribe anytime. We respect your privacy.</p>
+    </div>
+
+    <!-- Results (hidden until email submitted) -->
+    <div class="results" id="results">
+      <p style="font-size: 0.95rem; color: var(--text); margin-bottom: 4px;">You're potentially losing</p>
+      <div class="amount" id="lossAmount">$0</div>
+      <div class="period">per year in missed revenue</div>
+      <div class="details" id="lossDetails"></div>
+    </div>
+
+    <!-- After Results CTA -->
+    <div class="after-cta" id="afterCta">
+      <h3>Ready to stop losing money?</h3>
+      <p>The AI Employee Starter Kit answers every call, captures every lead, and books appointments — 24/7.</p>
+      <a href="#starter-kit" class="btn-primary">Get the full AI Employee Starter Kit →</a>
+    </div>
+
+    <!-- Social Proof -->
+    <div class="social-proof">
+      <div class="avatars">
+        <div class="avatar">JR</div>
+        <div class="avatar">MK</div>
+        <div class="avatar">SL</div>
+        <div class="avatar">TP</div>
+        <div class="avatar">+2K</div>
+      </div>
+      <div class="stars">★★★★★</div>
+      <p>"We were losing $8,400/month in missed calls. The AI Employee fixed that in a day."<br>
+        <strong>— Jason R., Plumbing Business Owner</strong>
+      </p>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Dream AI — <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+    </div>
+  </footer>
+
+  <script>
+    let calculatedLoss = 0;
+
+    function calculateLoss() {
+      const callsPerWeek = parseInt(document.getElementById('callsPerWeek').value) || 0;
+      const missRate = parseFloat(document.getElementById('missRate').value);
+      const avgValue = parseInt(document.getElementById('avgValue').value) || 0;
+      const convRate = parseFloat(document.getElementById('convRate').value);
+
+      if (!callsPerWeek || !avgValue) {
+        alert('Please fill in all fields');
+        return;
+      }
+
+      const missedCallsPerWeek = callsPerWeek * missRate;
+      const lostConversionsPerWeek = missedCallsPerWeek * convRate;
+      const weeklyLoss = lostConversionsPerWeek * avgValue;
+      calculatedLoss = Math.round(weeklyLoss * 52);
+
+      document.getElementById('emailGate').style.display = 'block';
+      document.getElementById('emailGate').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function submitEmail() {
+      const name = document.getElementById('userName').value.trim();
+      const email = document.getElementById('userEmail').value.trim();
+
+      if (!name || !email) {
+        alert('Please enter your name and email');
+        return;
+      }
+      if (!email.includes('@') || !email.includes('.')) {
+        alert('Please enter a valid email address');
+        return;
+      }
+
+      // Hide email gate, show results
+      document.getElementById('emailGate').style.display = 'none';
+
+      const callsPerWeek = parseInt(document.getElementById('callsPerWeek').value) || 0;
+      const missRate = parseFloat(document.getElementById('missRate').value);
+      const avgValue = parseInt(document.getElementById('avgValue').value) || 0;
+      const convRate = parseFloat(document.getElementById('convRate').value);
+
+      const missedPerWeek = Math.round(callsPerWeek * missRate);
+      const lostPerWeek = Math.round(missedPerWeek * convRate);
+      const monthlyLoss = Math.round(calculatedLoss / 12);
+
+      document.getElementById('lossAmount').textContent = '$' + calculatedLoss.toLocaleString();
+      document.getElementById('lossDetails').innerHTML =
+        `That's <strong>$${monthlyLoss.toLocaleString()}/month</strong> or <strong>$${Math.round(calculatedLoss / 52).toLocaleString()}/week</strong>.<br>` +
+        `Based on <strong>${missedPerWeek}</strong> missed calls/week with a <strong>${Math.round(convRate * 100)}%</strong> conversion rate.`;
+
+      const resultsEl = document.getElementById('results');
+      resultsEl.classList.add('visible');
+      resultsEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Show after-CTA after a short delay
+      setTimeout(() => {
+        const cta = document.getElementById('afterCta');
+        cta.classList.add('visible');
+        cta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 2000);
+    }
+
+    // Hide email gate initially
+    document.getElementById('emailGate').style.display = 'none';
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop Losing $4,800/Night to After-Hours Calls | Dream AI for HVAC</title>
+    <meta name="description" content="AI dispatches emergency calls 24/7, qualifies emergencies, and schedules your techs — so you never lose a late-night call to the competition.">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --accent: #ef4444;
+            --accent-hover: #dc2626;
+            --blue: #3b82f6;
+            --light: #fef3c7;
+            --gray: #6b7280;
+            --white: #ffffff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: var(--primary); line-height: 1.6; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        nav { background: var(--white); border-bottom: 1px solid #e5e7eb; padding: 16px 0; position: sticky; top: 0; z-index: 100; }
+        nav .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+        .logo span { color: var(--accent); }
+        nav a.nav-cta { background: var(--accent); color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: background 0.2s; }
+        nav a.nav-cta:hover { background: var(--accent-hover); }
+
+        .hero { background: linear-gradient(135deg, #1a1a2e 0%, #1e3a5f 50%, #1e40af 100%); color: white; padding: 80px 0 100px; text-align: center; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(239,68,68,0.15) 0%, transparent 70%); }
+        .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
+        .hero h1 .highlight { color: var(--light); }
+        .hero p { font-size: 1.25rem; opacity: 0.85; max-width: 650px; margin: 0 auto 32px; }
+        .hero-cta { display: inline-block; background: var(--accent); color: white; padding: 16px 40px; border-radius: 10px; text-decoration: none; font-size: 1.15rem; font-weight: 700; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 20px rgba(239,68,68,0.4); }
+        .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(239,68,68,0.5); }
+        .hero-cta-sub { font-size: 0.85rem; opacity: 0.6; margin-top: 12px; }
+
+        .stats-bar { background: var(--white); padding: 40px 0; border-bottom: 1px solid #e5e7eb; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; text-align: center; }
+        .stat-number { font-size: 2.4rem; font-weight: 800; color: var(--accent); }
+        .stat-label { font-size: 0.9rem; color: var(--gray); margin-top: 4px; }
+
+        .pain-section { padding: 80px 0; background: #fef2f2; }
+        .pain-section h2 { font-size: 2rem; text-align: center; margin-bottom: 12px; }
+        .pain-subtitle { text-align: center; color: var(--gray); font-size: 1.1rem; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .pain-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .pain-card { background: white; border-radius: 12px; padding: 32px; border: 1px solid #fecaca; }
+        .pain-card .icon { font-size: 2rem; margin-bottom: 16px; }
+        .pain-card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+        .pain-card p { color: var(--gray); font-size: 0.95rem; }
+        .pain-card .cost { color: var(--accent); font-weight: 700; font-size: 0.9rem; margin-top: 12px; display: block; }
+
+        .solution-section { padding: 80px 0; }
+        .solution-section h2 { font-size: 2rem; text-align: center; margin-bottom: 12px; }
+        .solution-subtitle { text-align: center; color: var(--gray); font-size: 1.1rem; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .solution-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
+        .feature { padding: 24px 0; }
+        .feature h3 { font-size: 1.2rem; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .feature h3 .check { color: #10b981; font-size: 1.3rem; }
+        .feature p { color: var(--gray); }
+
+        .how-section { background: var(--primary); color: white; padding: 80px 0; }
+        .how-section h2 { font-size: 2rem; text-align: center; margin-bottom: 48px; }
+        .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; text-align: center; }
+        .step { padding: 24px; }
+        .step-num { background: var(--accent); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3rem; margin: 0 auto 16px; }
+        .step h3 { margin-bottom: 8px; font-size: 1.1rem; }
+        .step p { opacity: 0.7; font-size: 0.95rem; }
+
+        .testimonial-section { padding: 80px 0; background: #fef2f2; }
+        .testimonial-card { max-width: 700px; margin: 0 auto; background: white; border-radius: 16px; padding: 40px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); text-align: center; }
+        .testimonial-card blockquote { font-size: 1.2rem; font-style: italic; line-height: 1.7; margin-bottom: 24px; color: #374151; }
+        .testimonial-card .author { font-weight: 700; font-size: 1rem; }
+        .testimonial-card .role { color: var(--gray); font-size: 0.9rem; }
+        .testimonial-card .stars { color: #f5a623; font-size: 1.3rem; margin-bottom: 16px; }
+
+        .cta-section { padding: 80px 0; text-align: center; }
+        .cta-section h2 { font-size: 2rem; margin-bottom: 12px; }
+        .cta-section p { color: var(--gray); font-size: 1.1rem; margin-bottom: 32px; max-width: 550px; margin-left: auto; margin-right: auto; }
+        .cta-section .main-cta { display: inline-block; background: var(--accent); color: white; padding: 16px 48px; border-radius: 10px; text-decoration: none; font-size: 1.2rem; font-weight: 700; box-shadow: 0 4px 20px rgba(239,68,68,0.4); transition: transform 0.2s; }
+        .cta-section .main-cta:hover { transform: translateY(-2px); }
+
+        .trust-section { padding: 40px 0; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; }
+        .trust-badges { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; opacity: 0.5; font-size: 0.85rem; color: var(--gray); }
+        .trust-badges span { display: flex; align-items: center; gap: 6px; }
+
+        footer { padding: 40px 0; text-align: center; color: var(--gray); font-size: 0.85rem; }
+
+        @media (max-width: 640px) {
+            .hero { padding: 48px 0 64px; }
+            .hero h1 { font-size: 1.8rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .stat-number { font-size: 1.8rem; }
+            nav a.nav-cta { padding: 8px 16px; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="container">
+        <div class="logo">Dream<span>AI</span></div>
+        <a href="#calculator" class="nav-cta">Find Your After-Hours Revenue Leak →</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="container">
+        <h1>Stop Losing Emergency Calls to the Competitor Who <span class="highlight">Answers at 2 AM</span></h1>
+        <p>AI dispatches calls 24/7, qualifies emergencies, and schedules your techs — while you sleep. Every after-hours call becomes a booked job.</p>
+        <a href="#calculator" class="hero-cta">Find Your After-Hours Revenue Leak</a>
+        <p class="hero-cta-sub">Free calculator · See exactly what you're losing nightly</p>
+    </div>
+</section>
+
+<section class="stats-bar">
+    <div class="container">
+        <div class="stats-grid">
+            <div>
+                <div class="stat-number">40%</div>
+                <div class="stat-label">of HVAC calls come after hours</div>
+            </div>
+            <div>
+                <div class="stat-number">$4,800</div>
+                <div class="stat-label">average lost revenue per night of missed calls</div>
+            </div>
+            <div>
+                <div class="stat-number">35%</div>
+                <div class="stat-label">of customers choose whoever answers first</div>
+            </div>
+            <div>
+                <div class="stat-number">60%</div>
+                <div class="stat-label">of customers don't rebook maintenance</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pain-section">
+    <div class="container">
+        <h2>Your After-Hours Money is Walking Away</h2>
+        <p class="pain-subtitle">Every unanswered call at midnight is a $2,000 emergency job going to your competitor down the street.</p>
+        <div class="pain-cards">
+            <div class="pain-card">
+                <div class="icon">🔥</div>
+                <h3>After-Hours Emergency Calls</h3>
+                <p>It's 11 PM on the hottest night of the year. A homeowner's AC dies. They call you — get voicemail. They call your competitor. You just lost a $3,200 emergency service call.</p>
+                <span class="cost">Cost: $2,000–$5,000 per lost emergency call</span>
+            </div>
+            <div class="pain-card">
+                <div class="icon">🗓️</div>
+                <h3>Seasonal Overflow Chaos</h3>
+                <p>Summer heat wave. 47 calls before noon and only 3 techs available. Your dispatcher is overwhelmed, customers wait on hold for 20 minutes, and you lose the ones who hang up.</p>
+                <span class="cost">Cost: 15–25% of peak-season revenue lost to overflow</span>
+            </div>
+            <div class="pain-card">
+                <div class="icon">🗺️</div>
+                <h3>Dispatcher Bottleneck</h3>
+                <p>One dispatcher can only handle so many calls. When they're fielding emergencies, quoting tune-ups, and managing techs — something always falls through the cracks.</p>
+                <span class="cost">Cost: $8K–$15K/month in dispatch inefficiency</span>
+            </div>
+            <div class="pain-card">
+                <div class="icon">🔄</div>
+                <h3>Lost Recurring Revenue</h3>
+                <p>You installed that furnace 11 months ago. Nobody calls for the annual maintenance check. The customer calls someone else for the service contract. You just lost $400/year in recurring revenue.</p>
+                <span class="cost">Cost: 60% of customers never rebook maintenance</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="solution-section">
+    <div class="container">
+        <h2>Meet Your AI Dispatcher</h2>
+        <p class="solution-subtitle">It works the night shift, handles the overflow, and never misses a call.</p>
+        <div class="solution-features">
+            <div class="feature">
+                <h3><span class="check">✓</span> 24/7 Emergency Dispatch</h3>
+                <p>Every after-hours call gets answered instantly. The AI triages emergencies vs. non-urgent requests, collects customer details, and schedules appropriately — real emergencies get on-call techs, everything else gets next-day slots.</p>
+            </div>
+            <div class="feature">
+                <h3><span class="check">✓</span> Smart Qualification</h3>
+                <p>"Is the AC completely off or just not cooling?" "Do you smell gas?" The AI asks the right questions to determine urgency, dispatch priority, and whether the caller is a good fit for your services.</p>
+            </div>
+            <div class="feature">
+                <h3><span class="check">✓</span> Automatic Scheduling</h3>
+                <p>Books jobs directly into your techs' schedules. Optimizes for geography, urgency, and job type. Sends techs real-time notifications with customer info, address, and problem details.</p>
+            </div>
+            <div class="feature">
+                <h3><span class="check">✓</span> Peak Season Overflow</h3>
+                <p>During heat waves and cold snaps, the AI handles the overflow that your dispatcher can't. No more hold times. No more lost calls. Every customer gets a fast, professional response.</p>
+            </div>
+            <div class="feature">
+                <h3><span class="check">✓</span> Maintenance Reminders</h3>
+                <p>Automated annual and seasonal checkup reminders via SMS and email. "Your furnace tune-up is due — want to book your fall service?" Recapture the 60% who forget to rebook.</p>
+            </div>
+            <div class="feature">
+                <h3><span class="check">✓</span> Review Management</h3>
+                <p>Post-service review requests sent automatically. Positive reviews get prompted to Google. Negative reviews get flagged for your team to address before they go public.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="how-section">
+    <div class="container">
+        <h2>Up and Running This Week</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <h3>Forward Your Line</h3>
+                <p>Forward after-hours calls to your AI dispatcher, or route all overflow through it. Keeps your existing number — no changes for customers.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <h3>Set Your Rules</h3>
+                <p>Define what's an emergency vs. standard job. Set tech availability, service areas, and pricing tiers. Your AI learns your dispatch logic.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <h3>Collect Revenue</h3>
+                <p>Your AI captures after-hours calls, books jobs, and fills your schedule. Wake up to jobs already on the board.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="testimonial-section">
+    <div class="container">
+        <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <blockquote>"Last August we had a brutal heat wave. Before Dream AI, we were losing 15+ emergency calls per night to voicemail. After the first week, our AI was capturing every single one — triaging true emergencies to on-call techs and scheduling the rest for next day. We booked an extra $34,000 in emergency service calls that month that would have gone straight to competitors. The AI paid for itself in the first 48 hours."</blockquote>
+            <div class="author">Jake Rodriguez</div>
+            <div class="role">Owner, Rodriguez Mechanical · Houston TX · 12 employees</div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section" id="calculator">
+    <div class="container">
+        <h2>Find Your After-Hours Revenue Leak</h2>
+        <p>How much are missed after-hours calls and seasonal overflow costing your HVAC business? Calculate it now.</p>
+        <a href="#" class="main-cta">Calculate Your After-Hours Losses →</a>
+        <p class="hero-cta-sub" style="margin-top: 16px; opacity: 0.5; font-size: 0.85rem;">Free · Built for HVAC companies · Instant results</p>
+    </div>
+</section>
+
+<section class="trust-section">
+    <div class="container">
+        <div class="trust-badges">
+            <span>🔒 Enterprise-Grade Security</span>
+            <span>⚡ 99.9% Uptime SLA</span>
+            <span>🇺🇸 US-Based Support</span>
+            <span>⭐ 4.9/5 Customer Rating</span>
+            <span>📞 Phone + SMS + Web</span>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p>© 2026 Dream AI · AI employees for modern businesses</p>
+    </div>
+</footer>
+
+</body>
+</html>

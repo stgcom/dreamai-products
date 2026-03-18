@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retargeting Pixel Setup Guide — Dream AI</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0D0B3E;color:#fff;line-height:1.7;padding:40px 20px}
+.container{max-width:800px;margin:0 auto}
+h1{color:#6C3CE9;font-size:2em;margin-bottom:8px}
+h2{color:#C4C3FF;font-size:1.4em;margin:32px 0 12px;border-bottom:2px solid #1B1464;padding-bottom:8px}
+h3{color:#fff;margin:20px 0 8px}
+p,li{color:#D0CFFF;font-size:1em}
+ul{padding-left:20px;margin:12px 0}
+li{margin:8px 0}
+.code{background:#1B1464;border-radius:8px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:.9em;color:#A09CFF;margin:12px 0;overflow-x:auto;white-space:pre-wrap}
+.step{display:flex;gap:16px;margin:16px 0;align-items:flex-start}
+.step .num{background:#6C3CE9;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.warn{background:#2d1b00;border:1px solid #ff9800;border-radius:8px;padding:16px;margin:16px 0;color:#ffb74d}
+.success{background:#002d1b;border:1px solid #4caf50;border-radius:8px;padding:16px;margin:16px 0;color:#81c784}
+table{width:100%;border-collapse:collapse;margin:16px 0}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid #1B1464}
+th{color:#6C3CE9;font-size:.85em}td{color:#D0CFFF}
+.btn{display:inline-block;background:#6C3CE9;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:600;margin:8px 4px 8px 0}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>📊 Retargeting Pixel Setup Guide</h1>
+<p>Install tracking pixels to retarget visitors who don't convert. This turns one-time visitors into paying customers.</p>
+
+<h2>Why Retargeting Matters</h2>
+<div class="success">
+<strong>Key stats:</strong>
+<ul>
+<li>Only 2% of website visitors convert on the first visit</li>
+<li>Retargeted visitors convert 70% better than cold traffic</li>
+<li>ROI on retargeting ads: 10x higher than standard display ads</li>
+<li>It takes 7-13 touchpoints to convert a lead</li>
+</ul>
+</div>
+
+<h2>1. Meta Pixel (Facebook + Instagram)</h2>
+<div class="step"><div class="num">1</div><div><h3>Create Meta Pixel</h3>
+<p>Go to: <strong>Facebook Business Manager → Events Manager → Pixels → Create</strong></p>
+<p>Copy your Pixel ID (format: 12-15 digit number)</p>
+</div></div>
+
+<div class="step"><div class="num">2</div><div><h3>Install Base Code</h3>
+<p>Add this to every page, right after <code>&lt;head&gt;</code>:</p>
+</div></div>
+<div class="code">&lt;!-- Meta Pixel Code --&gt;
+&lt;script&gt;
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'YOUR_PIXEL_ID');
+fbq('track', 'PageView');
+&lt;/script&gt;
+&lt;noscript&gt;&lt;img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&amp;ev=PageView&amp;noscript=1"
+/&gt;&lt;/noscript&gt;
+&lt;!-- End Meta Pixel Code --&gt;</div>
+
+<div class="step"><div class="num">3</div><div><h3>Track Custom Events</h3>
+<p>Add these event codes to track specific actions:</p>
+</div></div>
+<div class="code">// Track Quiz Completion (scorecard)
+fbq('track', 'CompleteRegistration', {content_name: 'AI Readiness Quiz'});
+
+// Track Calculator Use
+fbq('track', 'CalculateRevenue', {value: revenue_lost, currency: 'USD'});
+
+// Track Product Purchase
+fbq('track', 'Purchase', {value: price, currency: 'USD'});
+
+// Track Demo Booking
+fbq('track', 'Schedule', {content_name: 'AI Employee Demo'});</div>
+
+<h2>2. Google Analytics 4 (GA4) + Google Ads</h2>
+<div class="step"><div class="num">1</div><div><h3>Create GA4 Property</h3>
+<p>Go to: <strong>analytics.google.com → Admin → Create Property</strong></p>
+<p>Copy your Measurement ID (format: G-XXXXXXXXXX)</p>
+</div></div>
+
+<div class="step"><div class="num">2</div><div><h3>Install GA4 Tag</h3>
+</div></div>
+<div class="code">&lt;!-- Google Analytics 4 --&gt;
+&lt;script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"&gt;&lt;/script&gt;
+&lt;script&gt;
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-XXXXXXXXXX');
+&lt;/script&gt;
+
+&lt;!-- Google Ads Remarketing Tag (if running Google Ads) --&gt;
+&lt;script&gt;
+gtag('config', 'AW-CONVERSION_ID');
+&lt;/script&gt;</div>
+
+<h2>3. Dream AI Pixel Events (Custom)</h2>
+<table>
+<tr><th>Event</th><th>When to Fire</th><th>Use For Retargeting</th></tr>
+<tr><td>quiz_start</td><td>User starts quiz</td><td>Retarget quiz abandoners</td></tr>
+<tr><td>quiz_complete</td><td>User finishes quiz</td><td>Offer scored users upgrade</td></tr>
+<tr><td>calculator_use</td><td>User calculates revenue lost</td><td>Target high-value losses</td></tr>
+<tr><td>product_view</td><td>User views product page</td><td>Abandoned cart retargeting</td></tr>
+<tr><td>add_to_cart</td><td>User clicks buy</td><td>Cart abandonment recovery</td></tr>
+<tr><td>purchase</td><td>User completes purchase</td><td>Cross-sell & upsell</td></tr>
+<tr><td>demo_booked</td><td>User books demo call</td><td>Nurture until demo</td></tr>
+</table>
+
+<h2>4. Facebook Retargeting Audiences</h2>
+<p>Create these audiences in Facebook Ads Manager:</p>
+<table>
+<tr><th>Audience Name</th><th>Criteria</th><th>Ad Strategy</th></tr>
+<tr><td>Quiz Completers</td><td>Fired quiz_complete event, last 30 days</td><td>Offer Starter Kit upgrade</td></tr>
+<tr><td>Quiz Abandoners</td><td>Fired quiz_start but not quiz_complete</td><td>Remind to finish quiz</td></tr>
+<tr><td>Calculator Users</td><td>Fired calculator_use, lost > $5,000/mo</td><td>High-value: "You're losing $X/month"</td></tr>
+<tr><td>Product Viewers</td><td>Viewed product but didn't buy, last 14 days</td><td>Product benefit ad</td></tr>
+<tr><td>Cart Abandoners</td><td>Clicked buy but didn't complete, last 3 days</td><td>"Complete your purchase — 10% off"</td></tr>
+<tr><td>Past Customers</td><td>Completed purchase, last 90 days</td><td>Cross-sell next product</td></tr>
+<tr><td>Website Visitors</td><td>All visitors, last 180 days</td><td>General brand awareness</td></tr>
+</table>
+
+<h2>5. Implementation Checklist</h2>
+<ul>
+<li>✅ Install Meta Pixel base code on ALL pages</li>
+<li>✅ Install GA4 tracking code on ALL pages</li>
+<li>✅ Add custom event tracking to calculator</li>
+<li>✅ Add custom event tracking to scorecard quiz</li>
+<li>✅ Add purchase tracking to Stripe checkout</li>
+<li>✅ Create Facebook audiences from pixel data</li>
+<li>✅ Set up 7-day, 14-day, 30-day retargeting campaigns</li>
+<li>✅ Create exclusion lists (exclude converters from retargeting)</li>
+</ul>
+
+<div class="success">
+<h3>💡 Pro Tip: Stacked Retargeting</h3>
+<p>Show different ads based on where they were in the funnel:</p>
+<p><strong>Day 1-3:</strong> Same product they viewed → <strong>Day 4-7:</strong> Testimonial/social proof → <strong>Day 8-14:</strong> Limited-time offer → <strong>Day 15-30:</strong> New content/lead magnet</p>
+</div>
+
+<p style="text-align:center;margin-top:40px;color:#A09CFF">© 2026 Dream AI — dreamai.com</p>
+</div>
+</body>
+</html>

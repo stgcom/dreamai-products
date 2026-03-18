@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>"Book Me" SMS Booking Template — Dream AI</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #1B1464;
+    --accent: #6C3CE9;
+    --accent-light: #8B5CF6;
+    --bg: #FFFFFF;
+    --surface: #F8F7FF;
+    --border: #E8E4F8;
+    --text: #1a1a2e;
+    --text-light: #555;
+    --muted: #8888aa;
+    --success: #10B981;
+    --sms-sent: #6C3CE9;
+    --sms-received: #E5E7EB;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    color: white;
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60%; left: -20%;
+    width: 140%; height: 200%;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .hero h1 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .hero p {
+    font-size: 17px;
+    opacity: 0.9;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .hero .price-tag {
+    display: inline-block;
+    background: white;
+    color: var(--primary);
+    font-weight: 800;
+    font-size: 20px;
+    padding: 8px 24px;
+    border-radius: 12px;
+    margin-top: 20px;
+  }
+
+  /* Container */
+  .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+  /* Section Headers */
+  .section {
+    margin: 48px 0;
+  }
+  .section-label {
+    display: inline-block;
+    background: var(--surface);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .section h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 10px;
+  }
+  .section > p {
+    font-size: 15px;
+    color: var(--text-light);
+    max-width: 640px;
+  }
+
+  /* Phone Frame */
+  .phone-frame {
+    background: #1C1C1E;
+    border-radius: 40px;
+    padding: 16px;
+    max-width: 390px;
+    margin: 30px auto 0;
+    box-shadow: 0 20px 60px rgba(27,20,100,0.18), 0 0 0 1px rgba(0,0,0,0.1);
+  }
+  .phone-notch {
+    width: 120px;
+    height: 28px;
+    background: #1C1C1E;
+    border-radius: 0 0 16px 16px;
+    margin: -16px auto 12px;
+    position: relative;
+    z-index: 2;
+  }
+  .phone-screen {
+    background: #FFFFFF;
+    border-radius: 26px;
+    padding: 20px 16px 24px;
+    min-height: 500px;
+  }
+  .phone-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  .phone-status .time { font-weight: 700; }
+  .phone-contact {
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .phone-contact .name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+  .phone-contact .sub {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* SMS Bubbles */
+  .msg {
+    display: flex;
+    margin-bottom: 8px;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .msg.sent { justify-content: flex-end; }
+  .msg.received { justify-content: flex-start; }
+  .bubble {
+    max-width: 78%;
+    padding: 10px 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    border-radius: 18px;
+    word-wrap: break-word;
+    position: relative;
+  }
+  .msg.sent .bubble {
+    background: var(--sms-sent);
+    color: white;
+    border-bottom-right-radius: 4px;
+  }
+  .msg.received .bubble {
+    background: var(--sms-received);
+    color: var(--text);
+    border-bottom-left-radius: 4px;
+  }
+  .bubble .var {
+    background: rgba(255,255,255,0.25);
+    color: white;
+    padding: 1px 7px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  .msg.received .bubble .var {
+    background: var(--accent);
+    color: white;
+  }
+  .msg-time {
+    font-size: 10px;
+    color: var(--muted);
+    text-align: center;
+    margin: 4px 0 12px;
+  }
+  .msg-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+  .msg.sent .msg-label { text-align: right; }
+
+  .msg-divider {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    margin: 14px 0;
+    position: relative;
+  }
+  .msg-divider::before,
+  .msg-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30%;
+    height: 1px;
+    background: var(--border);
+  }
+  .msg-divider::before { left: 0; }
+  .msg-divider::after { right: 0; }
+
+  /* Steps */
+  .steps {
+    display: grid;
+    gap: 20px;
+    margin-top: 24px;
+  }
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 28px;
+    position: relative;
+  }
+  .step-num {
+    position: absolute;
+    top: -12px; left: 24px;
+    background: var(--accent);
+    color: white;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+  }
+  .step h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 8px;
+    margin-top: 4px;
+  }
+  .step p, .step li {
+    font-size: 14px;
+    color: var(--text-light);
+  }
+  .step ul {
+    padding-left: 18px;
+    margin-top: 8px;
+  }
+  .step li { margin-bottom: 4px; }
+  .step code {
+    background: #EDE9FE;
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* Code Block */
+  .code-block {
+    background: #0D1117;
+    border-radius: 14px;
+    margin-top: 24px;
+    overflow: hidden;
+    border: 1px solid #30363D;
+  }
+  .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: #161B22;
+    border-bottom: 1px solid #30363D;
+  }
+  .code-header .title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #C9D1D9;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .code-header .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .code-header .dot.g { background: #3FB950; }
+  .code-header .dot.y { background: #D29922; }
+  .code-header .dot.r { background: #F85149; }
+  .toggle-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .toggle-btn:hover { background: var(--primary); }
+  .code-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .code-content.open { max-height: 6000px; }
+  .code-content pre {
+    padding: 20px;
+    margin: 0;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #C9D1D9;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .code-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 20px;
+    border-top: 1px solid #30363D;
+  }
+  .copy-code-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .copy-code-btn:hover { background: var(--primary); }
+  .copy-code-btn:active { transform: scale(0.96); }
+  .copy-code-btn.copied { background: var(--success); }
+
+  /* Flow Overview */
+  .flow-overview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 24px;
+  }
+  .flow-step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary);
+    text-align: center;
+    min-width: 110px;
+  }
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--accent);
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  /* Variables list */
+  .var-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .var-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+  }
+  .var-item .token {
+    font-family: 'SF Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .var-item .desc {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 4px;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 40px 24px 50px;
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+  }
+  .footer .logo {
+    font-size: 22px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .footer p { font-size: 14px; color: var(--muted); }
+  .footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+
+  /* Print */
+  @media print {
+    body { font-size: 11pt; }
+    .hero { padding: 30px 20px; }
+    .phone-frame { box-shadow: none; border: 2px solid #ddd; }
+    .code-content { max-height: none !important; }
+    .toggle-btn { display: none; }
+    a { color: #333; }
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .phone-frame { border-radius: 30px; padding: 10px; }
+    .phone-screen { border-radius: 20px; padding: 14px 10px 18px; }
+    .bubble { max-width: 85%; font-size: 13px; }
+    .flow-arrow { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">Dream AI Digital Product</div>
+  <h1>"Book Me"<br>SMS Booking Template</h1>
+  <p>A complete 10-message SMS automation that books appointments, sends reminders, follows up, and requests reviews — all on autopilot via N8N + Twilio.</p>
+  <div class="price-tag">$7</div>
+</div>
+
+<div class="container">
+
+<!-- AUTOMATION FLOW OVERVIEW -->
+<div class="section">
+  <div class="section-label">How It Works</div>
+  <h2>End-to-End Automation Flow</h2>
+  <p>Your AI receptionist never sleeps. Here's the complete workflow from first text to final review request.</p>
+
+  <div class="flow-overview">
+    <div class="flow-step">📩 Incoming SMS</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">🤖 Parse Intent</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">📅 Check Calendar</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">✅ Book Slot</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">📝 Confirm</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">⏰ Remind</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">👋 Follow-Up</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">⭐ Review</div>
+  </div>
+</div>
+
+<!-- SMS CONVERSATION -->
+<div class="section">
+  <div class="section-label">The Template</div>
+  <h2>10-Message Conversation Sequence</h2>
+  <p>Each message is carefully sequenced to guide the customer from inquiry to booked appointment to review — with zero human intervention needed.</p>
+
+  <div class="phone-frame">
+    <div class="phone-notch"></div>
+    <div class="phone-screen">
+      <div class="phone-status">
+        <span class="time">9:41</span>
+        <span>5G 📶</span>
+      </div>
+      <div class="phone-contact">
+        <div class="name">[Your Business]</div>
+        <div class="sub">AI Assistant</div>
+      </div>
+
+      <!-- Message 1: Customer Inquiry -->
+      <div class="msg-label">Customer initiates</div>
+      <div class="msg received">
+        <div class="bubble">Hi, I'd like to book an appointment for a <span class="var">[Service]</span></div>
+      </div>
+      <div class="msg-time">Mon 10:23 AM</div>
+
+      <!-- Message 2: Welcome + Qualify -->
+      <div class="msg-label">AI Response</div>
+      <div class="msg sent">
+        <div class="bubble">Hey <span class="var">[FirstName]</span>! 👋 Welcome to <span class="var">[BusinessName]</span>. I'd love to get you booked. Do you have a preferred date and time, or should I show you our next openings?</div>
+      </div>
+      <div class="msg-time">Mon 10:23 AM</div>
+
+      <!-- Message 3: Customer provides date -->
+      <div class="msg-label">Customer responds</div>
+      <div class="msg received">
+        <div class="bubble">Thursday afternoon would be great, like around 2pm?</div>
+      </div>
+      <div class="msg-time">Mon 10:24 AM</div>
+
+      <!-- Message 4: Confirm availability -->
+      <div class="msg-label">AI Response</div>
+      <div class="msg sent">
+        <div class="bubble">Let me check that for you... 🔍 One sec!</div>
+      </div>
+      <div class="msg-time">Mon 10:24 AM</div>
+
+      <!-- Message 5: Confirm slot -->
+      <div class="msg-label">AI Confirms</div>
+      <div class="msg sent">
+        <div class="bubble">Great news! <span class="var">[Date]</span> at <span class="var">[Time]</span> is available for your <span class="var">[Service]</span>. Shall I lock it in for you?</div>
+      </div>
+      <div class="msg-time">Mon 10:25 AM</div>
+
+      <!-- Message 6: Customer confirms -->
+      <div class="msg-label">Customer confirms</div>
+      <div class="msg received">
+        <div class="bubble">Yes please!</div>
+      </div>
+      <div class="msg-time">Mon 10:25 AM</div>
+
+      <!-- Message 7: Booking confirmation -->
+      <div class="msg-label">AI Confirms Booking</div>
+      <div class="msg sent">
+        <div class="bubble">You're all set, <span class="var">[FirstName]</span>! ✅<br><br>📅 <span class="var">[Date]</span> at <span class="var">[Time]</span><br>📍 <span class="var">[Address]</span><br>Service: <span class="var">[Service]</span><br><br>I'll send you a reminder the day before. Anything else you need?</div>
+      </div>
+      <div class="msg-time">Mon 10:25 AM</div>
+
+      <div class="msg-divider">— next day —</div>
+
+      <!-- Message 8: Day-before reminder -->
+      <div class="msg-label">AI Reminder (24h before)</div>
+      <div class="msg sent">
+        <div class="bubble">Hey <span class="var">[FirstName]</span>! ⏰ Just a reminder: your <span class="var">[Service]</span> is tomorrow at <span class="var">[Time]</span>. See you at <span class="var">[Address]</span>! Reply C to confirm or R to reschedule.</div>
+      </div>
+      <div class="msg-time">Wed 6:00 PM</div>
+
+      <div class="msg-divider">— after appointment —</div>
+
+      <!-- Message 9: Post-visit follow-up -->
+      <div class="msg-label">AI Follow-Up (24h after)</div>
+      <div class="msg sent">
+        <div class="bubble">Hey <span class="var">[FirstName]</span>! Hope your <span class="var">[Service]</span> went great today. If you need to rebook or have any questions, I'm just a text away! 💜</div>
+      </div>
+      <div class="msg-time">Fri 5:00 PM</div>
+
+      <div class="msg-divider">— 2 days after —</div>
+
+      <!-- Message 10: Review request -->
+      <div class="msg-label">AI Review Request</div>
+      <div class="msg sent">
+        <div class="bubble"><span class="var">[FirstName]</span>, if you loved your experience with us, would you mind leaving a quick review? It means the world! ⭐<br><br>👉 <span class="var">[ReviewLink]</span></div>
+      </div>
+      <div class="msg-time">Sun 11:00 AM</div>
+
+    </div>
+  </div>
+</div>
+
+<!-- VARIABLES -->
+<div class="section">
+  <div class="section-label">Customization</div>
+  <h2>Template Variables</h2>
+  <p>Replace these tokens with your business data. The N8N workflow auto-populates most of them from your calendar and customer input.</p>
+
+  <div class="var-list">
+    <div class="var-item">
+      <div class="token">[FirstName]</div>
+      <div class="desc">Customer's first name, captured from conversation</div>
+    </div>
+    <div class="var-item">
+      <div class="token">[BusinessName]</div>
+      <div class="desc">Your company or practice name</div>
+    </div>
+    <div class="var-item">
+      <div class="token">[Service]</div>
+      <div class="desc">Type of service being booked</div>
+    </div>
+    <div class="var-item">
+      <div class="token">[Date]</div>
+      <div class="desc">Confirmed appointment date</div>
+    </div>
+    <div class="var-item">
+      <div class="token">[Time]</div>
+      <div class="desc">Confirmed appointment time</div>
+    </div>
+    <div class="var-item">
+      <div class="token">[Address]</div>
+      <div class="desc">Your business address or location</div>
+    </div>
+    <div class="var-item">
+      <div class="token">[ReviewLink]</div>
+      <div class="desc">Direct link to your Google/Yelp review page</div>
+    </div>
+  </div>
+</div>
+
+<!-- SETUP: TWILIO -->
+<div class="section">
+  <div class="section-label">Setup Guide</div>
+  <h2>Part 1: Twilio Configuration</h2>
+  <p>Twilio handles all SMS sending and receiving. Set it up once, and the automation runs forever.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Create a Twilio Account</h3>
+      <p>Sign up at <code>twilio.com</code> and verify your account. You'll get $15 in free trial credit to test with.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Buy a Phone Number</h3>
+      <p>Navigate to <strong>Phone Numbers → Buy a Number</strong>. Choose a local number with SMS capabilities. This will be your business line.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Set Up a Messaging Service</h3>
+      <p>Go to <strong>Messaging Services → Create</strong>. Add your purchased number. This groups your number and webhook into one unit.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h3>Configure the Webhook</h3>
+      <p>In your Messaging Service settings, set the <strong>Inbound webhook URL</strong> to your N8N webhook endpoint (provided in the workflow JSON below). Set it to <code>POST</code>.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <h3>Grab Your Credentials</h3>
+      <p>From the Twilio Console dashboard, copy your <code>Account SID</code>, <code>Auth Token</code>, and the Messaging Service <code>SID</code>. You'll paste these into the N8N workflow.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SETUP: GOOGLE CALENDAR -->
+<div class="section">
+  <h2>Part 2: Google Calendar Integration</h2>
+  <p>The workflow checks real-time availability and creates bookings directly in your Google Calendar.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Create a Dedicated Calendar</h3>
+      <p>In Google Calendar, create a new calendar called <strong>"SMS Bookings"</strong>. This keeps automated bookings separate from your personal events.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Set Up Google Cloud Credentials</h3>
+      <p>Go to <code>console.cloud.google.com</code>. Create a project (or use an existing one), enable the <strong>Google Calendar API</strong>, and create an OAuth 2.0 credential (Desktop app type).</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Connect to N8N</h3>
+      <p>In N8N, go to <strong>Credentials → Add → Google Calendar OAuth2</strong>. Enter your Client ID and Secret from Google Cloud. Authorize access and select your "SMS Bookings" calendar.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h3>Set Business Hours</h3>
+      <p>Configure your available hours in the N8N workflow settings. Default is Monday–Friday, 9 AM–5 PM. Adjust the time slots and buffer duration between appointments.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <h3>Test the Integration</h3>
+      <p>Send a test SMS to your Twilio number. The workflow should check the calendar, find an open slot, and create a test event. Verify it appears in your Google Calendar.</p>
+    </div>
+  </div>
+</div>
+
+<!-- N8N WORKFLOW JSON -->
+<div class="section">
+  <div class="section-label">Automation</div>
+  <h2>N8N Workflow JSON</h2>
+  <p>Copy this workflow and import it directly into your N8N instance. It contains the complete automation: receive SMS → parse intent → check calendar → book → confirm → remind → follow-up → request review.</p>
+
+  <div class="code-block">
+    <div class="code-header">
+      <div class="title">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        sms-booking-workflow.json
+      </div>
+      <button class="toggle-btn" id="toggleCode" onclick="toggleCodeBlock()">Expand JSON</button>
+    </div>
+    <div class="code-content" id="codeContent">
+      <pre id="jsonCode">{
+  "name": "SMS Booking Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "sms-inbound",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-inbound",
+      "name": "Receive SMS Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "sms-inbound-webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse incoming SMS from Twilio\nconst body = $input.first().json.body;\nconst fromNumber = body.From || $input.first().json.From;\nconst messageBody = body.Body || $input.first().json.Body || '';\n\n// Extract keywords for intent detection\nconst lowerMsg = messageBody.toLowerCase().trim();\n\nlet intent = 'general';\nif (lowerMsg.includes('book') || lowerMsg.includes('appointment') || lowerMsg.includes('schedule') || lowerMsg.includes('available')) {\n  intent = 'booking_request';\n} else if (lowerMsg.includes('cancel')) {\n  intent = 'cancellation';\n} else if (lowerMsg.includes('reschedule') || lowerMsg.includes('change') || lowerMsg.includes('different')) {\n  intent = 'reschedule';\n} else if (lowerMsg === 'c' || lowerMsg === 'confirm' || lowerMsg === 'yes') {\n  intent = 'confirm';\n} else if (lowerMsg === 'r' || lowerMsg === 'reschedule') {\n  intent = 'reschedule_request';\n}\n\n// Try to extract date/time from message\nconst dateMatch = messageBody.match(/(tomorrow|monday|tuesday|wednesday|thursday|friday|saturday|sunday|\\d{1,2}\\/\\d{1,2}|\\d{1,2}-\\d{1,2})/i);\nconst timeMatch = messageBody.match(/(\\d{1,2}):?(\\d{2})?\\s*(am|pm)?|(morning|afternoon|evening|noon)/i);\n\nreturn [{\n  json: {\n    fromNumber: fromNumber,\n    messageBody: messageBody,\n    intent: intent,\n    extractedDate: dateMatch ? dateMatch[0] : null,\n    extractedTime: timeMatch ? timeMatch[0] : null,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "parse-message",
+      "name": "Parse Intent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": false },
+          "conditions": [
+            {
+              "id": "booking",
+              "leftValue": "={{ $json.intent }}",
+              "rightValue": "booking_request",
+              "operator": { "type": "string", "operation": "equals" }
+            },
+            {
+              "id": "confirm",
+              "leftValue": "={{ $json.intent }}",
+              "rightValue": "confirm",
+              "operator": { "type": "string", "operation": "equals" }
+            },
+            {
+              "id": "cancel",
+              "leftValue": "={{ $json.intent }}",
+              "rightValue": "cancellation",
+              "operator": { "type": "string", "operation": "equals" }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "route-intent",
+      "name": "Route by Intent",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [720, 300]
+    },
+    {
+      "parameters": {
+        "calendarId": "={{ $('Set Credentials').first().json.calendarId }}",
+        "start": "={{ $json.appointmentStart }}",
+        "end": "={{ $json.appointmentEnd }}",
+        "additionalFields": {
+          "summary": "={{ $json.customerName }} - {{ $json.serviceType }}",
+          "description": "Booked via SMS automation. Phone: {{ $json.fromNumber }}",
+          "attendees": []
+        }
+      },
+      "id": "create-event",
+      "name": "Book in Calendar",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [960, 180],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "REPLACE_WITH_CREDENTIAL_ID",
+          "name": "Google Calendar Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.twilio.com/2010-04-01/Accounts/{{ $env.TWILIO_ACCOUNT_SID }}/Messages.json",
+        "authentication": "genericAuthType",
+        "genericAuthType": {
+          "httpHeaderAuth": {
+            "name": "Authorization",
+            "value": "Basic {{ Buffer.from($env.TWILIO_ACCOUNT_SID + ':' + $env.TWILIO_AUTH_TOKEN).toString('base64') }}"
+          }
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "To", "value": "={{ $json.fromNumber }}" },
+            { "name": "From", "value": "={{ $env.TWILIO_PHONE_NUMBER }}" },
+            { "name": "Body", "value": "={{ $json.responseMessage }}" },
+            { "name": "MessagingServiceSid", "value": "={{ $env.TWILIO_MESSAGING_SERVICE_SID }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "send-sms",
+      "name": "Send SMS Reply",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1200, 180]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ status: 'ok' }) }}"
+      },
+      "id": "respond-webhook",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1440, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build confirmation message after booking\nconst data = $input.first().json;\n\nconst responseMessage = `You're all set, ${data.customerName}! ✅\\n\\n📅 ${data.dateDisplay} at ${data.timeDisplay}\\n📍 ${data.businessAddress}\\nService: ${data.serviceType}\\n\\nI'll send you a reminder the day before. Anything else you need?`;\n\nreturn [{\n  json: {\n    ...data,\n    responseMessage: responseMessage,\n    status: 'confirmed'\n  }\n}];"
+      },
+      "id": "build-confirm",
+      "name": "Build Confirmation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [960, 360]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "cronExpression", "expression": "0 18 * * *" }
+          ]
+        }
+      },
+      "id": "reminder-schedule",
+      "name": "Daily Reminder Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [240, 600]
+    },
+    {
+      "parameters": {
+        "calendarId": "={{ $('Set Credentials').first().json.calendarId }}",
+        "start": "={{ $now }}",
+        "end": "={{ $now.plus({ hours: 24 }) }}"
+      },
+      "id": "get-tomorrow-events",
+      "name": "Get Tomorrow's Appointments",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [480, 600],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "REPLACE_WITH_CREDENTIAL_ID",
+          "name": "Google Calendar Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate reminder messages for tomorrow's appointments\nconst events = $input.all();\nconst results = [];\n\nfor (const event of events) {\n  const ev = event.json;\n  const customerName = ev.summary ? ev.summary.split(' - ')[0] : 'there';\n  const serviceType = ev.summary ? ev.summary.split(' - ')[1] || 'appointment' : 'appointment';\n  const startTime = new Date(ev.start.dateTime).toLocaleTimeString('en-US', {\n    hour: 'numeric', minute: '2-digit', hour12: true\n  });\n  const dateDisplay = new Date(ev.start.dateTime).toLocaleDateString('en-US', {\n    weekday: 'long', month: 'long', day: 'numeric'\n  });\n  const phone = ev.description ? ev.description.match(/Phone:\\s*(\\+?\\d+)/)?.[1] : null;\n\n  if (phone) {\n    results.push({\n      json: {\n        fromNumber: phone,\n        customerName: customerName,\n        serviceType: serviceType,\n        dateDisplay: dateDisplay,\n        timeDisplay: startTime,\n        responseMessage: `Hey ${customerName}! ⏰ Just a reminder: your ${serviceType} is tomorrow at ${startTime}. See you there! Reply C to confirm or R to reschedule.`\n      }\n    });\n  }\n}\n\nreturn results;"
+      },
+      "id": "build-reminders",
+      "name": "Build Reminder Messages",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [720, 600]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build follow-up message (sent 24h after appointment)\n// This runs on a daily schedule, checking for completed events\nreturn [{\n  json: {\n    responseMessage: `Hey {{customerName}}! Hope your {{serviceType}} went great today. If you need to rebook or have any questions, I'm just a text away! 💜`\n  }\n}];"
+      },
+      "id": "build-followup",
+      "name": "Build Follow-Up",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [720, 760]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build review request message (sent 2 days after appointment)\nreturn [{\n  json: {\n    responseMessage: `{{customerName}}, if you loved your experience with us, would you mind leaving a quick review? It means the world! ⭐\\n\\n👉 {{reviewLink}}`\n  }\n}];"
+      },
+      "id": "build-review",
+      "name": "Build Review Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [720, 880]
+    }
+  ],
+  "connections": {
+    "Receive SMS Webhook": {
+      "main": [[{ "node": "Parse Intent", "type": "main", "index": 0 }]]
+    },
+    "Parse Intent": {
+      "main": [[{ "node": "Route by Intent", "type": "main", "index": 0 }]]
+    },
+    "Route by Intent": {
+      "main": [
+        [{ "node": "Book in Calendar", "type": "main", "index": 0 }],
+        [{ "node": "Build Confirmation", "type": "main", "index": 0 }],
+        [{ "node": "Build Confirmation", "type": "main", "index": 0 }]
+      ]
+    },
+    "Book in Calendar": {
+      "main": [[{ "node": "Build Confirmation", "type": "main", "index": 0 }]]
+    },
+    "Build Confirmation": {
+      "main": [[{ "node": "Send SMS Reply", "type": "main", "index": 0 }]]
+    },
+    "Send SMS Reply": {
+      "main": [[{ "node": "Respond to Webhook", "type": "main", "index": 0 }]]
+    },
+    "Daily Reminder Check": {
+      "main": [[{ "node": "Get Tomorrow's Appointments", "type": "main", "index": 0 }]]
+    },
+    "Get Tomorrow's Appointments": {
+      "main": [[{ "node": "Build Reminder Messages", "type": "main", "index": 0 }]]
+    },
+    "Build Reminder Messages": {
+      "main": [[{ "node": "Send SMS Reply", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "tags": [
+    { "name": "sms-booking" },
+    { "name": "automation" },
+    { "name": "dream-ai" }
+  ]
+}</pre>
+    </div>
+    <div class="code-footer">
+      <button class="copy-code-btn" id="copyJsonBtn" onclick="copyJSON()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy JSON
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ENV VARS -->
+<div class="section">
+  <div class="section-label">Configuration</div>
+  <h2>Environment Variables</h2>
+  <p>Set these in your N8N instance settings (Settings → Environment Variables) before activating the workflow.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">🔑</div>
+      <h3>Required Variables</h3>
+      <ul>
+        <li><code>TWILIO_ACCOUNT_SID</code> — Your Twilio Account SID (starts with AC)</li>
+        <li><code>TWILIO_AUTH_TOKEN</code> — Your Twilio Auth Token</li>
+        <li><code>TWILIO_PHONE_NUMBER</code> — Your Twilio phone number (e.g., +15551234567)</li>
+        <li><code>TWILIO_MESSAGING_SERVICE_SID</code> — Messaging Service SID (starts with MG)</li>
+      </ul>
+    </div>
+    <div class="step">
+      <div class="step-num">⚙️</div>
+      <h3>Business Configuration</h3>
+      <ul>
+        <li><code>BUSINESS_NAME</code> — Your company name</li>
+        <li><code>BUSINESS_ADDRESS</code> — Your physical address</li>
+        <li><code>REVIEW_LINK</code> — Direct link to your review page</li>
+        <li><code>BOOKING_WINDOW_HOURS</code> — Hours before appointment to stop booking (default: 2)</li>
+        <li><code>REMINDER_HOURS_BEFORE</code> — Hours before appointment to send reminder (default: 24)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="logo">Dream AI</div>
+  <p>&copy; Dream AI — Get the done-for-you version at <a href="https://dreamai.com" target="_blank">dreamai.com</a></p>
+</div>
+
+</div>
+
+<script>
+function toggleCodeBlock() {
+  const content = document.getElementById('codeContent');
+  const btn = document.getElementById('toggleCode');
+  content.classList.toggle('open');
+  btn.textContent = content.classList.contains('open') ? 'Collapse JSON' : 'Expand JSON';
+}
+
+function copyJSON() {
+  const text = document.getElementById('jsonCode').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyJsonBtn');
+    const original = btn.innerHTML;
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

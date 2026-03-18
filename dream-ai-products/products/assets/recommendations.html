@@ -1,0 +1,394 @@
+<!-- Dream AI — Personalized Product Recommendations Component -->
+<!-- Usage: Include this file and call showRecommendations(score) with a quiz score (0-100) -->
+<!-- Dependencies: None — self-contained component with Dream AI branding -->
+<style>
+  .dream-recs-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(27, 20, 100, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .dream-recs-overlay.active { display: flex; }
+
+  .dream-recs-modal {
+    background: #FFFFFF;
+    border-radius: 20px;
+    max-width: 960px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 80px rgba(27, 20, 100, 0.25);
+    position: relative;
+    animation: recsSlideUp 0.4s ease;
+  }
+  @keyframes recsSlideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .dream-recs-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: #F8F7FF;
+    color: #8888aa;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 10;
+  }
+  .dream-recs-close:hover { background: #E8E4F8; }
+
+  .dream-recs-header {
+    padding: 36px 40px 20px;
+    text-align: center;
+  }
+  .dream-recs-header .score-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #1B1464, #6C3CE9);
+    color: white;
+    padding: 8px 24px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .dream-recs-header h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #1B1464;
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .dream-recs-header p {
+    font-size: 15px;
+    color: #8888aa;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .dream-recs-cards {
+    display: flex;
+    gap: 16px;
+    padding: 20px 40px 36px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .dream-recs-cards::-webkit-scrollbar { height: 6px; }
+  .dream-recs-cards::-webkit-scrollbar-track { background: #F8F7FF; border-radius: 3px; }
+  .dream-recs-cards::-webkit-scrollbar-thumb { background: #E8E4F8; border-radius: 3px; }
+
+  .dream-rec-card {
+    flex: 0 0 260px;
+    scroll-snap-align: start;
+    background: #FFFFFF;
+    border: 2px solid #E8E4F8;
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: center;
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .dream-rec-card:hover {
+    border-color: #6C3CE9;
+    box-shadow: 0 8px 32px rgba(108, 60, 233, 0.1);
+  }
+  .dream-rec-card.recommended {
+    border-color: #6C3CE9;
+    background: linear-gradient(180deg, #F8F7FF 0%, #FFFFFF 40%);
+  }
+  .dream-rec-card.recommended::before {
+    content: '⭐ Recommended for you';
+    position: absolute;
+    top: -12px; left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #1B1464, #6C3CE9);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+  }
+
+  .dream-rec-icon {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, #F8F7FF, #E8E4F8);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin: 0 auto 14px;
+  }
+  .dream-rec-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1B1464;
+    margin-bottom: 6px;
+  }
+  .dream-rec-card .rec-desc {
+    font-size: 13px;
+    color: #8888aa;
+    line-height: 1.5;
+    margin-bottom: 14px;
+    min-height: 40px;
+  }
+  .dream-rec-card .rec-price {
+    font-size: 22px;
+    font-weight: 800;
+    color: #6C3CE9;
+    margin-bottom: 16px;
+  }
+  .dream-rec-card .rec-price .original {
+    font-size: 14px;
+    color: #8888aa;
+    text-decoration: line-through;
+    font-weight: 400;
+    margin-left: 6px;
+  }
+
+  .dream-rec-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+    border: none;
+    cursor: pointer;
+  }
+  .dream-rec-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(108, 60, 233, 0.2);
+  }
+  .dream-rec-btn.primary {
+    background: linear-gradient(135deg, #1B1464, #6C3CE9);
+    color: white;
+  }
+  .dream-rec-btn.secondary {
+    background: #F8F7FF;
+    color: #6C3CE9;
+    border: 1px solid #E8E4F8;
+  }
+
+  .dream-recs-footer {
+    text-align: center;
+    padding: 0 40px 32px;
+  }
+  .dream-recs-footer p {
+    font-size: 12px;
+    color: #8888aa;
+  }
+  .dream-recs-footer a {
+    color: #6C3CE9;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  @media (max-width: 640px) {
+    .dream-recs-modal { border-radius: 16px; }
+    .dream-recs-header { padding: 28px 24px 16px; }
+    .dream-recs-header h2 { font-size: 22px; }
+    .dream-recs-cards { padding: 20px 20px 28px; gap: 12px; }
+    .dream-rec-card { flex: 0 0 240px; }
+  }
+</style>
+
+<!-- Overlay + Modal -->
+<div class="dream-recs-overlay" id="dreamRecsOverlay" onclick="if(event.target===this)closeDreamRecs()">
+  <div class="dream-recs-modal" id="dreamRecsModal">
+    <button class="dream-recs-close" onclick="closeDreamRecs()" aria-label="Close">✕</button>
+    <div class="dream-recs-header">
+      <div class="score-badge" id="recsScoreBadge"></div>
+      <h2 id="recsTitle"></h2>
+      <p id="recsSubtitle"></p>
+    </div>
+    <div class="dream-recs-cards" id="recsCards"></div>
+    <div class="dream-recs-footer">
+      <p>All products include 30-day money-back guarantee. Questions? <a href="https://dreamai.com/contact" target="_blank">Contact us</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+/**
+ * Show personalized product recommendations based on quiz score
+ * @param {number} score — Quiz result 0-100
+ */
+function showRecommendations(score) {
+  const overlay = document.getElementById('dreamRecsOverlay');
+  const scoreBadge = document.getElementById('recsScoreBadge');
+  const title = document.getElementById('recsTitle');
+  const subtitle = document.getElementById('recsSubtitle');
+  const cardsContainer = document.getElementById('recsCards');
+
+  let tier, tierLabel, tierTitle, tierSubtitle, products;
+
+  if (score <= 30) {
+    tier = 'starter';
+    tierLabel = `Your Score: ${score}/100 — Getting Started`;
+    tierTitle = 'You\'re Just Getting Started — Here\'s Your Launchpad';
+    tierSubtitle = 'Every business starts somewhere. The Starter Kit is your fastest path to an AI-powered front desk.';
+    products = [
+      {
+        icon: '🚀',
+        name: 'AI Receptionist Starter Kit',
+        desc: 'Done-for-you AI receptionist setup with custom scripts, voice training, and CRM integration.',
+        price: '$297',
+        btnClass: 'primary',
+        btnText: 'Get Started →',
+        url: 'https://dreamai.com/starter-kit',
+        recommended: true
+      }
+    ];
+  } else if (score <= 60) {
+    tier = 'builder';
+    tierLabel = `Your Score: ${score}/100 — Building Momentum`;
+    tierTitle = 'You\'re Building Momentum — Level Up Your Scripts';
+    tierSubtitle = 'You\'ve got the basics down. These tools will sharpen your conversations and handle more objections.';
+    products = [
+      {
+        icon: '📊',
+        name: 'AI Readiness Scorecard',
+        desc: 'Detailed assessment of your AI readiness with custom recommendations for your industry.',
+        price: '$5',
+        btnClass: 'secondary',
+        btnText: 'Get Scorecard →',
+        url: 'https://dreamai.com/scorecard',
+        recommended: false
+      },
+      {
+        icon: '📜',
+        name: 'Script Pack',
+        desc: '25 plug-and-play scripts for cold calls, objections, closing, and email — this mini-course!',
+        price: '$12',
+        btnClass: 'primary',
+        btnText: 'Get Scripts →',
+        url: 'https://dreamai.com/script-pack',
+        recommended: true
+      }
+    ];
+  } else if (score <= 85) {
+    tier = 'scaling';
+    tierLabel = `Your Score: ${score}/100 — Scaling Up`;
+    tierTitle = 'You\'re Scaling Fast — Time to Automate';
+    tierSubtitle = 'Your call handling is strong. Now let\'s remove the bottleneck with an AI system that never sleeps.';
+    products = [
+      {
+        icon: '📊',
+        name: 'AI Readiness Scorecard',
+        desc: 'Get a detailed roadmap for your AI automation journey — identify exactly where automation adds the most ROI.',
+        price: '$5',
+        btnClass: 'secondary',
+        btnText: 'Get Scorecard →',
+        url: 'https://dreamai.com/scorecard',
+        recommended: true
+      },
+      {
+        icon: '🚀',
+        name: 'AI Receptionist Starter Kit',
+        desc: 'Full done-for-you AI receptionist — custom scripts, voice, CRM integration, and ongoing optimization.',
+        price: '$297',
+        btnClass: 'primary',
+        btnText: 'Get Started →',
+        url: 'https://dreamai.com/starter-kit',
+        recommended: true
+      }
+    ];
+  } else {
+    tier = 'elite';
+    tierLabel = `Your Score: ${score}/100 — Elite Level`;
+    tierTitle = 'You\'re at Elite Level — Let\'s Talk Strategy';
+    tierSubtitle = 'Your call game is dialed in. You\'re ready for a custom AI deployment tailored to your operation.';
+    products = [
+      {
+        icon: '📊',
+        name: 'AI Readiness Scorecard',
+        desc: 'Validate your score and get a tailored expansion roadmap.',
+        price: '$5',
+        btnClass: 'secondary',
+        btnText: 'Get Scorecard →',
+        url: 'https://dreamai.com/scorecard',
+        recommended: false
+      },
+      {
+        icon: '📜',
+        name: 'Script Pack',
+        desc: '25 pro scripts — use as a benchmark and training tool for your team.',
+        price: '$12',
+        btnClass: 'secondary',
+        btnText: 'Get Scripts →',
+        url: 'https://dreamai.com/script-pack',
+        recommended: false
+      },
+      {
+        icon: '🚀',
+        name: 'AI Receptionist Starter Kit',
+        desc: 'Complete AI receptionist deployment with advanced customization.',
+        price: '$297',
+        btnClass: 'secondary',
+        btnText: 'Get Started →',
+        url: 'https://dreamai.com/starter-kit',
+        recommended: false
+      },
+      {
+        icon: '🔥',
+        name: 'Book Emergency Demo',
+        desc: '30-minute strategy session with our team. Limited spots — custom AI deployment for your business.',
+        price: 'FREE',
+        btnClass: 'primary',
+        btnText: 'Book Demo →',
+        url: 'https://dreamai.com/demo',
+        recommended: true
+      }
+    ];
+  }
+
+  scoreBadge.textContent = tierLabel;
+  title.textContent = tierTitle;
+  subtitle.textContent = tierSubtitle;
+
+  cardsContainer.innerHTML = products.map(p => `
+    <div class="dream-rec-card ${p.recommended ? 'recommended' : ''}">
+      <div class="dream-rec-icon">${p.icon}</div>
+      <h3>${p.name}</h3>
+      <div class="rec-desc">${p.desc}</div>
+      <div class="rec-price">${p.price}</div>
+      <a href="${p.url}" class="dream-rec-btn ${p.btnClass}" target="_blank">${p.btnText}</a>
+    </div>
+  `).join('');
+
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDreamRecs() {
+  document.getElementById('dreamRecsOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Close on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeDreamRecs();
+});
+</script>

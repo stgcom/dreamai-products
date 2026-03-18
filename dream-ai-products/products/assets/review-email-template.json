@@ -1,0 +1,96 @@
+{
+  "name": "Dream AI — Post-Purchase Review Request Sequence",
+  "description": "Two-step email sequence to request Google reviews after digital product purchase. Day 5: warm check-in + review ask. Day 10: shorter follow-up with 20% discount incentive.",
+  "version": "1.0.0",
+  "created": "2026-03-18",
+  "brand": "Dream AI",
+  "tags": ["review-request", "post-purchase", "email-sequence", "google-review"],
+  "mergeTags": {
+    "firstName": {
+      "description": "Customer's first name",
+      "required": true,
+      "fallback": "there"
+    },
+    "productName": {
+      "description": "Name of the purchased digital product",
+      "required": true,
+      "fallback": "your product"
+    },
+    "reviewLink": {
+      "description": "Direct Google review link for the business",
+      "required": true,
+      "fallback": "https://www.google.com/maps/search/?api=1&query_place_id=YOUR_PLACE_ID"
+    },
+    "discountCode": {
+      "description": "20% discount code for the incentive in Day 10 email",
+      "required": false,
+      "fallback": "REVIEW20"
+    }
+  },
+  "sequence": [
+    {
+      "id": "review-day-5",
+      "name": "Day 5 — Warm Review Request",
+      "delay": {
+        "value": 5,
+        "unit": "days",
+        "after": "product_purchase"
+      },
+      "subject": "How's {{productName}} working out, {{firstName}}?",
+      "previewText": "Hope {{productName}} is making a difference for you, {{firstName}}! Mind leaving us a quick review?",
+      "htmlFile": "review-email-day5.html",
+      "conditions": {
+        "skipIf": "review_submitted"
+      },
+      "purpose": "Warm check-in after 5 days. Ask about product experience, offer support, and request a Google review.",
+      "cta": {
+        "text": "Leave a Google Review",
+        "link": "{{reviewLink}}"
+      }
+    },
+    {
+      "id": "review-day-10",
+      "name": "Day 10 — Follow-Up with Incentive",
+      "delay": {
+        "value": 10,
+        "unit": "days",
+        "after": "product_purchase"
+      },
+      "subject": "Quick favor — 30 seconds",
+      "previewText": "{{firstName}}, one quick review would mean the world to us — plus 20% off your next product.",
+      "htmlFile": "review-email-day10.html",
+      "conditions": {
+        "skipIf": "review_submitted",
+        "onlySendIf": "did_not_open_or_click:review-day-5"
+      },
+      "purpose": "Shorter, more direct follow-up. Emphasize small-business impact, offer 20% discount incentive for proof of review.",
+      "cta": {
+        "text": "Leave a Quick Review",
+        "link": "{{reviewLink}}"
+      },
+      "incentive": {
+        "type": "discount_code",
+        "discount": "20%",
+        "code": "{{discountCode}}",
+        "instruction": "Reply to this email with a screenshot of your review to receive the code."
+      }
+    }
+  ],
+  "n8nIntegration": {
+    "triggerType": "webhook",
+    "triggerEvent": "product_purchase",
+    "workflowNotes": [
+      "Add a 'Wait' node for 5 days after purchase trigger",
+      "Use merge tags as n8n expression variables: {{ $json.firstName }}, etc.",
+      "Before Day 10 email, add an IF node checking if review-day-5 was opened/clicked",
+      "Add a CRM update node to flag 'review_submitted' and skip remaining sequence",
+      "Inbound reply with screenshot → manual or AI-based verification → send discount code"
+    ],
+    "mergeTagMapping": {
+      "{{firstName}}": "{{ $json.customer.firstName }}",
+      "{{productName}}": "{{ $json.product.name }}",
+      "{{reviewLink}}": "{{ $json.business.googleReviewLink }}",
+      "{{discountCode}}": "{{ $json.promo.reviewIncentiveCode }}"
+    }
+  }
+}

@@ -1,0 +1,445 @@
+<!-- Dream AI Live Chat Widget -->
+<!-- Drop-in floating chat button with Telegram/WhatsApp integration -->
+<!-- Usage: Include this file or paste the <style> + <div> + <script> into any page -->
+
+<style>
+    /* ========== DREAM AI CHAT WIDGET ========== */
+    :root {
+        --dai-primary: #1a1a2e;
+        --dai-accent: #e94560;
+        --dai-accent-hover: #c73a52;
+        --dai-white: #ffffff;
+        --dai-gray: #6b7280;
+        --dai-light: #f8f9fc;
+        --dai-border: #e5e7eb;
+        --dai-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    }
+
+    .dai-chat-widget {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 99999;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    /* Floating button */
+    .dai-chat-btn {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--dai-accent);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 20px rgba(233,69,96,0.4);
+        transition: transform 0.2s, box-shadow 0.2s;
+        position: relative;
+    }
+    .dai-chat-btn:hover {
+        transform: scale(1.08);
+        box-shadow: 0 6px 28px rgba(233,69,96,0.5);
+    }
+    .dai-chat-btn svg {
+        width: 28px;
+        height: 28px;
+        fill: white;
+        transition: transform 0.3s;
+    }
+    .dai-chat-btn.open svg {
+        transform: rotate(90deg);
+    }
+    /* Pulse animation */
+    .dai-chat-btn::after {
+        content: '';
+        position: absolute;
+        inset: -4px;
+        border-radius: 50%;
+        border: 2px solid var(--dai-accent);
+        animation: dai-pulse 2s infinite;
+        opacity: 0;
+    }
+    @keyframes dai-pulse {
+        0% { transform: scale(1); opacity: 0.6; }
+        100% { transform: scale(1.4); opacity: 0; }
+    }
+    /* Notification badge */
+    .dai-chat-badge {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        background: #10b981;
+        color: white;
+        font-size: 0.7rem;
+        font-weight: 700;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid white;
+    }
+
+    /* Chat panel */
+    .dai-chat-panel {
+        position: absolute;
+        bottom: 72px;
+        right: 0;
+        width: 360px;
+        max-height: 520px;
+        background: var(--dai-white);
+        border-radius: 16px;
+        box-shadow: var(--dai-shadow);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transform: scale(0.9) translateY(10px);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+    .dai-chat-panel.open {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    /* Header */
+    .dai-chat-header {
+        background: var(--dai-primary);
+        color: white;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .dai-chat-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--dai-accent), #8b5cf6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+    .dai-chat-header-text h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0;
+    }
+    .dai-chat-header-text p {
+        font-size: 0.8rem;
+        opacity: 0.7;
+        margin: 2px 0 0;
+    }
+    .dai-chat-close {
+        margin-left: auto;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        opacity: 0.6;
+        transition: opacity 0.2s;
+        padding: 4px;
+    }
+    .dai-chat-close:hover { opacity: 1; }
+
+    /* Messages area */
+    .dai-chat-body {
+        padding: 16px;
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        background: var(--dai-light);
+    }
+
+    /* Bot message */
+    .dai-msg-bot {
+        background: var(--dai-white);
+        border: 1px solid var(--dai-border);
+        border-radius: 14px 14px 14px 4px;
+        padding: 12px 16px;
+        font-size: 0.9rem;
+        color: var(--dai-primary);
+        max-width: 85%;
+        line-height: 1.5;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    /* Quick reply buttons */
+    .dai-quick-replies {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 4px 0;
+    }
+    .dai-quick-btn {
+        background: var(--dai-white);
+        border: 2px solid var(--dai-border);
+        border-radius: 10px;
+        padding: 12px 16px;
+        font-size: 0.9rem;
+        color: var(--dai-primary);
+        cursor: pointer;
+        text-align: left;
+        transition: all 0.2s;
+        font-family: inherit;
+    }
+    .dai-quick-btn:hover {
+        border-color: var(--dai-accent);
+        background: #fef2f2;
+        color: var(--dai-accent);
+    }
+    .dai-quick-btn.selected {
+        border-color: var(--dai-accent);
+        background: var(--dai-accent);
+        color: white;
+    }
+
+    /* Confirmation */
+    .dai-msg-sent {
+        background: #dcfce7;
+        border: 1px solid #bbf7d0;
+        border-radius: 14px;
+        padding: 12px 16px;
+        font-size: 0.85rem;
+        color: #166534;
+        text-align: center;
+        max-width: 90%;
+        align-self: center;
+    }
+    .dai-msg-sent .checkmark { font-size: 1.2rem; display: block; margin-bottom: 4px; }
+
+    /* Footer */
+    .dai-chat-footer {
+        padding: 12px 16px;
+        border-top: 1px solid var(--dai-border);
+        background: var(--dai-white);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .dai-chat-powered {
+        font-size: 0.7rem;
+        color: var(--dai-gray);
+    }
+    .dai-chat-powered strong {
+        color: var(--dai-primary);
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 480px) {
+        .dai-chat-widget {
+            bottom: 16px;
+            right: 16px;
+        }
+        .dai-chat-panel {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            width: 100%;
+            max-height: 80vh;
+            border-radius: 16px 16px 0 0;
+            transform: translateY(10px);
+        }
+        .dai-chat-panel.open {
+            transform: translateY(0);
+        }
+        .dai-chat-btn {
+            width: 54px;
+            height: 54px;
+        }
+    }
+</style>
+
+<div class="dai-chat-widget" id="dai-chat-widget">
+    <!-- Chat panel (hidden by default) -->
+    <div class="dai-chat-panel" id="dai-chat-panel">
+        <div class="dai-chat-header">
+            <div class="dai-chat-avatar">🤖</div>
+            <div class="dai-chat-header-text">
+                <h3>Chat with us</h3>
+                <p>Usually replies instantly</p>
+            </div>
+            <button class="dai-chat-close" onclick="daiToggleChat()" aria-label="Close chat">✕</button>
+        </div>
+
+        <div class="dai-chat-body" id="dai-chat-body">
+            <!-- Bot greeting -->
+            <div class="dai-msg-bot">
+                👋 Hey there! I'm the Dream AI assistant. How can I help you today? Pick an option below or just let us know what's on your mind.
+            </div>
+
+            <!-- Quick reply options -->
+            <div class="dai-quick-replies" id="dai-quick-replies">
+                <button class="dai-quick-btn" onclick="daiSelectOption('demo')">
+                    📅 Book a demo
+                </button>
+                <button class="dai-quick-btn" onclick="daiSelectOption('pricing')">
+                    💰 Ask about pricing
+                </button>
+                <button class="dai-quick-btn" onclick="daiSelectOption('help')">
+                    🛠️ Get help
+                </button>
+            </div>
+        </div>
+
+        <div class="dai-chat-footer">
+            <span class="dai-chat-powered">Powered by <strong>Dream AI</strong></span>
+            <span style="font-size: 0.7rem; color: var(--dai-gray);">🔒 We respect your privacy</span>
+        </div>
+    </div>
+
+    <!-- Floating button -->
+    <button class="dai-chat-btn" id="dai-chat-btn" onclick="daiToggleChat()" aria-label="Open chat">
+        <svg id="dai-icon-chat" viewBox="0 0 24 24">
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/>
+            <path d="M7 9h10v2H7zm0-3h10v2H7z"/>
+        </svg>
+        <svg id="dai-icon-close" viewBox="0 0 24 24" style="display:none;">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+        <span class="dai-chat-badge" id="dai-badge">1</span>
+    </button>
+</div>
+
+<script>
+    // ========== DREAM AI CHAT WIDGET ==========
+
+    // CONFIG — Replace with your actual webhook URLs
+    const DAI_CONFIG = {
+        // Telegram
+        telegramBotToken: 'YOUR_TELEGRAM_BOT_TOKEN',
+        telegramChatId: 'YOUR_TELEGRAM_CHAT_ID',
+        // Or use a webhook endpoint:
+        webhookUrl: 'https://your-domain.com/api/chat-webhook',
+        // Message labels
+        labels: {
+            demo: '📅 Book a demo',
+            pricing: '💰 Ask about pricing',
+            help: '🛠️ Get help'
+        }
+    };
+
+    let daiOpen = false;
+    let daiSelected = null;
+
+    function daiToggleChat() {
+        daiOpen = !daiOpen;
+        const panel = document.getElementById('dai-chat-panel');
+        const btn = document.getElementById('dai-chat-btn');
+        const iconChat = document.getElementById('dai-icon-chat');
+        const iconClose = document.getElementById('dai-icon-close');
+        const badge = document.getElementById('dai-badge');
+
+        panel.classList.toggle('open', daiOpen);
+        btn.classList.toggle('open', daiOpen);
+        iconChat.style.display = daiOpen ? 'none' : 'block';
+        iconClose.style.display = daiOpen ? 'block' : 'none';
+
+        if (daiOpen && badge) {
+            badge.style.display = 'none';
+        }
+    }
+
+    function daiSelectOption(option) {
+        if (daiSelected) return; // Prevent double-click
+        daiSelected = option;
+
+        // Mark button as selected
+        const buttons = document.querySelectorAll('.dai-quick-btn');
+        buttons.forEach(btn => {
+            const isSelected = btn.onclick.toString().includes(`'${option}'`);
+            if (isSelected) btn.classList.add('selected');
+            btn.disabled = true;
+            btn.style.opacity = isSelected ? '1' : '0.4';
+        });
+
+        // Show sending state
+        const body = document.getElementById('dai-chat-body');
+        const label = DAI_CONFIG.labels[option];
+
+        // User selection message
+        const userMsg = document.createElement('div');
+        userMsg.className = 'dai-msg-bot';
+        userMsg.style.alignSelf = 'flex-end';
+        userMsg.style.background = '#e0f2fe';
+        userMsg.style.borderColor = '#bae6fd';
+        userMsg.innerHTML = `<strong>${label}</strong>`;
+        body.appendChild(userMsg);
+
+        // Send to backend (Telegram via webhook)
+        daiSendMessage(option);
+
+        // Show confirmation after short delay
+        setTimeout(() => {
+            const confirmMsg = document.createElement('div');
+            confirmMsg.className = 'dai-msg-sent';
+            confirmMsg.innerHTML = `
+                <span class="checkmark">✅</span>
+                Thanks! We've received your request.<br>
+                <strong>A team member will reach out shortly.</strong>
+            `;
+            body.appendChild(confirmMsg);
+            body.scrollTop = body.scrollHeight;
+        }, 800);
+    }
+
+    function daiSendMessage(option) {
+        const label = DAI_CONFIG.labels[option];
+        const payload = {
+            type: option,
+            label: label,
+            timestamp: new Date().toISOString(),
+            page: window.location.href,
+            userAgent: navigator.userAgent
+        };
+
+        // Option 1: Send via webhook (recommended)
+        fetch(DAI_CONFIG.webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).catch(() => {
+            // Silent fail — don't break UX if webhook is not configured
+            console.log('[Dream AI Chat] Webhook not configured yet. Payload:', payload);
+        });
+
+        // Option 2: Direct Telegram (for testing — replace tokens above)
+        if (DAI_CONFIG.telegramBotToken !== 'YOUR_TELEGRAM_BOT_TOKEN') {
+            const tgMessage = `🔔 New chat inquiry from website:\n\n` +
+                `📌 Type: ${label}\n` +
+                `🌐 Page: ${window.location.href}\n` +
+                `⏰ Time: ${new Date().toLocaleString()}`;
+
+            fetch(`https://api.telegram.org/bot${DAI_CONFIG.telegramBotToken}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: DAI_CONFIG.telegramChatId,
+                    text: tgMessage,
+                    parse_mode: 'HTML'
+                })
+            }).catch(err => console.log('[Dream AI Chat] Telegram send failed:', err));
+        }
+
+        console.log('[Dream AI Chat] Message sent:', payload);
+    }
+
+    // Show badge pulse after 3 seconds if chat hasn't been opened
+    setTimeout(() => {
+        if (!daiOpen) {
+            const badge = document.getElementById('dai-badge');
+            if (badge) badge.style.display = 'flex';
+        }
+    }, 3000);
+</script>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dream AI — AI Employees That Never Sleep | Missed Calls → Revenue</title>
+<meta name="description" content="Dream AI builds AI employees for service businesses. Stop losing revenue to missed calls. AI receptionist answers 24/7, books appointments, and grows your business.">
+<meta name="theme-color" content="#1B1464">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & VARIABLES ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--indigo:#1B1464;--violet:#6C3CE9;--violet-light:#8B5CF6;--bg:#0F0A2A;--card:#1A1145;--card-border:rgba(108,60,233,0.25);--text:#F1F0FB;--text-muted:#A5A0C8;--green:#10B981}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:16px;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--violet-light);text-decoration:none}
+ul{list-style:none}
+
+/* ===== LAYOUT ===== */
+.container{max-width:1100px;margin:0 auto;padding:0 1rem}
+
+/* ===== MOBILE-FIRST: NAV + HAMBURGER ===== */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,10,42,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(108,60,233,0.15)}
+.nav .container{display:flex;align-items:center;justify-content:space-between;padding-top:0.75rem;padding-bottom:0.75rem}
+.nav-logo{font-weight:800;font-size:1.1rem;letter-spacing:1px;color:#fff}
+.nav-logo span{color:var(--violet-light)}
+
+/* Hamburger toggle — visible on mobile by default */
+.nav-toggle{display:flex;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;min-width:44px;min-height:44px;align-items:center;justify-content:center}
+.nav-toggle span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:transform 0.25s,opacity 0.25s}
+.nav-toggle.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.nav-toggle.active span:nth-child(2){opacity:0}
+.nav-toggle.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* Desktop: hide hamburger, show inline CTA */
+@media(min-width:769px){
+  .nav-toggle{display:none}
+  .nav-cta-desktop{display:inline-block}
+  .nav-menu{display:flex !important;align-items:center;gap:1.5rem}
+  .nav-menu a{color:var(--text-muted);font-size:0.9rem;font-weight:600;transition:color 0.2s}
+  .nav-menu a:hover{color:#fff}
+}
+
+/* Mobile menu overlay */
+.nav-menu{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(15,10,42,0.98);border-bottom:1px solid rgba(108,60,233,0.15);padding:1rem;gap:0.5rem}
+.nav-menu.open{display:flex}
+.nav-menu a{display:block;padding:0.75rem 0.5rem;color:var(--text);font-size:1rem;font-weight:600;min-height:44px;display:flex;align-items:center}
+.nav-cta-desktop{display:none}
+.nav-cta-mobile{display:inline-block;background:var(--violet);color:#fff;padding:0.5rem 1.25rem;border-radius:8px;font-weight:600;font-size:0.85rem;min-height:44px;display:flex;align-items:center;justify-content:center}
+
+/* ===== HERO ===== */
+.hero{padding:6rem 1rem 2.5rem;text-align:center;position:relative}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(108,60,233,0.12) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-block;background:rgba(108,60,233,0.15);border:1px solid rgba(108,60,233,0.3);color:var(--violet-light);padding:0.4rem 1rem;border-radius:20px;font-size:0.8rem;font-weight:600;letter-spacing:0.5px;margin-bottom:1.25rem}
+.hero h1{font-size:clamp(1.75rem,5.5vw,3.5rem);font-weight:800;line-height:1.1;margin-bottom:1rem;background:linear-gradient(135deg,#fff 30%,var(--violet-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:clamp(0.95rem,2vw,1.25rem);color:var(--text-muted);max-width:600px;margin:0 auto 2rem}
+
+/* ===== CTA BUTTON ===== */
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;min-height:56px;padding:1rem 2.5rem;font-size:1.1rem;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--violet),var(--violet-light));border:none;border-radius:12px;cursor:pointer;text-decoration:none;transition:transform 0.15s,box-shadow 0.2s;-webkit-tap-highlight-color:transparent}
+.cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(108,60,233,0.4);color:#fff}
+.cta:active{transform:translateY(0)}
+
+/* ===== STATS BAR ===== */
+.stats-bar{display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem;max-width:500px;margin:0 auto 2rem}
+.stat{text-align:center;padding:0.85rem 0.5rem;background:var(--card);border:1px solid var(--card-border);border-radius:12px}
+.stat-num{font-size:1.5rem;font-weight:800;color:var(--violet-light)}
+.stat-label{font-size:0.75rem;color:var(--text-muted);margin-top:0.15rem}
+
+/* ===== SECTIONS ===== */
+section{padding:3rem 1rem}
+.section-title{font-size:clamp(1.35rem,4vw,2.25rem);font-weight:800;text-align:center;margin-bottom:0.6rem}
+.section-subtitle{color:var(--text-muted);text-align:center;max-width:550px;margin:0 auto 2rem;font-size:1rem}
+
+/* ===== FEATURE GRID ===== */
+.features{display:grid;grid-template-columns:1fr;gap:1rem;max-width:500px;margin:0 auto}
+.feature-card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:1.5rem;transition:border-color 0.2s}
+.feature-card:hover{border-color:var(--violet)}
+.feature-icon{font-size:1.75rem;margin-bottom:0.75rem}
+.feature-card h3{font-size:1.05rem;font-weight:700;margin-bottom:0.35rem}
+.feature-card p{color:var(--text-muted);font-size:0.9rem}
+
+/* ===== HOW IT WORKS ===== */
+.steps{display:grid;grid-template-columns:1fr;gap:1rem;max-width:500px;margin:0 auto}
+.step{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:1.5rem;text-align:center}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:rgba(108,60,233,0.15);color:var(--violet-light);font-weight:800;font-size:1.1rem;margin-bottom:0.75rem}
+.step h3{font-size:1rem;margin-bottom:0.35rem}
+.step p{color:var(--text-muted);font-size:0.875rem}
+
+/* ===== CALC / CTA SECTION ===== */
+.calc-section{background:linear-gradient(135deg,rgba(27,20,100,0.8),rgba(108,60,233,0.15));border-radius:16px;max-width:700px;margin:0 auto;padding:2rem 1.25rem;text-align:center;border:1px solid rgba(108,60,233,0.2)}
+
+/* ===== TESTIMONIALS ===== */
+.testimonials{display:grid;grid-template-columns:1fr;gap:1rem;max-width:500px;margin:0 auto}
+.testimonial{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:1.5rem;position:relative}
+.testimonial::before{content:'\201C';position:absolute;top:10px;left:14px;font-size:2.5rem;color:rgba(108,60,233,0.25);font-family:Georgia,serif;line-height:1}
+.testimonial p{color:var(--text-muted);font-size:0.9rem;margin-bottom:0.75rem;padding-left:0.25rem;font-style:italic}
+.testimonial-author{font-weight:700;font-size:0.85rem}
+.testimonial-role{color:var(--text-muted);font-size:0.75rem}
+
+/* ===== TRUST BADGES ===== */
+.trust-row{display:flex;flex-wrap:wrap;justify-content:center;gap:0.75rem;margin:1.25rem 0 0.5rem}
+.trust-item{display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;color:var(--text-muted)}
+.trust-item span{font-size:1rem}
+
+/* ===== PRICING ===== */
+.pricing-card{background:var(--card);border:2px solid var(--violet);border-radius:16px;max-width:480px;margin:0 auto;padding:2rem 1.25rem;text-align:center;position:relative}
+.pricing-card::before{content:'MOST POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--violet);color:#fff;padding:0.25rem 1rem;border-radius:20px;font-size:0.7rem;font-weight:700;letter-spacing:1px}
+.pricing-price{font-size:2.5rem;font-weight:800;margin:0.75rem 0 0.2rem}
+.pricing-price span{font-size:1rem;font-weight:400;color:var(--text-muted)}
+.pricing-sub{color:var(--text-muted);font-size:0.9rem;margin-bottom:1.25rem}
+.pricing-features{text-align:left;margin:1.25rem 0 1.5rem}
+.pricing-features li{list-style:none;padding:0.35rem 0;color:var(--text-muted);font-size:0.9rem}
+.pricing-features li::before{content:'✓ ';color:var(--green);font-weight:700}
+
+/* ===== FOOTER ===== */
+footer{text-align:center;padding:2rem 1rem;border-top:1px solid rgba(108,60,233,0.1);color:var(--text-muted);font-size:0.8rem}
+footer a{color:var(--violet-light)}
+
+/* ===== STICKY BOTTOM CTA BAR (mobile only) ===== */
+.sticky-cta{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:99;background:rgba(15,10,42,0.97);backdrop-filter:blur(12px);border-top:1px solid rgba(108,60,233,0.2);padding:0.65rem 1rem;align-items:center;justify-content:center;gap:0.5rem}
+.sticky-cta .cta{width:100%;min-height:48px;padding:0.75rem 1.5rem;font-size:1rem;border-radius:10px}
+.sticky-cta .cta-text{font-size:0.7rem;color:var(--text-muted);text-align:center;position:absolute;bottom:100%;left:0;right:0;padding:0.25rem;background:linear-gradient(0deg,rgba(15,10,42,0.9) 0%,transparent 100%);pointer-events:none}
+
+/* ===== HIDE DECORATIVE ON MOBILE ===== */
+.hero::before{display:none}
+.hero .trust-row{display:none}
+
+/* Body bottom padding to avoid CTA bar overlap */
+body{padding-bottom:70px}
+
+/* ================================================================
+   TABLET — 481px+ (2-column where possible)
+   ================================================================ */
+@media(min-width:481px){
+  .container{padding:0 1.5rem}
+  section{padding:4rem 1.5rem}
+  .hero{padding:7rem 1.5rem 3rem}
+  .stats-bar{grid-template-columns:repeat(4,1fr);gap:0.75rem;max-width:800px}
+  .stat{padding:1rem 0.5rem}
+  .stat-num{font-size:1.6rem}
+  .features{grid-template-columns:repeat(2,1fr);gap:1.25rem;max-width:700px}
+  .steps{grid-template-columns:repeat(3,1fr);gap:1.25rem;max-width:700px}
+  .testimonials{grid-template-columns:repeat(2,1fr);gap:1.25rem;max-width:700px}
+  .trust-row{gap:1rem}
+  .trust-item{font-size:0.85rem}
+  .hero h1{font-size:clamp(2rem,5vw,3rem)}
+  .section-title{margin-bottom:0.75rem}
+  .section-subtitle{margin-bottom:2.5rem}
+  .pricing-card{padding:2.5rem 2rem}
+  .pricing-price{font-size:3rem}
+}
+
+/* ================================================================
+   DESKTOP — 769px+ (full layout)
+   ================================================================ */
+@media(min-width:769px){
+  .container{padding:0 2rem}
+  section{padding:5rem 2rem}
+  .hero{padding:8rem 2rem 4rem}
+  body{padding-bottom:0}
+  .sticky-cta{display:none}
+  .hero::before{display:block}
+  .hero .trust-row{display:flex}
+  .features{grid-template-columns:repeat(3,1fr);max-width:900px}
+  .steps{grid-template-columns:repeat(3,1fr);max-width:900px}
+  .testimonials{grid-template-columns:repeat(3,1fr);max-width:900px}
+  .stat-num{font-size:1.8rem}
+  .stat{padding:1.25rem 1rem}
+  .pricing-card{max-width:480px}
+}
+
+/* ===== ACCESSIBILITY & TOUCH ===== */
+/* Ensure all interactive elements have min 44px tap target */
+.nav-toggle,
+.nav-cta-mobile,
+.nav-menu a,
+.cta,
+.nav-cta-desktop{min-height:44px;min-width:44px}
+.feature-card,.step,.testimonial,.stat{touch-action:manipulation}
+
+/* ===== OPTIMIZED IMAGES ===== */
+img{max-width:100%;height:auto}
+
+/* ===== REDUCED MOTION ===== */
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="container">
+    <div class="nav-logo">DREAM<span>AI</span></div>
+    <button class="nav-toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav-menu').classList.toggle('open');this.classList.toggle('active')">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-menu">
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#pricing" class="nav-cta-mobile">Get AI Employee →</a>
+    </div>
+    <a href="#pricing" class="nav-cta nav-cta-desktop">Get AI Employee →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🤖 Trusted by 500+ service businesses</div>
+  <h1>Your AI Employee.<br>Built to Grow Revenue 24/7.</h1>
+  <p>Never miss a call again. Dream AI answers every inquiry, books appointments, and follows up — while you focus on the work.</p>
+  <a href="/products/missed-call-calculator/calculator.html" class="cta">See How Much You're Losing →</a>
+  <div class="trust-row" style="margin-top:2rem">
+    <div class="trust-item"><span>⭐⭐⭐⭐⭐</span> Trusted by 500+ businesses</div>
+    <div class="trust-item"><span>⏱️</span> 30-second calculator</div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="container">
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num">$47K</div><div class="stat-label">Avg. revenue recovered / year</div></div>
+    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">AI answers every call</div></div>
+    <div class="stat"><div class="stat-num">3 sec</div><div class="stat-label">Average response time</div></div>
+    <div class="stat"><div class="stat-num">94%</div><div class="stat-label">Lead capture rate</div></div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works">
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-subtitle">Three steps from missed calls to booked revenue.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Call Comes In</h3>
+        <p>AI receptionist answers in under 3 seconds — friendly, professional, on-brand.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Gets Booked</h3>
+        <p>Qualifies the lead, checks your calendar, and books the appointment.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>You Show Up</h3>
+        <p>Lead details, notes, and appointment synced to your CRM. Just close the deal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <h2 class="section-title">Everything Your Front Desk Does — Automated</h2>
+    <p class="section-subtitle">One AI employee. Zero sick days. Every call answered.</p>
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">📞</div>
+        <h3>AI Voice Receptionist</h3>
+        <p>Answers calls, qualifies leads, and books appointments 24/7. Sounds human, works better than one.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>AI SMS & Chat Agent</h3>
+        <p>Speed-to-lead text follow-ups, two-way SMS conversations, and chat widget for your website.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3>Calendar & CRM Sync</h3>
+        <p>Books directly into Google/Outlook calendar. Auto-fills your CRM with every lead detail captured.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
+        <h3>Follow-Up Sequences</h3>
+        <p>Automated nurture sequences that re-engage cold leads and request reviews from happy customers.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Live Dashboard</h3>
+        <p>Track every call, lead, and booking in real-time. See exactly what your AI employee is doing.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>5-Minute Setup</h3>
+        <p>Connect your number, set your hours, go live. No coding, no training, no complexity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section>
+  <div class="container">
+    <h2 class="section-title">What Business Owners Say</h2>
+    <p class="section-subtitle">Real results from real service businesses.</p>
+    <div class="testimonials">
+      <div class="testimonial">
+        <p>We were losing 15+ calls a day to voicemail. Dream AI captures them all now. Revenue jumped 23% in the first quarter.</p>
+        <div class="testimonial-author">Mike R.</div>
+        <div class="testimonial-role">Owner, Rivas Plumbing — Austin, TX</div>
+      </div>
+      <div class="testimonial">
+        <p>Best $297 I spend every month. The AI books more appointments than my last two receptionists combined — and it never calls in sick.</p>
+        <div class="testimonial-author">Sarah K.</div>
+        <div class="testimonial-role">Founder, Bright Smile Dental — Denver, CO</div>
+      </div>
+      <div class="testimonial">
+        <p>Setup took literally 5 minutes. Within the first week, the AI closed 3 jobs that would've gone to competitors. It pays for itself instantly.</p>
+        <div class="testimonial-author">James T.</div>
+        <div class="testimonial-role">Owner, JT Electrical Services — Phoenix, AZ</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <h2 class="section-title">Get Your AI Employee</h2>
+    <p class="section-subtitle">Everything included. Cancel anytime.</p>
+    <div class="pricing-card">
+      <div style="font-size:0.85rem;color:var(--violet-light);font-weight:600;text-transform:uppercase;letter-spacing:1px">Dream AI Employee</div>
+      <div class="pricing-price">$297<span>/month</span></div>
+      <div class="pricing-sub">One flat price. Unlimited calls.</div>
+      <ul class="pricing-features">
+        <li>AI Voice Receptionist (24/7)</li>
+        <li>AI SMS & Chat Agent</li>
+        <li>Calendar & CRM Integration</li>
+        <li>Lead Qualification & Nurturing</li>
+        <li>Automated Review Requests</li>
+        <li>Live Dashboard & Analytics</li>
+        <li>5-Minute Setup — We Do It For You</li>
+        <li>Cancel Anytime — No Contracts</li>
+      </ul>
+      <a href="https://dreamai.com/starter-kit" class="cta" style="width:100%;font-size:1.15rem">Get Full AI Employee →</a>
+      <div class="trust-row" style="margin-top:1.5rem;flex-direction:column;align-items:center;gap:0.5rem">
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:1.25rem">
+          <div class="trust-item"><span>⭐⭐⭐⭐⭐</span> Trusted by 500+ businesses</div>
+          <div class="trust-item"><span>🔒</span> Secure checkout</div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:1.25rem">
+          <div class="trust-item"><span>💰</span> 30-day money-back guarantee</div>
+          <div class="trust-item"><span>⏱️</span> Setup in under 5 minutes</div>
+        </div>
+      </div>
+      <p style="color:var(--text-muted);font-size:0.8rem;margin-top:1rem;opacity:0.7">Powered by Stripe · 256-bit SSL encryption</p>
+    </div>
+  </div>
+</section>
+
+<!-- STICKY BOTTOM CTA (mobile only, hidden on desktop) -->
+<div class="sticky-cta">
+  <a href="/products/missed-call-calculator/calculator.html" class="cta">Get Your AI Employee →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Dream AI. All rights reserved.<br>
+  <a href="https://dreamai.com">dreamai.com</a> · <a href="/products/missed-call-calculator/calculator.html">Free Calculator</a></p>
+</footer>
+
+</body>
+</html>
