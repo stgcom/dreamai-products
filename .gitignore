@@ -1,0 +1,26 @@
+# Secrets
+.secrets/
+*.env
+.env.*
+!.env.example
+
+# OpenClaw workspace files
+AGENTS.md
+SOUL.md
+USER.md
+IDENTITY.md
+MEMORY.md
+TOOLS.md
+HEARTBEAT.md
+BOOTSTRAP.md
+DREAM-AI-SYSTEM-PROMPT.md
+
+# Memory files (may contain sensitive data)
+memory/
+
+# Config files
+config/
+config.bak/
+
+# GitGuardian
+.gitleaks.toml
